@@ -3,6 +3,8 @@
 #include<sys/socket.h>
 #include<arpa/inet.h>	//inet_addr
 
+typedef unsigned char byte;
+
 int main(int argc , char *argv[]){
 	int socket_desc;
 	struct sockaddr_in server;
