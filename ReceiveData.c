@@ -26,7 +26,7 @@ int main(int argc , char *argv[]){
 	puts("Connected\n");
 	
 	//Send some data
-	message = "GET / HTTP/1.1\r\n\r\n";
+	message = "0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05";
 	if( send(socket_desc , message , strlen(message) , 0) < 0){
 		puts("Send failed");
 		return 1;
