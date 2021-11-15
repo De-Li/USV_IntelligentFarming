@@ -38,6 +38,7 @@ int main(int argc , char *argv[]){
 	}
 	puts("Reply received\n");
 	puts(server_reply);
-	
+	puts(read(socket_desc, server_reply , 2000));
+	close(socket_desc);
 	return 0;
 }
