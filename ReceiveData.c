@@ -7,7 +7,8 @@ int main(int argc , char *argv[]){
 	int socket_desc;
 	struct sockaddr_in server;
 	char *message , server_reply[2000];
-	
+	while(1)
+	{
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1) printf("Could not create socket");
@@ -36,9 +37,11 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 2000 , 0) < 0){
 		puts("recv failed");
 	}
+	printf("after receiving\n");
 	puts("Reply received\n");
 	puts(server_reply);
 	puts(read(socket_desc, server_reply , 2000));
 	close(socket_desc);
+	}
 	return 0;
 }
