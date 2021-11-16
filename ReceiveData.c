@@ -4,18 +4,20 @@
 #include<arpa/inet.h>	//inet_addr
 #include<unistd.h>
 
-unsigned char* array[8];
+unsigned char* 2DArray[8];
+unsigned char* 1DArray;
 
 int main(int argc , char *argv[]){
 	//0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05
-	array[0] = "0x01";
-	array[1] = "0x03";
-	array[2] = "0x00";
-	array[3] = "0x30";
-	array[4] = "0x00";
-	array[5] = "0x01";
-	array[6] = "0x84";
-	array[7] = "0x05";
+	/*2DArray[0] = "0x01";
+	2DArray[1] = "0x03";
+	2DArray[2] = "0x00";
+	2DArray[3] = "0x30";
+	2DArray[4] = "0x00";
+	2DArray[5] = "0x01";
+	2DArray[6] = "0x84";
+	2DArray[7] = "0x05";*/
+		
 	int socket_desc;
 	struct sockaddr_in server;
 	char *Message , server_reply[2000];
@@ -39,13 +41,13 @@ int main(int argc , char *argv[]){
 	
 	//Send some data
 	//byte MessageByte[] = {0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
-	//Message = "0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05";
-	if( send(socket_desc , array , sizeof(array) , 0) < 0){
+	Message = "0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05";
+	if( send(socket_desc , Message , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
 	puts("Data Send\n");
-	
+	printf("before receiving\n");
 	//Receive a reply from the server
 	if (recv(socket_desc, server_reply , 2000 , 0) < 0){
 		puts("recv failed");
