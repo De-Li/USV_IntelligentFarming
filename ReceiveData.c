@@ -4,8 +4,8 @@
 #include<arpa/inet.h>	//inet_addr
 #include<unistd.h>
 
-unsigned char* 2DArray[8];
-unsigned char* 1DArray;
+unsigned char* TwoDArray[8];
+unsigned char* oneDArray;
 
 int main(int argc , char *argv[]){
 	//0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05
