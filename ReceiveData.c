@@ -8,14 +8,14 @@ unsigned char* array[8];
 
 int main(int argc , char *argv[]){
 	//0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05
-	arry[0] = "0x01";
-	arry[1] = "0x03";
-	arry[2] = "0x00";
-	arry[3] = "0x30";
-	arry[4] = "0x00";
-	arry[5] = "0x01";
-	arry[6] = "0x84";
-	arry[7] = "0x05";
+	array[0] = "0x01";
+	array[1] = "0x03";
+	array[2] = "0x00";
+	array[3] = "0x30";
+	array[4] = "0x00";
+	array[5] = "0x01";
+	array[6] = "0x84";
+	array[7] = "0x05";
 	int socket_desc;
 	struct sockaddr_in server;
 	char *Message , server_reply[2000];
