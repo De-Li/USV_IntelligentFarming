@@ -6,18 +6,10 @@
 
 int main(int argc , char *argv[]){
 	//0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05
-	/*TwoDArray[0] = 0x01;
-        TwoDArray[1] = 0x03;
-        TwoDArray[2] = 0x00;
-        TwoDArray[3] = 0x30;
-        TwoDArray[4] = 0x00;
-        TwoDArray[5] = 0x01;
-        TwoDArray[6] = 0x84;
-        TwoDArray[7] = 0x05;
-		*/
+	
 	int socket_desc;
 	struct sockaddr_in server;
-	int server_reply[100];
+	char server_reply[100];
 	while(1)
 	{
 	//Create socket
@@ -37,7 +29,6 @@ int main(int argc , char *argv[]){
 	puts("Connected\n");
 	
 	//Send some data
-	//byte MessageByte[] = {0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
 	char Message[8] ={0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
 	if( send(socket_desc , Message , sizeof(Message) , 0) < 0){
 		puts("Send failed");
@@ -51,12 +42,12 @@ int main(int argc , char *argv[]){
 	}
 	printf("after receiving\n");
 	puts("Reply received\n");
-	//puts(server_reply);
+	puts(server_reply);
 	//puts(read(socket_desc, server_reply , 2000));
-	for(int i =0;i<sizeof(server_reply);i++)
+	/*for(int i =0;i<sizeof(server_reply);i++)
 	{
 		printf(server_reply[i]);
-	}
+	}*/
 	close(socket_desc);
 	}
 	return 0;
