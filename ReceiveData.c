@@ -8,7 +8,7 @@ typedef unsigned char byte;
 int main(int argc , char *argv[]){
 	int socket_desc;
 	struct sockaddr_in server;
-	char *message , server_reply[2000];
+	char *Message , server_reply[2000];
 	while(1)
 	{
 	//Create socket
@@ -29,8 +29,8 @@ int main(int argc , char *argv[]){
 	
 	//Send some data
 	//byte MessageByte[] = {0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
-	message = "0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05";
-	if( send(socket_desc , MessageByte , sizeof(MessageByte) , 0) < 0){
+	Message = "0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05";
+	if( send(socket_desc , Message , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
