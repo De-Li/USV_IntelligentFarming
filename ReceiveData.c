@@ -9,7 +9,7 @@ int main(int argc , char *argv[]){
 	
 	int socket_desc;
 	struct sockaddr_in server;
-	char server_reply[100];
+	char server_reply[200];
 	while(1)
 	{
 	//Create socket
@@ -36,18 +36,18 @@ int main(int argc , char *argv[]){
 	}
 	puts("Data Send\n");
 	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 100 , 0) < 0){
+	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
 	puts("Reply received\n");
 	puts(server_reply);
-	//read(socket_desc, server_reply , 100);
+	//read(socket_desc, server_reply , 200);
 	/*for(int i =0;i<10;i++)
 	{
 		printf("value of sensors: %s\n",server_reply[i]);
 	}*/
-	printf("value of sensors: %s\n",server_reply);
 	printf("value of sensors: %s\n",*server_reply);
+	//printf("value of sensors: %s\n",server_reply);
 	close(socket_desc);
 	sleep(2);
 	}
