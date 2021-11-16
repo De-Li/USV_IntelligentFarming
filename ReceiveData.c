@@ -52,7 +52,7 @@ int main(int argc , char *argv[]){
 	printf("after receiving\n");
 	puts("Reply received\n");
 	puts(server_reply);
-	puts(read(socket_desc, server_reply , 2000));
+	//puts(read(socket_desc, server_reply , 2000));
 	close(socket_desc);
 	}
 	return 0;
