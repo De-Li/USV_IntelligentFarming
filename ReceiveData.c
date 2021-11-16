@@ -42,10 +42,10 @@ int main(int argc , char *argv[]){
 	puts("Reply received\n");
 	putchar(*server_reply);
 	//puts(read(socket_desc, server_reply , 2000));
-	for(int i =0;i<sizeof(server_reply);i++)
+	/*for(int i =0;i<sizeof(server_reply);i++)
 	{
-		printf(*server_reply[i]);
-	}
+		printf(server_reply[i]);
+	}*/
 	close(socket_desc);
 	sleep(1);
 	}
