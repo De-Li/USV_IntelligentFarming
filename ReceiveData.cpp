@@ -42,7 +42,7 @@ int main(int argc , char *argv[]){
 	//Send some data
 	//byte MessageByte[] = {0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
 	Message = "01 03 00 30 00 01 84 05";
-	if( send(socket_desc , Message , sizeof(Message) , 0) < 0){
+	if( send(socket_desc , Message , strlen(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
