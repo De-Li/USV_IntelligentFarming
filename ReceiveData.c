@@ -20,8 +20,7 @@ int main(int argc , char *argv[]){
 		
 	int socket_desc;
 	struct sockaddr_in server;
-	//char *Message , server_reply[2000];
-	char server_reply[2000];
+	char *Message , server_reply[2000];
 	while(1)
 	{
 	//Create socket
@@ -42,7 +41,7 @@ int main(int argc , char *argv[]){
 	
 	//Send some data
 	//byte MessageByte[] = {0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
-	char* Message =(char*)"01 03 00 30 00 01 84 05";
+	Message ="01 03 00 30 00 01 84 05";
 	if( send(socket_desc , Message , strlen(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
