@@ -4,6 +4,7 @@
 #include<arpa/inet.h>	//inet_addr
 #include<unistd.h>
 #include<ostream>
+#include<iostream>
 
 int main(int argc , char *argv[]){
 	//0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05
@@ -39,7 +40,7 @@ int main(int argc , char *argv[]){
 	printf("before receiving\n");
 	//Receive a reply from the server
 	if (recv(socket_desc, ReceiveMessage , 200 , 0) < 0){
-		std::cout << buffer << std::flush;
+		std::cout << ReceiveMessage << std::flush;
     puts("recv failed");
 	}
 	printf("after receiving\n");
