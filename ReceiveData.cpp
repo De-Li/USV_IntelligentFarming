@@ -3,6 +3,7 @@
 #include<sys/socket.h>
 #include<arpa/inet.h>	//inet_addr
 #include<unistd.h>
+#include<ostream>
 
 int main(int argc , char *argv[]){
 	//0x01 0x03 0x00 0x30 0x00 0x01 0x84 0x05
