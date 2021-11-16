@@ -40,7 +40,7 @@ int main(int argc , char *argv[]){
 		puts("recv failed");
 	}
 	puts("Reply received\n");
-	puts("%c",server_reply);
+	puts(server_reply);
 	//puts(read(socket_desc, server_reply , 2000));
 	/*for(int i =0;i<sizeof(server_reply);i++)
 	{
