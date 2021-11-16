@@ -41,7 +41,7 @@ int main(int argc , char *argv[]){
 	}
 	puts("Reply received\n");
 	puts(server_reply);
-	//puts(read(socket_desc, server_reply , 2000));
+	read(socket_desc, server_reply , 100));
 	/*for(int i =0;i<sizeof(server_reply);i++)
 	{
 		printf(server_reply[i]);
