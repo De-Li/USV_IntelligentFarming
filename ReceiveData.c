@@ -41,7 +41,7 @@ int main(int argc , char *argv[]){
 	}
 	puts("Reply received\n");
 	puts(server_reply);
-	read(socket_desc, server_reply , 100);
+	//read(socket_desc, server_reply , 100);
 	for(int i =0;i<sizeof(server_reply);i++)
 	{
 		printf("value of sensors: %s\n",server_reply[i]);
