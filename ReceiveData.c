@@ -78,7 +78,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[0][0] = server_reply[3];
 	ReturnValue[0][1] = server_reply[4];
 		
-	//DissolvedOxygenValue
+	//WaterTemperature_InquiryCode
 	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
@@ -93,7 +93,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[1][0] = server_reply[3];
 	ReturnValue[1][1] = server_reply[4];
 		
-	//DissolvedOxygenValue
+	//OxidationReductionPotential_InquiryCode
 	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
@@ -105,10 +105,10 @@ int main(int argc , char *argv[]){
 	}
 	puts("Reply received\n");
 	//Store the sensing value in array
-	ReturnValue[1][0] = server_reply[3];
-	ReturnValue[1][1] = server_reply[4];
+	ReturnValue[2][0] = server_reply[3];
+	ReturnValue[2][1] = server_reply[4];
 		
-	//DissolvedOxygenValue
+	//Turbidity_InquiryCode
 	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
@@ -120,10 +120,10 @@ int main(int argc , char *argv[]){
 	}
 	puts("Reply received\n");
 	//Store the sensing value in array
-	ReturnValue[1][0] = server_reply[3];
-	ReturnValue[1][1] = server_reply[4];
+	ReturnValue[3][0] = server_reply[3];
+	ReturnValue[3][1] = server_reply[4];
 		
-	//DissolvedOxygenValue
+	//AmmoniacalNitrogen_InquiryCode
 	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
@@ -135,10 +135,12 @@ int main(int argc , char *argv[]){
 	}
 	puts("Reply received\n");
 	//Store the sensing value in array
-	ReturnValue[1][0] = server_reply[3];
-	ReturnValue[1][1] = server_reply[4];
+	ReturnValue[4][0] = server_reply[3];
+	ReturnValue[4][1] = server_reply[4];
+	ReturnValue[4][0] = server_reply[5];
+	ReturnValue[4][1] = server_reply[6];
 		
-	//DissolvedOxygenValue
+	//Conductivity_InquiryCode
 	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
@@ -150,10 +152,10 @@ int main(int argc , char *argv[]){
 	}
 	puts("Reply received\n");
 	//Store the sensing value in array
-	ReturnValue[1][0] = server_reply[3];
-	ReturnValue[1][1] = server_reply[4];
+	ReturnValue[5][0] = server_reply[3];
+	ReturnValue[5][1] = server_reply[4];
 	
-	//DissolvedOxygenValue
+	//PHValue_InquiryCode
 	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
@@ -165,14 +167,14 @@ int main(int argc , char *argv[]){
 	}
 	puts("Reply received\n");
 	//Store the sensing value in array
-	ReturnValue[1][0] = server_reply[3];
-	ReturnValue[1][1] = server_reply[4];
+	ReturnValue[6][0] = server_reply[3];
+	ReturnValue[6][1] = server_reply[4];
 		
 	for (int i = 0; i< 8 ; i++) {
-        	printf("%x", *(server_reply+i));
+        	printf("%x", *(ReturnValue+i));
 	}
 	close(socket_desc);
-	sleep(2);
+	sleep(3);
 	}
 	return 0;
 }
