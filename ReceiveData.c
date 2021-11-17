@@ -182,7 +182,6 @@ int main(int argc , char *argv[]){
 		{
 			if(i!=4 && j==2)
 			{
-				puts("AmmoniacalNitrogen");
 				continue;
 			}
 			printf("%x", ReturnValue[i][j]);
