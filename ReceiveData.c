@@ -64,7 +64,7 @@ int main(int argc , char *argv[]){
 	
 	//Send inquiry code
 	//DissolvedOxygenValue
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
+	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(DissolvedOxygenValue) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
@@ -79,7 +79,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[0][1] = server_reply[4];
 		
 	//WaterTemperature_InquiryCode
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
+	if( send(socket_desc ,WaterTemperature_InquiryCode , sizeof(WaterTemperature_InquiryCode) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
@@ -94,7 +94,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[1][1] = server_reply[4];
 		
 	//OxidationReductionPotential_InquiryCode
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
+	if( send(socket_desc ,OxidationReductionPotential_InquiryCode , sizeof(OxidationReductionPotential_InquiryCode) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
@@ -109,7 +109,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[2][1] = server_reply[4];
 		
 	//Turbidity_InquiryCode
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
+	if( send(socket_desc ,Turbidity_InquiryCode , sizeof(Turbidity_InquiryCode) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
@@ -124,7 +124,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[3][1] = server_reply[4];
 		
 	//AmmoniacalNitrogen_InquiryCode
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
+	if( send(socket_desc ,AmmoniacalNitrogen_InquiryCode , sizeof(AmmoniacalNitrogen_InquiryCode) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
@@ -141,7 +141,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[4][1] = server_reply[6];
 		
 	//Conductivity_InquiryCode
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
+	if( send(socket_desc ,Conductivity_InquiryCode , sizeof(Conductivity_InquiryCode) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
@@ -156,7 +156,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[5][1] = server_reply[4];
 	
 	//PHValue_InquiryCode
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(Message) , 0) < 0){
+	if( send(socket_desc ,PHValue_InquiryCode , sizeof(PHValue_InquiryCode) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
@@ -170,8 +170,13 @@ int main(int argc , char *argv[]){
 	ReturnValue[6][0] = server_reply[3];
 	ReturnValue[6][1] = server_reply[4];
 		
-	for (int i = 0; i< 8 ; i++) {
-        	printf("%x", *(ReturnValue+i));
+	for (int i = 0; i< 8 ; i++) 
+	{
+        	for(int j=0;j<4;j++)
+		{
+			printf("%x", ReturnValue[i][j]);
+		}
+		printf("\n");
 	}
 	close(socket_desc);
 	sleep(3);
