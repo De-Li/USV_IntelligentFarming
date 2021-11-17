@@ -9,7 +9,7 @@ int main(int argc , char *argv[]){
 	
 	int socket_desc;
 	struct sockaddr_in server;
-	char server_reply[200];
+	unsigned char server_reply[200];
 	while(1)
 	{
 	//Create socket
@@ -29,7 +29,7 @@ int main(int argc , char *argv[]){
 	puts("Connected\n");
 	
 	//Send some data
-	char Message[8] ={0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
+	unsigned char Message[8] ={0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
 	if( send(socket_desc , Message , sizeof(Message) , 0) < 0){
 		puts("Send failed");
 		return 1;
