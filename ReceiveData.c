@@ -63,8 +63,8 @@ int main(int argc , char *argv[]){
 	puts("Connected\n");
 	
 	//Send inquiry code
-	//DissolvedOxygenValue
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(DissolvedOxygenValue) , 0) < 0){
+	//DissolvedOxygenValue_InquiryCode
+	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(DissolvedOxygenValue_InquiryCode) , 0) < 0){
 		puts("Send failed");
 		return 1;
 	}
