@@ -180,6 +180,10 @@ int main(int argc , char *argv[]){
 	{
         	for(int j=0;j<4;j++)
 		{
+			if(i!=4 && j=2)
+			{
+				continue;
+			}
 			printf("%x", ReturnValue[i][j]);
 		}
 		printf("\n");
