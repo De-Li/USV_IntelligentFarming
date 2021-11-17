@@ -77,7 +77,7 @@ int main(int argc , char *argv[]){
 	//Store the sensing value in array
 	ReturnValue[0][0] = server_reply[3];
 	ReturnValue[0][1] = server_reply[4];
-	sleep(500);	
+	sleep(1);	
 	
 	//WaterTemperature_InquiryCode
 	if( send(socket_desc ,WaterTemperature_InquiryCode , sizeof(WaterTemperature_InquiryCode) , 0) < 0){
@@ -93,7 +93,7 @@ int main(int argc , char *argv[]){
 	//Store the sensing value in array
 	ReturnValue[1][0] = server_reply[3];
 	ReturnValue[1][1] = server_reply[4];
-	sleep(500);
+	sleep(1);
 		
 	//OxidationReductionPotential_InquiryCode
 	if( send(socket_desc ,OxidationReductionPotential_InquiryCode , sizeof(OxidationReductionPotential_InquiryCode) , 0) < 0){
@@ -109,7 +109,7 @@ int main(int argc , char *argv[]){
 	//Store the sensing value in array
 	ReturnValue[2][0] = server_reply[3];
 	ReturnValue[2][1] = server_reply[4];
-	sleep(500);
+	sleep(1);
 		
 	//Turbidity_InquiryCode
 	if( send(socket_desc ,Turbidity_InquiryCode , sizeof(Turbidity_InquiryCode) , 0) < 0){
@@ -125,7 +125,7 @@ int main(int argc , char *argv[]){
 	//Store the sensing value in array
 	ReturnValue[3][0] = server_reply[3];
 	ReturnValue[3][1] = server_reply[4];
-	sleep(500);
+	sleep(1);
 		
 	//AmmoniacalNitrogen_InquiryCode
 	if( send(socket_desc ,AmmoniacalNitrogen_InquiryCode , sizeof(AmmoniacalNitrogen_InquiryCode) , 0) < 0){
@@ -143,7 +143,7 @@ int main(int argc , char *argv[]){
 	ReturnValue[4][1] = server_reply[4];
 	ReturnValue[4][0] = server_reply[5];
 	ReturnValue[4][1] = server_reply[6];
-	sleep(500);
+	sleep(1);
 		
 	//Conductivity_InquiryCode
 	if( send(socket_desc ,Conductivity_InquiryCode , sizeof(Conductivity_InquiryCode) , 0) < 0){
@@ -159,7 +159,7 @@ int main(int argc , char *argv[]){
 	//Store the sensing value in array
 	ReturnValue[5][0] = server_reply[3];
 	ReturnValue[5][1] = server_reply[4];
-	sleep(500);
+	sleep(1);
 		
 	//PHValue_InquiryCode
 	if( send(socket_desc ,PHValue_InquiryCode , sizeof(PHValue_InquiryCode) , 0) < 0){
@@ -185,7 +185,7 @@ int main(int argc , char *argv[]){
 		printf("\n");
 	}
 	close(socket_desc);
-	sleep(3000);
+	sleep(3);
 	}
 	return 0;
 }
