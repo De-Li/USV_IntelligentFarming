@@ -46,6 +46,7 @@ int main(int argc , char *argv[]){
 	{
 		printf("value of sensors: %s\n",server_reply[i]);
 	}*/
+	printf("value of sensors: %.8s\n",Message);
 	printf("value of sensors: %.7s\n",server_reply);
 	//printf("value of sensors: %s\n",server_reply);
 	close(socket_desc);
