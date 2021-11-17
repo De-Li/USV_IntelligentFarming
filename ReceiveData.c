@@ -25,21 +25,30 @@ int main(int argc , char *argv[]){
 	*/
 	
 	//Setting the inquiry codes to each sensor.
+	unsigned char InquiryCode[7][8] = {
+		{0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05},
+		{0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02},
+		{0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5},
+		{0x01, 0x03, 0x00, 0x4c, 0x00, 0x01, 0x45, 0xdd},
+		{0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb},
+		{0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03},
+		{0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08}};
+	/*
 	//溶氧值
-	unsigned char DissolvedOxygenValue_InquiryCode[8] ={0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
+	unsigned char InquiryCode[0] ={0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
 	//水溫
-	unsigned char WaterTemperature_InquiryCode[8] ={0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02};
+	unsigned char InquiryCode[1] ={0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02};
 	//水質ORP
-	unsigned char OxidationReductionPotential_InquiryCode[8] ={0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5};
+	unsigned char InquiryCode[2] ={0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5};
 	//濁度
-	unsigned char Turbidity_InquiryCode[8] ={0x01, 0x03, 0x00, 0x4c, 0x00, 0x01, 0x45, 0xdd};
+	unsigned char InquiryCode[3] ={0x01, 0x03, 0x00, 0x4c, 0x00, 0x01, 0x45, 0xdd};
 	//氨氮值
-	unsigned char AmmoniacalNitrogen_InquiryCode[8] ={0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb};
+	unsigned char InquiryCode[4] ={0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb};
 	//電導率
-	unsigned char Conductivity_InquiryCode[8] ={0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03};
+	unsigned char InquiryCode[5] ={0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03};
 	//PH值
-	unsigned char PHValue_InquiryCode[8] ={0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08};
-	
+	unsigned char InquiryCode[6] ={0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08};
+	*/
 	char ReturnValue[8][4]; 
 	int socket_desc;
 	struct sockaddr_in server;
@@ -63,6 +72,51 @@ int main(int argc , char *argv[]){
 	puts("Connected\n");
 	
 	//Send inquiry code
+	for(int i=0; i<7 ; i++)
+	{
+		if( send(socket_desc ,InquiryCode[i] , sizeof(InquiryCode[0]) , 0) < 0){
+		puts("Send failed");
+		return 1;
+	}
+	puts("Data Send\n");
+	//Receive a reply from the server
+	if (recv(socket_desc, server_reply , 200 , 0) < 0){
+		puts("recv failed");
+	}
+	puts("Reply received 1\n");
+	//Store the sensing value in array
+	if(i==4)
+	{
+		ReturnValue[i][0] = server_reply[3];
+		ReturnValue[i][1] = server_reply[4];
+		ReturnValue[i][0] = server_reply[5];
+		ReturnValue[i][1] = server_reply[6];
+		continue;
+	}
+	ReturnValue[i][0] = server_reply[3];
+	ReturnValue[i][1] = server_reply[4];
+	sleep(1);	
+	}
+	
+	//Printing the results
+	for (int i = 0; i< 8 ; i++) 
+	{
+        	for(int j=0;j<4;j++)
+		{
+			if(i!=4 && j>=2)
+			{
+				continue;
+			}
+			printf("%x", ReturnValue[i][j]);
+			printf(" ");
+		}
+		printf("\n");
+	}
+	close(socket_desc);
+	sleep(3);
+	}
+	return 0;
+	/*	
 	//DissolvedOxygenValue_InquiryCode
 	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(DissolvedOxygenValue_InquiryCode) , 0) < 0){
 		puts("Send failed");
@@ -175,22 +229,5 @@ int main(int argc , char *argv[]){
 	//Store the sensing value in array
 	ReturnValue[6][0] = server_reply[3];
 	ReturnValue[6][1] = server_reply[4];
-		
-	for (int i = 0; i< 8 ; i++) 
-	{
-        	for(int j=0;j<4;j++)
-		{
-			if(i!=4 && j>=2)
-			{
-				continue;
-			}
-			printf("%x", ReturnValue[i][j]);
-			printf(" ");
-		}
-		printf("\n");
-	}
-	close(socket_desc);
-	sleep(3);
-	}
-	return 0;
+	*/	
 }
