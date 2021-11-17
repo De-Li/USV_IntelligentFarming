@@ -185,7 +185,7 @@ int main(int argc , char *argv[]){
 				continue;
 			}
 			printf("%x", ReturnValue[i][j]);
-			printf(" ")
+			printf(" ");
 		}
 		printf("\n");
 	}
