@@ -73,7 +73,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	puts("Reply received\n");
+	puts("Reply received 1\n");
 	//Store the sensing value in array
 	ReturnValue[0][0] = server_reply[3];
 	ReturnValue[0][1] = server_reply[4];
@@ -89,7 +89,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	puts("Reply received\n");
+	puts("Reply received 2\n");
 	//Store the sensing value in array
 	ReturnValue[1][0] = server_reply[3];
 	ReturnValue[1][1] = server_reply[4];
@@ -105,7 +105,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	puts("Reply received\n");
+	puts("Reply received 3\n");
 	//Store the sensing value in array
 	ReturnValue[2][0] = server_reply[3];
 	ReturnValue[2][1] = server_reply[4];
@@ -121,7 +121,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	puts("Reply received\n");
+	puts("Reply received 4\n");
 	//Store the sensing value in array
 	ReturnValue[3][0] = server_reply[3];
 	ReturnValue[3][1] = server_reply[4];
@@ -137,7 +137,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	puts("Reply received\n");
+	puts("Reply received 5\n");
 	//Store the sensing value in array
 	ReturnValue[4][0] = server_reply[3];
 	ReturnValue[4][1] = server_reply[4];
@@ -155,7 +155,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	puts("Reply received\n");
+	puts("Reply received 6\n");
 	//Store the sensing value in array
 	ReturnValue[5][0] = server_reply[3];
 	ReturnValue[5][1] = server_reply[4];
@@ -171,7 +171,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	puts("Reply received\n");
+	puts("Reply received 7\n");
 	//Store the sensing value in array
 	ReturnValue[6][0] = server_reply[3];
 	ReturnValue[6][1] = server_reply[4];
@@ -182,6 +182,7 @@ int main(int argc , char *argv[]){
 		{
 			if(i!=4 && j==2)
 			{
+				puts("AmmoniacalNitrogen");
 				continue;
 			}
 			printf("%x", ReturnValue[i][j]);
