@@ -19,4 +19,4 @@ Log:
 #include<arpa/inet.h>	//inet_addr
 #include<unistd.h>
 
-char* GetDataFromSensors(const char* Ip, const int Port);
+char** GetDataFromSensors(const char* Ip, const int Port);
