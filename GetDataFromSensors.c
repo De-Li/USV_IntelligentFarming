@@ -56,7 +56,11 @@ char** GetDataFromSensors(const char* Ip, const int Port){
 		{0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03},
 		{0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08}};
 	
-	char ReturnValue[7][4]; 
+	char **ReturnValue = (char **)malloc(sizeof(char *)*7);
+	for(int i =0;i<7;i++)
+	{
+		ReturnValue[i] = (char *)malloc(sizeof(char)*4);
+	}
 	int socket_desc;
 	char ReceiveMessage[16] = "Reply received X";
 	struct sockaddr_in server;
