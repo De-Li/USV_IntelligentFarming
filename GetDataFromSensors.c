@@ -29,6 +29,8 @@ The "inquiry" code for Under water sensors. 水質感測設備"詢問"碼
 	
 ---------------------------------------------------------------
 Log:
+2021/11/24
+Transform this script from main to functin.
 ---------------------------------------------------------------
 ******************************************************************
 */
@@ -39,10 +41,10 @@ Log:
 #include<unistd.h>
 #include"GetDataFromSensors.h"
 
-//char* GetDataFromSensors(const char* Ip, const int Port){
-int main(int argc , char *argv[]){
-	char Ip[] = "192.168.0.200";
-	int Port = 6969;
+char** GetDataFromSensors(const char* Ip, const int Port){
+//int main(int argc , char *argv[]){
+	//char Ip[] = "192.168.0.200";
+	//int Port = 6969;
 	
 	//Setting the inquiry codes to each sensor.
 	unsigned char InquiryCode[7][8] = {
@@ -60,6 +62,8 @@ int main(int argc , char *argv[]){
 	struct sockaddr_in server;
 	//Receive buffer
 	unsigned char server_reply[200];
+	
+	//While loop keep receive data from water sensors. 
 	while(1)
 	{
 	//Create socket
@@ -86,6 +90,7 @@ int main(int argc , char *argv[]){
 		return 1;
 		}
 		puts("Data Send\n");
+		
 		//Receive a reply from the server
 		if (recv(socket_desc, server_reply , 200 , 0) < 0)
 		{
@@ -93,6 +98,7 @@ int main(int argc , char *argv[]){
 		}
 		ReceiveMessage[15] = i + '0';
 		puts(ReceiveMessage);
+		
 		//Store the sensing value in array
 		if(i==4)
 		{
@@ -124,5 +130,5 @@ int main(int argc , char *argv[]){
 	close(socket_desc);
 	sleep(3);
 	}
-	return 0;	
+	return ReturnValue;	
 }
