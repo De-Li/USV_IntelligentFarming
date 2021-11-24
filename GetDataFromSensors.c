@@ -1,8 +1,8 @@
 /*
 *****************************************************************
 Project: Unmmaned surface vehicle
-File name:ReceiveData.c
-related file:N/A
+File name:GetDataFromSensors.c
+related file:GetDataFromSensors.h, 
 function:Get data from under water sensors to http server.
 author:De-Li
 version:1.0
