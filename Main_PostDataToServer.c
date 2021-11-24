@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 {
     char* IpOfWaterSensors = "192.168.0.200";
     int PortOfWaterSensors = 6969;
-    char* DataFromWaterSensors =  GetDataFromSensors(IpOfWaterSensors, PortOfWaterSensors); 
+    char** DataFromWaterSensors =  GetDataFromSensors(IpOfWaterSensors, PortOfWaterSensors);
     /*
     int sockfd;
     char buffer[MAXDATASIZE];
