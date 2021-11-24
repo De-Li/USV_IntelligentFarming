@@ -43,6 +43,7 @@ Log:
 int main(int argc , char *argv[]){
 	char Ip[] = "192.168.0.200";
 	int Port = 6969;
+	
 	//Setting the inquiry codes to each sensor.
 	unsigned char InquiryCode[7][8] = {
 		{0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05},
@@ -52,25 +53,10 @@ int main(int argc , char *argv[]){
 		{0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb},
 		{0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03},
 		{0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08}};
-	/*
-	//溶氧值
-	unsigned char InquiryCode[0] ={0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05};
-	//水溫
-	unsigned char InquiryCode[1] ={0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02};
-	//水質ORP
-	unsigned char InquiryCode[2] ={0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5};
-	//濁度
-	unsigned char InquiryCode[3] ={0x01, 0x03, 0x00, 0x4c, 0x00, 0x01, 0x45, 0xdd};
-	//氨氮值
-	unsigned char InquiryCode[4] ={0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb};
-	//電導率
-	unsigned char InquiryCode[5] ={0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03};
-	//PH值
-	unsigned char InquiryCode[6] ={0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08};
-	*/
+	
 	char ReturnValue[7][4]; 
 	int socket_desc;
-	char ReceiveMessage[15] = "Reply receivedX";
+	char ReceiveMessage[16] = "Reply received X";
 	struct sockaddr_in server;
 	//Receive buffer
 	unsigned char server_reply[200];
@@ -105,7 +91,7 @@ int main(int argc , char *argv[]){
 		{
 			puts("recv failed");
 		}
-		ReceiveMessage[14] = i + '0';
+		ReceiveMessage[15] = i + '0';
 		puts(ReceiveMessage);
 		//Store the sensing value in array
 		if(i==4)
@@ -138,119 +124,5 @@ int main(int argc , char *argv[]){
 	close(socket_desc);
 	sleep(3);
 	}
-	return 0;
-	/*	
-	//DissolvedOxygenValue_InquiryCode
-	if( send(socket_desc ,DissolvedOxygenValue_InquiryCode , sizeof(DissolvedOxygenValue_InquiryCode) , 0) < 0){
-		puts("Send failed");
-		return 1;
-	}
-	puts("Data Send\n");
-	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 200 , 0) < 0){
-		puts("recv failed");
-	}
-	puts("Reply received 1\n");
-	//Store the sensing value in array
-	ReturnValue[0][0] = server_reply[3];
-	ReturnValue[0][1] = server_reply[4];
-	sleep(1);	
-	
-	//WaterTemperature_InquiryCode
-	if( send(socket_desc ,WaterTemperature_InquiryCode , sizeof(WaterTemperature_InquiryCode) , 0) < 0){
-		puts("Send failed");
-		return 1;
-	}
-	puts("Data Send\n");
-	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 200 , 0) < 0){
-		puts("recv failed");
-	}
-	puts("Reply received 2\n");
-	//Store the sensing value in array
-	ReturnValue[1][0] = server_reply[3];
-	ReturnValue[1][1] = server_reply[4];
-	sleep(1);
-		
-	//OxidationReductionPotential_InquiryCode
-	if( send(socket_desc ,OxidationReductionPotential_InquiryCode , sizeof(OxidationReductionPotential_InquiryCode) , 0) < 0){
-		puts("Send failed");
-		return 1;
-	}
-	puts("Data Send\n");
-	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 200 , 0) < 0){
-		puts("recv failed");
-	}
-	puts("Reply received 3\n");
-	//Store the sensing value in array
-	ReturnValue[2][0] = server_reply[3];
-	ReturnValue[2][1] = server_reply[4];
-	sleep(1);
-		
-	//Turbidity_InquiryCode
-	if( send(socket_desc ,Turbidity_InquiryCode , sizeof(Turbidity_InquiryCode) , 0) < 0){
-		puts("Send failed");
-		return 1;
-	}
-	puts("Data Send\n");
-	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 200 , 0) < 0){
-		puts("recv failed");
-	}
-	puts("Reply received 4\n");
-	//Store the sensing value in array
-	ReturnValue[3][0] = server_reply[3];
-	ReturnValue[3][1] = server_reply[4];
-	sleep(1);
-		
-	//AmmoniacalNitrogen_InquiryCode
-	if( send(socket_desc ,AmmoniacalNitrogen_InquiryCode , sizeof(AmmoniacalNitrogen_InquiryCode) , 0) < 0){
-		puts("Send failed");
-		return 1;
-	}
-	puts("Data Send\n");
-	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 200 , 0) < 0){
-		puts("recv failed");
-	}
-	puts("Reply received 5\n");
-	//Store the sensing value in array
-	ReturnValue[4][0] = server_reply[3];
-	ReturnValue[4][1] = server_reply[4];
-	ReturnValue[4][0] = server_reply[5];
-	ReturnValue[4][1] = server_reply[6];
-	sleep(1);
-		
-	//Conductivity_InquiryCode
-	if( send(socket_desc ,Conductivity_InquiryCode , sizeof(Conductivity_InquiryCode) , 0) < 0){
-		puts("Send failed");
-		return 1;
-	}
-	puts("Data Send\n");
-	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 200 , 0) < 0){
-		puts("recv failed");
-	}
-	puts("Reply received 6\n");
-	//Store the sensing value in array
-	ReturnValue[5][0] = server_reply[3];
-	ReturnValue[5][1] = server_reply[4];
-	sleep(1);
-		
-	//PHValue_InquiryCode
-	if( send(socket_desc ,PHValue_InquiryCode , sizeof(PHValue_InquiryCode) , 0) < 0){
-		puts("Send failed");
-		return 1;
-	}
-	puts("Data Send\n");
-	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 200 , 0) < 0){
-		puts("recv failed");
-	}
-	puts("Reply received 7\n");
-	//Store the sensing value in array
-	ReturnValue[6][0] = server_reply[3];
-	ReturnValue[6][1] = server_reply[4];
-	*/	
+	return 0;	
 }
