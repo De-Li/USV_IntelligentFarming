@@ -77,7 +77,7 @@ char** GetDataFromSensors(const char* Ip, const int Port){
 	//Connect to remote server
 	if (connect(socket_desc , (struct sockaddr *)&server , sizeof(server)) < 0){
 		puts("connect error");
-		return 1;
+		//return 1;
 	}	
 	puts("Connected\n");
 	
@@ -87,7 +87,7 @@ char** GetDataFromSensors(const char* Ip, const int Port){
 		if( send(socket_desc ,InquiryCode[i] , sizeof(InquiryCode[0]) , 0) < 0)
 		{
 		puts("Send failed");
-		return 1;
+		//return 1;
 		}
 		puts("Data Send\n");
 		
