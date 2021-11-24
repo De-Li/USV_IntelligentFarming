@@ -17,6 +17,7 @@ Log:
 #include<sys/socket.h>
 #include<arpa/inet.h>	//inet_addr
 #include<unistd.h>
+#include"GetDataFromSensors.h"
 */
 char* GetDataFromSensors(const char* Ip, const int Port){
 	/*The "inquiry" code for Under water sensors. 水質感測設備"詢問"碼
