@@ -74,7 +74,6 @@ int main(int argc , char *argv[]){
 	struct sockaddr_in server;
 	//Receive buffer
 	unsigned char server_reply[200];
-	int i = 1;
 	while(1)
 	{
 	//Create socket
@@ -95,31 +94,32 @@ int main(int argc , char *argv[]){
 	//Send inquiry code
 	for(int i=0; i<7 ; i++)
 	{
-		if( send(socket_desc ,InquiryCode[i] , sizeof(InquiryCode[0]) , 0) < 0){
+		if( send(socket_desc ,InquiryCode[i] , sizeof(InquiryCode[0]) , 0) < 0)
+		{
 		puts("Send failed");
 		return 1;
-	}
-	puts("Data Send\n");
-	//Receive a reply from the server
-	if (recv(socket_desc, server_reply , 200 , 0) < 0){
-		puts("recv failed");
-	}
-	ReceiveMessage[14] = i + '0';
-	i++;
-	puts(ReceiveMessage);
-	//Store the sensing value in array
-	if(i==4)
-	{
+		}
+		puts("Data Send\n");
+		//Receive a reply from the server
+		if (recv(socket_desc, server_reply , 200 , 0) < 0)
+		{
+			puts("recv failed");
+		}
+		ReceiveMessage[13] = i + '0';
+		puts(ReceiveMessage);
+		//Store the sensing value in array
+		if(i==4)
+		{
+			ReturnValue[i][0] = server_reply[3];
+			ReturnValue[i][1] = server_reply[4];
+			ReturnValue[i][0] = server_reply[5];
+			ReturnValue[i][1] = server_reply[6];
+			continue;
+		}
 		ReturnValue[i][0] = server_reply[3];
 		ReturnValue[i][1] = server_reply[4];
-		ReturnValue[i][0] = server_reply[5];
-		ReturnValue[i][1] = server_reply[6];
-		continue;
-	}
-	ReturnValue[i][0] = server_reply[3];
-	ReturnValue[i][1] = server_reply[4];
-	sleep(1);	
-	}
+		sleep(1);	
+		}
 	
 	//Printing the results
 	for (int i = 0; i< 7 ; i++) 
