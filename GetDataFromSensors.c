@@ -17,7 +17,7 @@ Log:
 #include<sys/socket.h>
 #include<arpa/inet.h>	//inet_addr
 #include<unistd.h>
-
+*/
 char* GetDataFromSensors(const char* Ip, const int Port){
 	/*The "inquiry" code for Under water sensors. 水質感測設備"詢問"碼
 	溶氧值:0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05
