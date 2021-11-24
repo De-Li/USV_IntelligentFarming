@@ -70,7 +70,7 @@ int main(int argc , char *argv[]){
 	*/
 	char ReturnValue[7][4]; 
 	int socket_desc;
-	char* ReceiveMessage = "Reply receivedX";
+	char ReceiveMessage[15] = "Reply receivedX";
 	struct sockaddr_in server;
 	//Receive buffer
 	unsigned char server_reply[200];
@@ -105,7 +105,7 @@ int main(int argc , char *argv[]){
 		{
 			puts("recv failed");
 		}
-		ReceiveMessage[13] = i + '0';
+		ReceiveMessage[14] = i + '0';
 		puts(ReceiveMessage);
 		//Store the sensing value in array
 		if(i==4)
