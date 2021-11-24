@@ -41,7 +41,7 @@ Log:
 
 //char* GetDataFromSensors(const char* Ip, const int Port){
 int main(int argc , char *argv[]){
-	char* Ip = "192.168.0.200";
+	char Ip[] = "192.168.0.200";
 	int Port = 6969;
 	//Setting the inquiry codes to each sensor.
 	unsigned char InquiryCode[7][8] = {
@@ -103,7 +103,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	ReceiveMessage[15] = i;
+	ReceiveMessage[15] = i + '0';
 	puts(ReceiveMessage);
 	//Store the sensing value in array
 	if(i==4)
