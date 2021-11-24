@@ -1,10 +1,24 @@
+/*
+*****************************************************************
+Project: Unmmaned surface vehicle
+File name:ReceiveData.c
+related file:N/A
+function:Get data from under water sensors to http server.
+author:De-Li
+version:1.0
+---------------------------------------------------------------
+Comment:
+---------------------------------------------------------------
+Log:
+---------------------------------------------------------------
+******************************************************************
 #include<stdio.h>
 #include<string.h>	//strlen
 #include<sys/socket.h>
 #include<arpa/inet.h>	//inet_addr
 #include<unistd.h>
 
-int main(int argc , char *argv[]){
+char* GetDataFromSensors(const char* Ip, const int Port){
 	/*The "inquiry" code for Under water sensors. 水質感測設備"詢問"碼
 	溶氧值:0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05
 	水溫:0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02
@@ -60,9 +74,9 @@ int main(int argc , char *argv[]){
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1) printf("Could not create socket");
 		
-	server.sin_addr.s_addr = inet_addr("192.168.0.200");
+	server.sin_addr.s_addr = inet_addr(Ip);
 	server.sin_family = AF_INET;
-	server.sin_port = htons( 6969 );
+	server.sin_port = htons( Port );
 
 	//Connect to remote server
 	if (connect(socket_desc , (struct sockaddr *)&server , sizeof(server)) < 0){
