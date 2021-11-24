@@ -42,10 +42,10 @@ Transform this script from main to functin.
 #include<unistd.h>
 #include"GetDataFromSensors.h"
 
-//char** GetDataFromSensors(const char* Ip, const int Port){
-int main(int argc , char *argv[]){
-	char Ip[] = "192.168.0.200";
-	int Port = 6969;
+char** GetDataFromSensors(const char* Ip, const int Port){
+//int main(int argc , char *argv[]){
+	//char Ip[] = "192.168.0.200";
+	//int Port = 6969;
 	
 	//Setting the inquiry codes to each sensor.
 	unsigned char InquiryCode[7][8] = {
@@ -135,5 +135,5 @@ int main(int argc , char *argv[]){
 	close(socket_desc);
 	sleep(3);
 	}
-	return 1;	
+	return ReturnValue;	
 }
