@@ -74,6 +74,7 @@ int main(int argc , char *argv[]){
 	struct sockaddr_in server;
 	//Receive buffer
 	unsigned char server_reply[200];
+	int i = 1;
 	while(1)
 	{
 	//Create socket
@@ -104,6 +105,7 @@ int main(int argc , char *argv[]){
 		puts("recv failed");
 	}
 	ReceiveMessage[14] = i + '0';
+	i++;
 	puts(ReceiveMessage);
 	//Store the sensing value in array
 	if(i==4)
