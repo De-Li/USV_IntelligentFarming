@@ -41,7 +41,8 @@ Log:
 
 //char* GetDataFromSensors(const char* Ip, const int Port){
 int main(int argc , char *argv[]){
-	
+	char* Ip = "192.168.0.200";
+	int Port = 6969;
 	//Setting the inquiry codes to each sensor.
 	unsigned char InquiryCode[7][8] = {
 		{0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05},
