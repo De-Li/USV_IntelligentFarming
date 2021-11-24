@@ -8,6 +8,8 @@ author:De-Li
 version:1.0
 ---------------------------------------------------------------
 Comment:
+2021/11/25
+Changing the declaration of double pointer.
 2021/11/24
 The "inquiry" code for Under water sensors. 水質感測設備"詢問"碼
 	溶氧值:0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05
@@ -57,6 +59,7 @@ char** GetDataFromSensors(const char* Ip, const int Port){
 		{0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03},
 		{0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08}};
 	
+	//allocating the memory of double pointer.
 	char **ReturnValue = (char **)malloc(sizeof(char *)*7);
 	for(int i =0;i<7;i++)
 	{
