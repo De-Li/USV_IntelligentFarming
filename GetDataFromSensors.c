@@ -8,19 +8,8 @@ author:De-Li
 version:1.0
 ---------------------------------------------------------------
 Comment:
----------------------------------------------------------------
-Log:
----------------------------------------------------------------
-******************************************************************
-#include<stdio.h>
-#include<string.h>	//strlen
-#include<sys/socket.h>
-#include<arpa/inet.h>	//inet_addr
-#include<unistd.h>
-#include"GetDataFromSensors.h"
-*/
-char* GetDataFromSensors(const char* Ip, const int Port){
-	/*The "inquiry" code for Under water sensors. 水質感測設備"詢問"碼
+2021/11/24
+/*The "inquiry" code for Under water sensors. 水質感測設備"詢問"碼
 	溶氧值:0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05
 	水溫:0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02
 	水質ORP:0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5
@@ -38,6 +27,20 @@ char* GetDataFromSensors(const char* Ip, const int Port){
 	電導率:0x01, 0x03, 0x02, 0x02, 0xc1, 0xf8, 0x58
 	PH值:0x01, 0x03, 0x02, 0x02, 0xc1, 0xf8, 0x58
 	*/
+---------------------------------------------------------------
+Log:
+---------------------------------------------------------------
+******************************************************************
+*/
+#include<stdio.h>
+#include<string.h>	//strlen
+#include<sys/socket.h>
+#include<arpa/inet.h>	//inet_addr
+#include<unistd.h>
+#include"GetDataFromSensors.h"
+
+//char* GetDataFromSensors(const char* Ip, const int Port){
+int main(int argc , char *argv[]){
 	
 	//Setting the inquiry codes to each sensor.
 	unsigned char InquiryCode[7][8] = {
@@ -64,7 +67,7 @@ char* GetDataFromSensors(const char* Ip, const int Port){
 	//PH值
 	unsigned char InquiryCode[6] ={0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08};
 	*/
-	char ReturnValue[8][4]; 
+	char ReturnValue[7][4]; 
 	int socket_desc;
 	struct sockaddr_in server;
 	//Receive buffer
