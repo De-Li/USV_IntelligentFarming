@@ -103,7 +103,7 @@ int main(int argc , char *argv[]){
 	if (recv(socket_desc, server_reply , 200 , 0) < 0){
 		puts("recv failed");
 	}
-	ReceiveMessage[15] = i + '0';
+	ReceiveMessage[14] = i + '0';
 	puts(ReceiveMessage);
 	//Store the sensing value in array
 	if(i==4)
