@@ -35,6 +35,7 @@ Transform this script from main to functin.
 ******************************************************************
 */
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>	//strlen
 #include<sys/socket.h>
 #include<arpa/inet.h>	//inet_addr
@@ -134,5 +135,5 @@ int main(int argc , char *argv[]){
 	close(socket_desc);
 	sleep(3);
 	}
-	return ReturnValue;	
+	return 1;	
 }
