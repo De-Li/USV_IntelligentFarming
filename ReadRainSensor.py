@@ -39,6 +39,7 @@ def GetRainData():
                   print("read data:")
                   print(str(response))
                   print("Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds")))
+                  return response
      
               ser.close()
               time.sleep(1)
@@ -47,3 +48,5 @@ def GetRainData():
      
       else:
           print ("open serial port error")
+if __name__ == '__main__':
+  RainData = GetRainData()
