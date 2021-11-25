@@ -3,7 +3,7 @@ import socket
 
 if __name__ == '__main__':
     #CurrentRainData = GetRainData()
-    HOST = '127.0.0.1'
+    HOST = '127.0.0.69'
     PORT = 30000
     ClientMessage = 'Hello!'
     
