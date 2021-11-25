@@ -2,7 +2,7 @@ from ReadRainSensor import GetRainData
 import socket
 
 if __name__ == '__main__':
-    CurrentRainData = GetRainData()
+    #CurrentRainData = GetRainData()
     Host = '127.0.0.1'
     PORT = 30000
     ClientMessage = 'Hello!'
