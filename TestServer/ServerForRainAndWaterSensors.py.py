@@ -1,5 +1,5 @@
 import socket
-HOST = '127.0.0.1'
+HOST = ''
 PORT = 30000
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
