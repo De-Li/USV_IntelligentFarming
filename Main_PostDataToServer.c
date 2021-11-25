@@ -32,10 +32,12 @@ Log:
 
 int main(int argc, char *argv[])
 {
+    //Getting data from water sensors.
     char* IpOfWaterSensors = "192.168.0.200";
     int PortOfWaterSensors = 6969;
     char** DataFromWaterSensors =  GetDataFromSensors(IpOfWaterSensors, PortOfWaterSensors);
-    /*
+    
+    //Posting data to main server.
     int sockfd;
     char buffer[MAXDATASIZE];
     char *hello = "Hello from client";
@@ -51,8 +53,8 @@ int main(int argc, char *argv[])
        
     // Filling server information
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(PORT);
-    servaddr.sin_addr.s_addr = ADDRESSOFSERVER;
+    servaddr.sin_port = htons(PORTOFSERVER);
+    servaddr.sin_addr.s_addr = IPOFSERVER;
        
     int n, len;
        
@@ -68,6 +70,6 @@ int main(int argc, char *argv[])
     printf("Server : %s\n", buffer);
    
     close(sockfd);
-    */
+    
     return 0;
 }
