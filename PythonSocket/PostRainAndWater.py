@@ -8,7 +8,7 @@ if __name__ == '__main__':
     ClientMessage = 'Hello!'
     
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    client.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    #client.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     client.sendto(ClientMessage.encode('utf-8'), (HOST, PORT))
     
     serverMessage = str(client.recv(1024), encoding = 'utf-8')
