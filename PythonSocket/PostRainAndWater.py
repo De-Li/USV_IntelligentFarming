@@ -11,7 +11,7 @@ if __name__ == '__main__':
         HOST = '192.168.1.228'
         PORT = 30000
         #ClientMessage = 'Hello!'
-    
+        print(CurrentRainData)
         client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         #client.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         
