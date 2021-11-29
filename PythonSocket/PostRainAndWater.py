@@ -5,7 +5,7 @@ import serial, time
 if __name__ == '__main__':
     while(1):
         while(1):
-            CurrentRainData = GetRainData()
+            CurrentRainData = str(GetRainData() or 0)
             if(CurrentRainData != 0):
                 break
         HOST = '192.168.1.228'
