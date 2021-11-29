@@ -2,10 +2,10 @@ import serial, time
 from datetime import datetime, timezone, timedelta
 
 def GetRainData():
-  # 設定為 +8 時區
+  #  +8 timezone
   tz = timezone(timedelta(hours=+8))
 
-  # 取得現在時間、指定時區、轉為 ISO 格式
+  # getting current time and specifying time zone and change into iso format.
   datetime.now(tz).isoformat()
 
   ser = serial.Serial()
