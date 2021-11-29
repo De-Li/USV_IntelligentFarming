@@ -38,8 +38,10 @@ def GetRainData():
               response = ser.readline()
               if(response):
                   print("read data:")
-                  print(str(response))
-                  print("Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds")))
+                  response = str(response) + "Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds"))
+                  #print(str(response))
+                  #print("Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds")))
+                  print(response)
                   return response
      
               ser.close()
