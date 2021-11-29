@@ -4,7 +4,7 @@ import serial, time
 
 if __name__ == '__main__':
     while(1):
-        CurrentRainData = GetRainData()
+        CurrentRainData = string(GetRainData())
         HOST = '192.168.1.228'
         PORT = 30000
         #ClientMessage = 'Hello!'
