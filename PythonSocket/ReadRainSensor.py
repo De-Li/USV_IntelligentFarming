@@ -22,7 +22,8 @@ def GetRainData():
   ser.xonxoff = False    #disable software flow control
   ser.rtscts = False     #disable hardware (RTS/CTS) flow control
   ser.dsrdtr = False     #disable hardware (DSR/DTR) flow control
-  while(1):
+  flag = 1;
+  while(flag):
       try: 
           ser.open()        
       except Exception as ex:
@@ -43,6 +44,7 @@ def GetRainData():
      
               ser.close()
               time.sleep(1)
+              flag = 0
           except Exception as e1:
               print ("communicating error " + str(e1))
      
