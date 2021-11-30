@@ -54,8 +54,8 @@ def GetWaterData():
 
 	serverMessage = client.recv(1024)
 	print('Server:', serverMessage)
-
-  	client.close()
+	client.close()
+  	
 if __name__ == '__main__':
 	while(1):  
 		#get water information
