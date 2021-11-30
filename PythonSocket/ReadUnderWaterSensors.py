@@ -51,7 +51,7 @@ def GetWaterData():
   client.connect((HOST, PORT))
   client.sendall(InquiryArray)
 
-  serverMessage = str(client.recv(1024))
+  serverMessage = client.recv(1024)
   print('Server:', serverMessage)
 
   client.close()
