@@ -45,6 +45,7 @@ def GetWaterData():
 	HOST = '192.168.0.200'
 	PORT = 6969
 	ReceiveArray = bytearray()
+	'''
 	InquiryArray = np.array([[0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05],
 			     [0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02],
 			     [0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5],
@@ -60,11 +61,10 @@ def GetWaterData():
 			     [0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb],
 			     [0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03],
 			     [0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08]])
-			     '''
-	print('Inquiry code 1 : ', InquiryArray)
-	InquiryArray = bytearray(InquiryArray)
-	print('Inquiry code after transform: ', InquiryArray[0])
-	#print()
+			     
+	#print('Inquiry code 1 : ', InquiryArray)
+	#InquiryArray = bytearray(InquiryArray)
+	#print('Inquiry code after transform: ', InquiryArray[0])
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
 	for i in range(0,7):
