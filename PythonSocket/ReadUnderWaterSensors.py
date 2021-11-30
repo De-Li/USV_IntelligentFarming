@@ -62,9 +62,6 @@ def GetWaterData():
 			     [0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03],
 			     [0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08]])
 	'''
-	test = np.array([[1,2,2,4,87],[15,13,45,89]])
-	print(bytes(test[0]))
-	print(bytes(test[1]))
 	#print('Inquiry code 1 : ' )
 	#print(bytes(InquiryArray[0]))	
 	#InquiryArray = bytearray(InquiryArray)
@@ -72,7 +69,7 @@ def GetWaterData():
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
 	for i in range(0,7):
-		client.sendall(InquiryArray[i])
+		client.sendall(bytes(InquiryArray[i]))
 		ServerMessage = client.recv(1024)
 		ReceiveArray[i].append(ServerMessage)
 		print('Server:', ServerMessage)
