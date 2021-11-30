@@ -63,7 +63,7 @@ def GetWaterData():
 			     '''
 	print('Inquiry code 1 : ', InquiryArray)
 	InquiryArray = bytearray(InquiryArray)
-	print('Inquiry code after transform: ', InquiryArray)
+	print('Inquiry code after transform: ', InquiryArray[0])
 	#print()
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
