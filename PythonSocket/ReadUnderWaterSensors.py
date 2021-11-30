@@ -37,8 +37,9 @@ Log:
 Create script for read under water sensors.
 ---------------------------------------------------------------
 """
+import socket
+import time
 def GetWaterData():
-  import socket
 
   HOST = '192.168.0.200'
   PORT = 6969
@@ -55,4 +56,9 @@ def GetWaterData():
 
   client.close()
 if __name__ == '__main__':
-  WaterQualityData = GetWaterData()
+	while(1):  
+		#get water information
+		WaterQualityData = GetWaterData()
+		#Sleep 1 second
+		time.sleep(1)
+		
