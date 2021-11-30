@@ -63,7 +63,6 @@ def GetWaterData():
 	client.sendall(InquiryArray_Temperature)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	print('anwser', ServerMessage[3], ServerMessage[4])
 	time.sleep(1)
 	#
 	client.sendall(InquiryArray_WaterQuality)
@@ -89,7 +88,7 @@ def GetWaterData():
 	client.sendall(InquiryArray_PHValue)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	print('Server:', ServerMessage)	
+	#print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
 	return ReceiveArray
 	client.close()
