@@ -39,6 +39,8 @@ Create script for read under water sensors.
 """
 import socket
 import time
+import numpy as np
+
 def GetWaterData():
 	HOST = '192.168.0.200'
 	PORT = 6969
@@ -55,7 +57,7 @@ def GetWaterData():
 	#print()
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
-	for i in range(1,7):
+	for i in range(0,6):
 		client.sendall(InquiryArray[i])
 		ServerMessage = client.recv(1024)
 		ReceiveArray[i].append(ServerMessage)
