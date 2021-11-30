@@ -44,7 +44,7 @@ import numpy as np
 def GetWaterData():
 	HOST = '192.168.0.200'
 	PORT = 6969
-	ReceiveArray = bytearray()
+	ReceiveArray = np.array()
 	
 	InquiryArray_DissolvedOxygenValue = bytes([0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05])
 	InquiryArray_Temperature = bytes([0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02])
