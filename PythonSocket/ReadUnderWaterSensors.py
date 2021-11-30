@@ -40,11 +40,12 @@ Create script for read under water sensors.
 import socket
 import time
 def GetWaterData():
-  HOST = '192.168.0.200'
-  PORT = 6969
+	HOST = '192.168.0.200'
+	PORT = 6969
 	#InquiryArray = bytearray()
 	#InquiryArray.append(0x01)
 	InquiryArray = bytes([0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02])
+	
 	print("Inquiry code : ")
 	print(InquiryArray)
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
