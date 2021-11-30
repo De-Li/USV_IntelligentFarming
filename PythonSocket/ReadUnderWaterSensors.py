@@ -44,7 +44,6 @@ import numpy as np
 def GetWaterData():
 	HOST = '192.168.0.200'
 	PORT = 6969
-	ReceiveArray = np.array()
 	
 	InquiryArray_DissolvedOxygenValue = bytes([0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05])
 	InquiryArray_Temperature = bytes([0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02])
@@ -57,36 +56,35 @@ def GetWaterData():
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
 	client.sendall(InquiryArray_DissolvedOxygenValue)
-	ServerMessage = client.recv(1024)
-	ReceiveArray[0].append(ServerMessage)
+	ServerMessage = client.recv(10)
+	ReceiveArray = np.array(ServerMessage)
 	
 	#Temperature
 	client.sendall(InquiryArray_Temperature)
-	ServerMessage = client.recv(1024)
-	ReceiveArray[1].append(ServerMessage)
+	ServerMessage = client.recv(10)
+	ReceiveArray = ReceiveArray.vstack(ServerMessage)
 	print('anwser', ServerMessage[3], ServerMessage[4])
 	#
 	client.sendall(InquiryArray_WaterQuality)
-	ServerMessage = client.recv(1024)
-	ReceiveArray[2].append(ServerMessage)
+	ServerMessage = client.recv(10)
+	ReceiveArray = ReceiveArray.vstack(ServerMessage)
 	#
 	client.sendall(InquiryArray_Turbidity)
-	ServerMessage = client.recv(1024)
-	ReceiveArray[3].append(ServerMessage)
+	ServerMessage = client.recv(10)
+	ReceiveArray = ReceiveArray.vstack(ServerMessage)
 	#
 	client.sendall(InquiryArray_AmmoniaNitrogen)
-	ServerMessage = client.recv(1024)
-	ReceiveArray[4].append(ServerMessage)
+	ServerMessage = client.recv(10)
+	ReceiveArray = ReceiveArray.vstack(ServerMessage)
 	#
 	client.sendall(InquiryArray_Conductivity)
-	ServerMessage = client.recv(1024)
-	ReceiveArray[5].append(ServerMessage)
+	ServerMessage = client.recv(10)
+	ReceiveArray = ReceiveArray.vstack(ServerMessage)
 	#
 	client.sendall(InquiryArray_PHValue)
-	ServerMessage = client.recv(1024)
-	ReceiveArray[6].append(ServerMessage)
-	print('Server:', ServerMessage)
-	print('anwser', ServerMessage[3], ServerMessage[4])	
+	ServerMessage = client.recv(10)
+	ReceiveArray = ReceiveArray.vstack(ServerMessage)
+	print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
 	return ReceiveArray
 	client.close()
