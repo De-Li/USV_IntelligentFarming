@@ -57,7 +57,7 @@ def GetWaterData():
 	#print()
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
-	for i in range(0,6):
+	for i in range(0,7):
 		client.sendall(InquiryArray[i])
 		ServerMessage = client.recv(1024)
 		ReceiveArray[i].append(ServerMessage)
