@@ -46,14 +46,15 @@ def GetWaterData():
 	#InquiryArray.append(0x01)
 	InquiryArray = bytes([0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02])
 	
-	#print("Inquiry code : ")
-	#print(InquiryArray)
+	#print('Inquiry code : ', InquiryArray)
+	#print()
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
 	client.sendall(InquiryArray)
 
-	serverMessage = client.recv(1024)
-	print('Server:', serverMessage)
+	ServerMessage = client.recv(1024)
+	print('Server:', ServerMessage)
+	print('anwser', ServerMessage[3], ServerMessage[4])
 	client.close()
   	
 if __name__ == '__main__':
