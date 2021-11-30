@@ -60,5 +60,5 @@ if __name__ == '__main__':
 		#get water information
 		WaterQualityData = GetWaterData()
 		#Sleep 1 second
-		time.sleep(1)
+		time.sleep(2)
 		
