@@ -62,28 +62,28 @@ def GetWaterData():
 	#Temperature
 	client.sendall(InquiryArray_Temperature)
 	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack(ReceiveArray,ServerMessage)
+	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	print('anwser', ServerMessage[3], ServerMessage[4])
 	#
 	client.sendall(InquiryArray_WaterQuality)
 	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack(ReceiveArray,ServerMessage)
+	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	#
 	client.sendall(InquiryArray_Turbidity)
 	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack(ReceiveArray,ServerMessage)
+	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	#
 	client.sendall(InquiryArray_AmmoniaNitrogen)
 	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack(ReceiveArray,ServerMessage)
+	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	#
 	client.sendall(InquiryArray_Conductivity)
 	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack(ReceiveArray,ServerMessage)
+	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	#
 	client.sendall(InquiryArray_PHValue)
 	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack(ReceiveArray,ServerMessage)
+	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
 	return ReceiveArray
