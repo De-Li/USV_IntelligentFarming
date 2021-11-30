@@ -42,19 +42,27 @@ import time
 def GetWaterData():
 	HOST = '192.168.0.200'
 	PORT = 6969
-	#InquiryArray = bytearray()
-	#InquiryArray.append(0x01)
-	InquiryArray = bytes([0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02])
+	ReceiveArray = bytearray()
+	InquiryArray = bytes([0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05],
+			     [0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02],
+			     [0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5],
+			     [0x01, 0x03, 0x00, 0x4c, 0x00, 0x01, 0x45, 0xdd],
+			     [0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb],
+			     [0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03],
+			     [0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08])
 	
 	#print('Inquiry code : ', InquiryArray)
 	#print()
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
-	client.sendall(InquiryArray)
-
-	ServerMessage = client.recv(1024)
-	print('Server:', ServerMessage)
-	print('anwser', ServerMessage[3], ServerMessage[4])
+	for i in range(1,7):
+		client.sendall(InquiryArray[i])
+		ServerMessage = client.recv(1024)
+		ReceiveArray[i].append(ServerMessage)
+		print('Server:', ServerMessage)
+		print('anwser', ServerMessage[3], ServerMessage[4])	
+	print('Receive Array: ', ReceiveArray)
+	return ReceiveArray
 	client.close()
   	
 if __name__ == '__main__':
