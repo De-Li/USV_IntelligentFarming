@@ -61,7 +61,7 @@ def GetWaterData():
 			     [0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03],
 			     [0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08]])
 			     '''
-	print(InquiryArray)
+	InquiryArray = InquiryArray.tobytes()
 	#print('Inquiry code : ', InquiryArray)
 	#print()
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
