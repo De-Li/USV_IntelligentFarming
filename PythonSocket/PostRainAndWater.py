@@ -1,3 +1,17 @@
+"""
+*****************************************************************
+Project: Unmmaned surface vehicle
+File name:PostRainAndWater.py
+related file:ReadUnderWaterSensors.py, ReadRainSensor.py
+function:Get data from under water sensors to http server.
+author:De-Li
+version:1.0
+---------------------------------------------------------------
+Comment:
+---------------------------------------------------------------
+Log:
+---------------------------------------------------------------
+"""
 from ReadRainSensor import GetRainData
 import socket
 import serial, time
