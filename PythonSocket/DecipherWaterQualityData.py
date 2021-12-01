@@ -36,7 +36,7 @@ def CombineHexAndDecipher(Num1,Num2):
         #'!H' means decipher the hex for unsign short
         return struct.unpack('!H', bytes.fromhex(H_Combined))[0]
 def CombineHexAndDecipher(Num1,Num2,Num3,Num4):
-        #for decipher AmmoniaNitrogen value
+	#for decipher AmmoniaNitrogen value
         Temp_Header = 0x0
         Temp_Num = np.array([Num3,Num4,Num1,Num2])
         H_Combined = str(Temp_Header)
@@ -53,7 +53,6 @@ def SplitString(StringArray):
                 if i == 0:
                         SplitedString = np.array(IterData)
                 elif i>0:
-			print(IterData)
                         SplitedString = np.vstack((SplitedString,IterData))
         return SplitedString
 def DecipherWaterData(RawDataArray):
