@@ -34,7 +34,7 @@ The "inquiry" code for Under water sensors. 水質感測設備"詢問"碼
 ---------------------------------------------------------------
 Log:
 2021/11/30
-Create script for read under water sensors.
+Create script for reading under water sensors.
 ---------------------------------------------------------------
 """
 import socket
@@ -90,6 +90,7 @@ def GetWaterData():
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	#print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
+	print('Anwser: ', ReceiveArray[1][3], ReceiveArray[1][4] )
 	return ReceiveArray
 	client.close()
   	
