@@ -58,32 +58,32 @@ def GetWaterData():
 	client.sendall(InquiryArray_DissolvedOxygenValue)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.array(ServerMessage)
-	time.sleep(0.2)
+	time.sleep(0.1)
 	#Temperature
 	client.sendall(InquiryArray_Temperature)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.2)
+	time.sleep(0.1)
 	#
 	client.sendall(InquiryArray_WaterQuality)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.2)
+	time.sleep(0.1)
 	#
 	client.sendall(InquiryArray_Turbidity)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.2)
+	time.sleep(0.1)
 	#
 	client.sendall(InquiryArray_AmmoniaNitrogen)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.2)
+	time.sleep(0.1)
 	#
 	client.sendall(InquiryArray_Conductivity)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.2)
+	time.sleep(0.1)
 	#
 	client.sendall(InquiryArray_PHValue)
 	ServerMessage = client.recv(10)
