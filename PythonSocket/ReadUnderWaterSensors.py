@@ -90,8 +90,9 @@ def GetWaterData():
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	#print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
-	print('Anwser: ', ReceiveArray[1][0], ReceiveArray[0][0] )
-	return ReceiveArray
+	print('Anwser: ', ReceiveArray[1][0], ReceiveArray[0][0])
+	DecipheredData = DecipherWaterData(ReceiveArray)
+	return DecipheredData
 	client.close()
   	
 if __name__ == '__main__':
