@@ -40,6 +40,7 @@ Create script for reading under water sensors.
 import socket
 import time
 import numpy as np
+from DecipherWaterQualityData import DecipherWaterData
 
 def GetWaterData():
 	HOST = '192.168.0.200'
