@@ -50,6 +50,7 @@ def SplitString(StringArray):
                 IterData = codecs.encode(StringArray[i][0],'hex')
                 IterData = IterData.decode("utf-8")
                 IterData = [IterData[i:i+2] for i in range(0,len(IterData),2)] 
+		print(IterData)
                 if i == 0:
                         SplitedString = np.array(IterData)
                 elif i>0:
