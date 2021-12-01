@@ -52,7 +52,7 @@ def SplitString(StringArray):
                 IterData = [IterData[i:i+2] for i in range(0,len(IterData),2)] 
                 if i == 0:
                         SplitedString = np.array(IterData)
-                elif
+                elif i>0:
                         SplitedString = np.vstack((SplitedString,IterData))
         return SplitedString
 def DecipherWaterData(RawDataArray):
