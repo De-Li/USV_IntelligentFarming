@@ -19,6 +19,8 @@ The Ip and port of 5910 DeLi's computer.
     
 ---------------------------------------------------------------
 Log:
+2021/12/02
+adding water UDP posting code
 2021/11/30
 adding some comments.
 ---------------------------------------------------------------
@@ -59,7 +61,7 @@ if __name__ == '__main__':
 		HOST = '192.168.0.110'
 		PORT = 6969
 		
-		#Create a socket
+		#Create a socket, DGRAM means UDP protocal
 		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
         	
 		#encoding the receive data and sending to the server by UDP.
