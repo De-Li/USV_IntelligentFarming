@@ -8,10 +8,15 @@ author:De-Li
 version:1.0
 ---------------------------------------------------------------
 Comment:
-2021/11/30
-The Ip and port of 5910 DeLi's computer.
+2021/12/02
+The Ip and port of 5936 敬智's computer.
     HOST = '192.168.0.110'
     PORT = 6969
+2021/11/30
+The Ip and port of 5910 DeLi's computer.
+    HOST = '192.168.0.228'
+    PORT = 30000
+    
 ---------------------------------------------------------------
 Log:
 2021/11/30
@@ -64,7 +69,7 @@ if __name__ == '__main__':
 		#serverMessage = str(client.recv(1024), encoding = 'utf-8')
 		#print('Server:', serverMessage)
         
-		#sleep 1 second
+		#sleep 30 seconds
 		time.sleep(30)
 		client.close()
      
