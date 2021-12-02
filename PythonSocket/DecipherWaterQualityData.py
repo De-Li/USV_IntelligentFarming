@@ -30,64 +30,64 @@ import struct
 import codecs
 
 def CombineHexAndDecipher(Num1,Num2):
-        Temp_Header = 0x0
-        H_Combined = str(Temp_Header)+str(Num1)+str(Num2)
+	Temp_Header = 0x0
+	H_Combined = str(Temp_Header)+str(Num1)+str(Num2)
         
-        #'!H' means decipher the hex for unsign short
-        return struct.unpack('!H', bytes.fromhex(H_Combined))[0]
+	#'!H' means decipher the hex for unsign short
+	return struct.unpack('!H', bytes.fromhex(H_Combined))[0]
 def CombineHexAndDecipher(Num1,Num2,Num3,Num4):
 	#for decipher AmmoniaNitrogen value
-        Temp_Header = 0x0
-        Temp_Num = np.array([Num3,Num4,Num1,Num2])
-        H_Combined = str(Temp_Header)
-        for i in range(0,4):
-                H_Combined += str(Temp_Num[i])
+	Temp_Header = 0x0
+	Temp_Num = np.array([Num3,Num4,Num1,Num2])
+	H_Combined = str(Temp_Header)
+	for i in range(0,4):
+		H_Combined += str(Temp_Num[i])
         
         #'!f' means decipher the hex for float type
-        return struct.unpack('!f', bytes.fromhex(H_Combined))[0]
+	return struct.unpack('!f', bytes.fromhex(H_Combined))[0]
 def SplitString(StringArray):        
-        for i in range(0,7):
-                IterData = codecs.encode(StringArray[i][0],'hex')
-                IterData = IterData.decode("utf-8")
-                IterData = [IterData[i:i+2] for i in range(0,len(IterData),2)]
-                print(IterData)                
-                if i == 0:
-                        SplitedString = np.array(IterData)
-                        SplitedString = np.hstack((SplitedString,['0','0']))
-                elif i==4:
-                        SplitedString = np.vstack((SplitedString,IterData))
-                elif i>0 & i!=4:
-                        SplitedString = np.vstack((SplitedString,IterData))
-                        SplitedString = np.hstack((SplitedString,['0','0']))			
-        return SplitedString
+	for i in range(0,7):
+		IterData = codecs.encode(StringArray[i][0],'hex')
+		IterData = IterData.decode("utf-8")
+		IterData = [IterData[i:i+2] for i in range(0,len(IterData),2)]
+		print(IterData)                
+		if i == 0:
+			SplitedString = np.array(IterData)
+		elif i==6:
+			filling = np.array([['0','0'],['0','0'],['0','0'],['0','0'],['0','0'],['0','0'],])
+			SplitedString = np.hstack((SplitedString, filling))
+			SplitedString = np.vstack((SplitedString, IterData))
+		elif i>0:
+			SplitedString = np.vstack((SplitedString,IterData))			
+	return SplitedString
 def DecipherWaterData(RawDataArray):
         #DecipheredData = np.array([['DissolvedOxygenValue'],['Temperature'],['WaterQuality'],['Turbidity'],['AmmoniaNitrogen'],['Conductivity'],['PHValue']])
-        SplitedData = SplitString(RawDataArray)                                        
+	SplitedData = SplitString(RawDataArray)                                        
         '''
 	for i in range(0,7):
-                if i==0:
-                        Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
-                        DecipheredData = np.array((Temp/1000))
-                elif i==1:
-                        Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
-                        DecipheredData = np.hstack((DecipheredData,Temp/10))
-                elif i==2:
-                        Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
-                        DecipheredData = np.hstack((DecipheredData,Temp))
-                elif i==3:
-                        Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
-                        DecipheredData = np.hstack((DecipheredData,Temp))
-                elif i==4:
-                        Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
-                        DecipheredData = np.hstack((DecipheredData,Temp))
-                elif i==5:
-                        Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
-                        DecipheredData = np.hstack((DecipheredData,Temp))
-                elif i==6:
-                        Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
-                        DecipheredData = np.hstack((DecipheredData,Temp/100))
-        print(DecipheredData)
-        return DecipheredData
+		if i==0:
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			DecipheredData = np.array((Temp/1000))
+		elif i==1:
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			DecipheredData = np.hstack((DecipheredData,Temp/10))
+		elif i==2:
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			DecipheredData = np.hstack((DecipheredData,Temp))
+		elif i==3:
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			DecipheredData = np.hstack((DecipheredData,Temp))
+		elif i==4:
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
+			DecipheredData = np.hstack((DecipheredData,Temp))
+		elif i==5:
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			DecipheredData = np.hstack((DecipheredData,Temp))
+		elif i==6:
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			DecipheredData = np.hstack((DecipheredData,Temp/100))
+	print(DecipheredData)
+	return DecipheredData
 	'''
                 
                         
