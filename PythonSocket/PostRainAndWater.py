@@ -23,20 +23,21 @@ from ReadUnderWaterSensors import GetWaterData
 import socket, pickle
 import serial, time
 if __name__ == '__main__':
-	"""
+	
 	while(1):
 		while(1):
-			CurrentRainData = GetRainData()
-			if CurrentRainData is not None:
-				break
+			#CurrentRainData = GetRainData()
+			#if CurrentRainData is not None:
+			#	break			
+		ClientMessage = 'Hello!'
 		HOST = '192.168.1.228'
 		PORT = 30000
-		print(CurrentRainData)
+		#print(CurrentRainData)
 		#Create a socket
 		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
         
 		#encoding the receive data and sending to the server by UDP.
-		client.sendto(CurrentRainData.encode('utf-8'), (HOST, PORT)) 
+		client.sendto(ClientMessage.encode('utf-8'), (HOST, PORT)) 
         
 		#Waiting for the echo message from the server.
 		serverMessage = str(client.recv(1024), encoding = 'utf-8')
@@ -69,6 +70,6 @@ if __name__ == '__main__':
 		#sleep 1 second
 		time.sleep(1)
 		client.close()
-               
+               """
      
     
