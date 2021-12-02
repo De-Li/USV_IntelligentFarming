@@ -58,7 +58,7 @@ def SplitString(StringArray):
                         SplitedString = np.vstack((SplitedString,IterData))
                         SplitedString = np.hstack((SplitedString,[0,0]))
                 elif i==4:
-			SplitedString = np.vstack((SplitedString,IterData))
+        SplitedString = np.vstack((SplitedString,IterData))
         return SplitedString
 def DecipherWaterData(RawDataArray):
         #DecipheredData = np.array([['DissolvedOxygenValue'],['Temperature'],['WaterQuality'],['Turbidity'],['AmmoniaNitrogen'],['Conductivity'],['PHValue']])
