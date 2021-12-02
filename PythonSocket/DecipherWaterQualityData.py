@@ -8,6 +8,10 @@ author:De-Li
 version:1.0
 ---------------------------------------------------------------
 Comment:
+2021/12/02
+1.modifying sequence of sensors and adding the filling array
+2.increasing array to string code.
+
 2021/11/30
 	The "feedback" code for Under water sensors.水質感測設備"應答"碼
         The fourth and fifth number of code mean the reading data.
@@ -32,23 +36,28 @@ import codecs
 def CombineHexAndDecipherTwo(Num1,Num2):
 	H_Combined = Num1+Num2
 	
-	#'!H' means decipher the hex for unsign short
+	#'!H' means decipher the hex for unsign short, and it convert string to unsign short
 	return struct.unpack('!H', bytes.fromhex(H_Combined))[0]
 def CombineHexAndDecipherFour(Num1,Num2,Num3,Num4):
 	#for decipher AmmoniaNitrogen value
 	H_Combined = Num3 + Num4 + Num1 + Num2
 	
-        #'!f' means decipher the hex for float type
+        #'!f' means decipher the hex for float type, and it convert string to float
 	return struct.unpack('!f', bytes.fromhex(H_Combined))[0]
 def SplitString(StringArray):        
 	for i in range(0,7):
+		#Since the data from sensors are encoded with b'' and \0x, it is mandatory to remove them before analysis.
+		#removing \0x from original data.
 		IterData = codecs.encode(StringArray[i][0],'hex')
+		#removing b''from encoded data.
 		IterData = IterData.decode("utf-8")
+		#transferring string into array.
 		IterData = [IterData[i:i+2] for i in range(0,len(IterData),2)]
 		print(IterData)                
 		if i == 0:
 			SplitedString = np.array(IterData)
 		elif i==6:
+			#Due to the incommensurate length of receive data, the filling array help to fill the vacancy.
 			filling = np.array([['0','0'],['0','0'],['0','0'],['0','0'],['0','0'],['0','0'],])
 			SplitedString = np.hstack((SplitedString, filling))
 			SplitedString = np.vstack((SplitedString, IterData))
@@ -60,6 +69,7 @@ def DecipherWaterData(RawDataArray):
 	SplitedData = SplitString(RawDataArray)
 	for i in range(0,7):
 		if i==0:
+			#Input string arguments
 			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.array((Temp/1000))
 		elif i==1:
@@ -80,7 +90,7 @@ def DecipherWaterData(RawDataArray):
 		elif i==6:
 			Temp = CombineHexAndDecipherFour(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
 			DecipheredData = np.hstack((DecipheredData,Temp))			
-	
+	#transferring the data array into string type in order to send data easily.
 	DecipheredData = '['+', '.join(str(e) for e in DecipheredData)+']'
 	print(DecipheredData)
 	return DecipheredData
