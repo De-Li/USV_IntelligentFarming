@@ -24,7 +24,7 @@ import socket, pickle
 import serial, time
 if __name__ == '__main__':	
 	while(1):
-		while(1):
+		#while(1):
 			#CurrentRainData = GetRainData()
 			#if CurrentRainData is not None:
 			#break			
