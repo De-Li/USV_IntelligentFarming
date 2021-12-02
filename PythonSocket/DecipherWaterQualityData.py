@@ -37,6 +37,8 @@ def CombineHexAndDecipher(Num1,Num2):
 	return struct.unpack('!H', bytes.fromhex(H_Combined))[0]
 def CombineHexAndDecipher(Num1,Num2,Num3,Num4):
 	#for decipher AmmoniaNitrogen value
+	print(Num3)
+	print(Num4)
 	Temp_Header = 0x0
 	Temp_Num = np.array([Num3,Num4,Num1,Num2])
 	H_Combined = str(Temp_Header)
@@ -83,6 +85,7 @@ def DecipherWaterData(RawDataArray):
 		elif i==5:
 			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp/100))
+			print(DecipheredData)
 		elif i==6:
 			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
 			DecipheredData = np.hstack((DecipheredData,Temp))		
