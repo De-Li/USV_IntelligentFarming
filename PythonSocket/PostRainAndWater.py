@@ -23,11 +23,12 @@ from ReadUnderWaterSensors import GetWaterData
 import socket, pickle
 import serial, time
 if __name__ == '__main__':	
+	"""
 	while(1):
-		#while(1):
-			#CurrentRainData = GetRainData()
-			#if CurrentRainData is not None:
-			#break			
+		while(1):
+			CurrentRainData = GetRainData()
+			if CurrentRainData is not None:
+				break			
 		HOST = '192.168.1.228'
 		PORT = 30000
 		#print(CurrentRainData)
@@ -35,7 +36,7 @@ if __name__ == '__main__':
 		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
         
 		#encoding the receive data and sending to the server by UDP.
-		client.sendto('Hello!'.encode('utf-8'), (HOST, PORT)) 
+		client.sendto(CurrentRainData.encode('utf-8'), (HOST, PORT)) 
         
 		#Waiting for the echo message from the server.
 		serverMessage = str(client.recv(1024), encoding = 'utf-8')
@@ -44,7 +45,7 @@ if __name__ == '__main__':
 		#sleep 1 second
 		time.sleep(1)
 		#client.close()
-"""
+	"""
 	while(1):
 		while(1):
 			CurrentWaterData = GetWaterData()
@@ -55,12 +56,13 @@ if __name__ == '__main__':
 		#ClientMessage = 'Hello!'
 		DumpedWaterData = pickle.dumps(CurrentWaterData)
 		print(DumpedWaterData)
+		
 		#Create a socket
 		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
         	
 		#encoding the receive data and sending to the server by UDP.
-		#client.sendto(DumpedWaterData.encode('utf-8'), (HOST, PORT)) 
-		client.sendto('hello'.encode('utf-8'), (HOST, PORT)) 
+		client.sendto(DumpedWaterData.encode('utf-8'), (HOST, PORT)) 
+		
 		#Waiting for the echo message from the server.
 		serverMessage = str(client.recv(1024), encoding = 'utf-8')
 		print('Server:', serverMessage)
