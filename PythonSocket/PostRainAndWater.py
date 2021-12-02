@@ -20,7 +20,7 @@ adding some comments.
 """
 from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
-import socket
+import socket, pickle
 import serial, time
 if __name__ == '__main__':
 	"""
