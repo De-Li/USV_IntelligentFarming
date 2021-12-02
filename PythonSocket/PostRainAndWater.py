@@ -54,12 +54,13 @@ if __name__ == '__main__':
 		HOST = '192.168.1.228'
 		PORT = 30000
 		#ClientMessage = 'Hello!'
-		print(CurrentWaterData)
+		DumpedWaterData = pickle.dumps(CurrentWaterData)
+		print(DumpedWaterData)
 		#Create a socket
 		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
-        
+        	
 		#encoding the receive data and sending to the server by UDP.
-		client.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT)) 
+		client.sendto(DumpedWaterData.encode('utf-8'), (HOST, PORT)) 
         
 		#Waiting for the echo message from the server.
 		serverMessage = str(client.recv(1024), encoding = 'utf-8')
