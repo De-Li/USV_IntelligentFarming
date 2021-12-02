@@ -65,7 +65,7 @@ if __name__ == '__main__':
 		#print('Server:', serverMessage)
         
 		#sleep 1 second
-		time.sleep(1)
+		time.sleep(30)
 		client.close()
      
     
