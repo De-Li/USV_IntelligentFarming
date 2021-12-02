@@ -53,7 +53,7 @@ if __name__ == '__main__':
 			CurrentWaterData = GetWaterData()
 			if CurrentRainData is not None:
 				break
-                HOST = '192.168.1.228'
+		HOST = '192.168.1.228'
 		PORT = 30000
 		#ClientMessage = 'Hello!'
 		print(CurrentWaterData)
