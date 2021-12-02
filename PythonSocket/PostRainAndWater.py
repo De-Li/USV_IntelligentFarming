@@ -51,8 +51,8 @@ if __name__ == '__main__':
 			CurrentWaterData = GetWaterData()
 			if CurrentWaterData is not None:
 				break
-		HOST = '192.168.1.228'
-		PORT = 30000
+		HOST = '192.168.0.110'
+		PORT = 6969
 		
 		#Create a socket
 		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
