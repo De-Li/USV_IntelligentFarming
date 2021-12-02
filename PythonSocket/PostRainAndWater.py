@@ -49,7 +49,7 @@ if __name__ == '__main__':
 	while(1):
 		while(1):
 			CurrentWaterData = GetWaterData()
-			if CurrentRainData is not None:
+			if CurrentWaterData is not None:
 				break
 		HOST = '192.168.1.228'
 		PORT = 30000
