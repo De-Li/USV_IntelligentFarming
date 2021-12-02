@@ -29,13 +29,13 @@ import numpy as np
 import struct
 import codecs
 
-def CombineHexAndDecipher(Num1,Num2):
+def CombineHexAndDecipherTwo(Num1,Num2):
 	Temp_Header = 0x0
 	H_Combined = str(Temp_Header)+str(Num1)+str(Num2)
         
 	#'!H' means decipher the hex for unsign short
 	return struct.unpack('!H', bytes.fromhex(H_Combined))[0]
-def CombineHexAndDecipher(Num1,Num2,Num3,Num4):
+def CombineHexAndDecipherFour(Num1,Num2,Num3,Num4):
 	#for decipher AmmoniaNitrogen value
 	print(Num3)
 	print(Num4)
@@ -68,26 +68,26 @@ def DecipherWaterData(RawDataArray):
 	
 	for i in range(0,7):
 		if i==0:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.array((Temp/1000))
 		elif i==1:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp/10))
 		elif i==2:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp))
 		elif i==3:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp))
 		elif i==4:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp))
 		elif i==5:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
+			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp/100))
-			print(DecipheredData)
+			#print(DecipheredData)
 		elif i==6:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
+			Temp = CombineHexAndDecipherFour(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
 			DecipheredData = np.hstack((DecipheredData,Temp))		
 	print(DecipheredData)
 	return DecipheredData
