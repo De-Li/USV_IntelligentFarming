@@ -35,10 +35,10 @@ if __name__ == '__main__':
 		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
         
 		#encoding the receive data and sending to the server by UDP.
-		client.sendto(ClientMessage.encode('utf-8'), (HOST, PORT)) 
+		client.sendto('Hello!'.encode('utf-8'), (HOST, PORT)) 
         
 		#Waiting for the echo message from the server.
-		serverMessage = str( 'Hello!'.recv(1024), encoding = 'utf-8')
+		serverMessage = str(client.recv(1024), encoding = 'utf-8')
 		print('Server:', serverMessage)
         
 		#sleep 1 second
