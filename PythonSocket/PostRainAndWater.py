@@ -22,8 +22,7 @@ from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
 import socket, pickle
 import serial, time
-if __name__ == '__main__':
-	
+if __name__ == '__main__':	
 	while(1):
 		while(1):
 			#CurrentRainData = GetRainData()
@@ -45,7 +44,7 @@ if __name__ == '__main__':
 		#sleep 1 second
 		time.sleep(1)
 		#client.close()
-		"""
+"""
 	while(1):
 		while(1):
 			CurrentWaterData = GetWaterData()
@@ -69,6 +68,6 @@ if __name__ == '__main__':
 		#sleep 1 second
 		time.sleep(1)
 		client.close()
-               """
+"""
      
     
