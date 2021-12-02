@@ -29,7 +29,6 @@ if __name__ == '__main__':
 			#CurrentRainData = GetRainData()
 			#if CurrentRainData is not None:
 			#break			
-		ClientMessage = 'Hello!'
 		HOST = '192.168.1.228'
 		PORT = 30000
 		#print(CurrentRainData)
@@ -40,7 +39,7 @@ if __name__ == '__main__':
 		client.sendto(ClientMessage.encode('utf-8'), (HOST, PORT)) 
         
 		#Waiting for the echo message from the server.
-		serverMessage = str(client.recv(1024), encoding = 'utf-8')
+		serverMessage = str( 'Hello!'.recv(1024), encoding = 'utf-8')
 		print('Server:', serverMessage)
         
 		#sleep 1 second
