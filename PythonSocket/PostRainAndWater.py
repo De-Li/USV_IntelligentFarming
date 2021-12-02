@@ -61,8 +61,8 @@ if __name__ == '__main__':
 		client.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT)) 
 		
 		#Waiting for the echo message from the server.
-		serverMessage = str(client.recv(1024), encoding = 'utf-8')
-		print('Server:', serverMessage)
+		#serverMessage = str(client.recv(1024), encoding = 'utf-8')
+		#print('Server:', serverMessage)
         
 		#sleep 1 second
 		time.sleep(1)
