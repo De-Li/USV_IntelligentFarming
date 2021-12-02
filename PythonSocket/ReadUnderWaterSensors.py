@@ -49,10 +49,10 @@ def GetWaterData():
 	InquiryArray_DissolvedOxygenValue = bytes([0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05])
 	InquiryArray_Temperature = bytes([0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02])
 	InquiryArray_WaterQuality = bytes([0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5])
-	InquiryArray_Turbidity = bytes([0x01, 0x03, 0x00, 0x4c, 0x00, 0x01, 0x45, 0xdd])		     
-	InquiryArray_AmmoniaNitrogen = bytes([0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb])		     
+	InquiryArray_Turbidity = bytes([0x01, 0x03, 0x00, 0x4c, 0x00, 0x01, 0x45, 0xdd])		     		     
 	InquiryArray_Conductivity = bytes([0x01, 0x03, 0x00, 0x2e, 0x00, 0x01, 0xe4, 0x03])		     
-	InquiryArray_PHValue = bytes([0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08])		 
+	InquiryArray_PHValue = bytes([0x01, 0x03, 0x00, 0x09, 0x00, 0x01, 0x54, 0x08])	
+	InquiryArray_AmmoniaNitrogen = bytes([0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb])
 	
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
@@ -76,11 +76,6 @@ def GetWaterData():
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	time.sleep(0.1)
 	#
-	client.sendall(InquiryArray_AmmoniaNitrogen)
-	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.1)
-	#
 	client.sendall(InquiryArray_Conductivity)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
@@ -89,6 +84,12 @@ def GetWaterData():
 	client.sendall(InquiryArray_PHValue)
 	ServerMessage = client.recv(10)
 	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
+	time.sleep(0.1)
+	#
+	client.sendall(InquiryArray_AmmoniaNitrogen)
+	ServerMessage = client.recv(10)
+	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
+	
 	#print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
 	print('Anwser: ', ReceiveArray[1][0], ReceiveArray[0][0])
