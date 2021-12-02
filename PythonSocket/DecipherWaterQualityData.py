@@ -16,9 +16,9 @@ Comment:
 	水溫(Temperature):0x01, 0x03, 0x02, 0x00, 0xc1, 0x79, 0xd4
 	水質ORP(WaterQuality):0x01, 0x03, 0x02, 0x02, 0xc1, 0xf8, 0x58
 	濁度(Turbidity):0x01, 0x03, 0x02, 0x02, 0xc1, 0xf8, 0x58
-	氨氮值(AmmoniaNitrogen):0x01, 0x03, 0x04, 0x2c, 0x81, 0x40, 0x91, 0x52, 0xe7
 	電導率(Conductivity):0x01, 0x03, 0x02, 0x02, 0xc1, 0xf8, 0x58
 	PH值(PHValue):0x01, 0x03, 0x02, 0x02, 0xc1, 0xf8, 0x58	 
+	氨氮值(AmmoniaNitrogen):0x01, 0x03, 0x04, 0x2c, 0x81, 0x40, 0x91, 0x52, 0xe7
 ---------------------------------------------------------------
 Log:
 2021/11/30
@@ -63,7 +63,7 @@ def SplitString(StringArray):
 def DecipherWaterData(RawDataArray):
         #DecipheredData = np.array([['DissolvedOxygenValue'],['Temperature'],['WaterQuality'],['Turbidity'],['AmmoniaNitrogen'],['Conductivity'],['PHValue']])
 	SplitedData = SplitString(RawDataArray)                                        
-'''
+	
 	for i in range(0,7):
 		if i==0:
 			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
@@ -78,17 +78,17 @@ def DecipherWaterData(RawDataArray):
 			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp))
 		elif i==4:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp))
 		elif i==5:
 			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
-			DecipheredData = np.hstack((DecipheredData,Temp))
-		elif i==6:
-			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
 			DecipheredData = np.hstack((DecipheredData,Temp/100))
+		elif i==6:
+			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
+			DecipheredData = np.hstack((DecipheredData,Temp))		
 	print(DecipheredData)
 	return DecipheredData
-'''
+
                 
                         
                  
