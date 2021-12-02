@@ -62,27 +62,26 @@ def DecipherWaterData(RawDataArray):
 	for i in range(0,7):
 		if i==0:
 			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
-			DecipheredData = np.array((Temp/1000))
+			DecipheredData = np.array((str(Temp/1000)))
 		elif i==1:
 			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
-			DecipheredData = np.hstack((DecipheredData,Temp/10))
+			DecipheredData = np.hstack((DecipheredData,str(Temp/10)))
 		elif i==2:
 			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
-			DecipheredData = np.hstack((DecipheredData,Temp))
+			DecipheredData = np.hstack((DecipheredData,str(Temp)))
 		elif i==3:
 			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
-			DecipheredData = np.hstack((DecipheredData,Temp))
+			DecipheredData = np.hstack((DecipheredData,str(Temp)))
 		elif i==4:
 			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
-			DecipheredData = np.hstack((DecipheredData,Temp))
+			DecipheredData = np.hstack((DecipheredData,str(Temp)))
 		elif i==5:
 			Temp = CombineHexAndDecipherTwo(SplitedData[i][3],SplitedData[i][4])
-			DecipheredData = np.hstack((DecipheredData,Temp/100))
-			#print(DecipheredData)
+			DecipheredData = np.hstack((DecipheredData,str(Temp/100)))
 		elif i==6:
 			Temp = CombineHexAndDecipherFour(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
-			DecipheredData = np.hstack((DecipheredData,Temp))		
-	print(DecipheredData)
+			DecipheredData = np.hstack((DecipheredData,str(Temp)))		
+	#print(DecipheredData)
 	return DecipheredData
 
                 
