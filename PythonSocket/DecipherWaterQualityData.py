@@ -63,7 +63,7 @@ def SplitString(StringArray):
 def DecipherWaterData(RawDataArray):
         #DecipheredData = np.array([['DissolvedOxygenValue'],['Temperature'],['WaterQuality'],['Turbidity'],['AmmoniaNitrogen'],['Conductivity'],['PHValue']])
 	SplitedData = SplitString(RawDataArray)                                        
-        '''
+'''
 	for i in range(0,7):
 		if i==0:
 			Temp = CombineHexAndDecipher(SplitedData[i][3],SplitedData[i][4])
@@ -88,7 +88,7 @@ def DecipherWaterData(RawDataArray):
 			DecipheredData = np.hstack((DecipheredData,Temp/100))
 	print(DecipheredData)
 	return DecipheredData
-	'''
+'''
                 
                         
                  
