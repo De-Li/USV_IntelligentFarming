@@ -80,8 +80,9 @@ def DecipherWaterData(RawDataArray):
 		elif i==6:
 			Temp = CombineHexAndDecipherFour(SplitedData[i][3],SplitedData[i][4],SplitedData[i][5],SplitedData[i][6])
 			DecipheredData = np.hstack((DecipheredData,Temp))			
-	print(DecipheredData)
+	
 	DecipheredData = ' '.join(str(e) for e in DecipheredData)
+	print(DecipheredData)
 	return DecipheredData
 
                 
