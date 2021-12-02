@@ -61,7 +61,7 @@ if __name__ == '__main__':
         	
 		#encoding the receive data and sending to the server by UDP.
 		#client.sendto(DumpedWaterData.encode('utf-8'), (HOST, PORT)) 
-		client.sendto(DumpedWaterData, (HOST, PORT)) 
+		client.sendto('hello'.encode('utf-8'), (HOST, PORT)) 
 		#Waiting for the echo message from the server.
 		serverMessage = str(client.recv(1024), encoding = 'utf-8')
 		print('Server:', serverMessage)
