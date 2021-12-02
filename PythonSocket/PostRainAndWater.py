@@ -23,7 +23,7 @@ from ReadUnderWaterSensors import GetWaterData
 import socket
 import serial, time
 if __name__ == '__main__':
-"""
+	"""
 	while(1):
 		while(1):
 			CurrentRainData = GetRainData()
@@ -31,7 +31,6 @@ if __name__ == '__main__':
 				break
 		HOST = '192.168.1.228'
 		PORT = 30000
-		#ClientMessage = 'Hello!'
 		print(CurrentRainData)
 		#Create a socket
 		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
@@ -45,9 +44,8 @@ if __name__ == '__main__':
         
 		#sleep 1 second
 		time.sleep(1)
-"""
 		#client.close()
-
+		"""
 	while(1):
 		while(1):
 			CurrentWaterData = GetWaterData()
