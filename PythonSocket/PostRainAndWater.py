@@ -30,7 +30,7 @@ from ReadUnderWaterSensors import GetWaterData
 import socket, pickle
 import serial, time
 if __name__ == '__main__':	
-	time.sleep(20)
+	#time.sleep(20)
 	"""
 	while(1):
 		while(1):
