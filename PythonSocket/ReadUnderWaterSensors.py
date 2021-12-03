@@ -59,43 +59,45 @@ def GetWaterData():
 	
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client.connect((HOST, PORT))
-	client.sendall(InquiryArray_DissolvedOxygenValue)
-	ServerMessage = client.recv(10)
-	ReceiveArray = np.array(ServerMessage)
-	time.sleep(0.1)
-	#Temperature
-	client.sendall(InquiryArray_Temperature)
-	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.1)
-	#
-	client.sendall(InquiryArray_WaterQuality)
-	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.1)
-	#
-	client.sendall(InquiryArray_Turbidity)
-	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.1)
-	#
-	client.sendall(InquiryArray_Conductivity)
-	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.1)
-	#
-	client.sendall(InquiryArray_PHValue)
-	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	time.sleep(0.1)
-	#
-	client.sendall(InquiryArray_AmmoniaNitrogen)
-	ServerMessage = client.recv(10)
-	ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-	
+	client.settimeout(1)
+	try:
+		client.sendall(InquiryArray_DissolvedOxygenValue)
+		ServerMessage = client.recv(10)
+		ReceiveArray = np.array(ServerMessage)
+		time.sleep(0.1)
+		#Temperature
+		client.sendall(InquiryArray_Temperature)
+		ServerMessage = client.recv(10)
+		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
+		time.sleep(0.1)
+		#
+		client.sendall(InquiryArray_WaterQuality)
+		ServerMessage = client.recv(10)
+		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
+		time.sleep(0.1)
+		#
+		client.sendall(InquiryArray_Turbidity)
+		ServerMessage = client.recv(10)
+		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
+		time.sleep(0.1)
+		#
+		client.sendall(InquiryArray_Conductivity)
+		ServerMessage = client.recv(10)
+		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
+		time.sleep(0.1)
+		#
+		client.sendall(InquiryArray_PHValue)
+		ServerMessage = client.recv(10)
+		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
+		time.sleep(0.1)
+		#
+		client.sendall(InquiryArray_AmmoniaNitrogen)
+		ServerMessage = client.recv(10)
+		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
+	except socket.timeout as e:
+		print(e)
 	#print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
-	print('Anwser: ', ReceiveArray[1][0], ReceiveArray[0][0])
 	DecipheredData = DecipherWaterData(ReceiveArray)
 	return DecipheredData
 	client.close()
