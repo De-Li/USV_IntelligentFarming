@@ -23,7 +23,8 @@ Log:
 
 #from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
-import socket, time, urllib2, threading, serial, time
+import socket, time, threading, serial, time
+import urllib.request
 
 HOST = '140.116.202.132'
 PORT = 3038	
@@ -70,7 +71,7 @@ def PostWaterData():
 def CheckIfInternetIsConnected():
 	while(1):
 		try:
-			urllib2.urlopen('https://tw.yahoo.com/', timeout=5)
+			urllib.request.urlopen('https://tw.yahoo.com/', timeout=5)
 			return True
 		except urllib2.URLError as err:
 			pass	
