@@ -80,7 +80,7 @@ def PostWaterData():
 if __name__ == '__main__':
 	#Declare threading objects
 	WaterThreading = threading.Thread(target = PostWaterData)
-	#RainThreading = threading.Thread(target = PostRainData)
+	RainThreading = threading.Thread(target = PostRainData)
 	while(1):
 		CheckIfInternetIsConnected()
 		WaterThreading = threading.Thread(target = PostWaterData)
