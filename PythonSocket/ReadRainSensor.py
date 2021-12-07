@@ -38,17 +38,17 @@ while(flag):
 			#listen data per 0.5s
 			response = ser.readline()
 			if(response):
-			print("read data:")
-			'''
-			response = str(response) + "Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds"))
-			print(str(response))
-			print("Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds")))
-			'''
-			print(str(response))
-			return response
-			ser.close()
-			time.sleep(0.5)
-			flag = 0
+				print("read data:")
+				'''
+				response = str(response) + "Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds"))
+				print(str(response))
+				print("Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds")))
+				'''
+				print(str(response))
+				return response
+				ser.close()
+				time.sleep(0.5)
+				flag = 0
 		except Exception as e1:
 			print ("communicating error " + str(e1))
 			return "NO return!" 
