@@ -82,6 +82,7 @@ if __name__ == '__main__':
 	#RainThreading = threading.Thread(target = PostRainData)
 	while(1):
 		CheckIfInternetIsConnected()
+		WaterThreading = threading.Thread(target = PostWaterData)
 		#Engage threading objects
 		WaterThreading.start()
 		#RainThreading.start()
