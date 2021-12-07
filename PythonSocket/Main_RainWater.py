@@ -25,6 +25,7 @@ import time
 from PostWaterData import PostWaterData
 from PostRainData import PostRainData
 
+time.sleep(20)
 #Declare threading objects
 WaterThreading = threading.Thread(target = PostWaterData)
 RainThreading = threading.Thread(target = PostRainData)
@@ -37,5 +38,5 @@ WaterThreading.join()
 RainThreading.join()
 
 print("Done")
-t.sleep(30)
+time.sleep(30)
 
