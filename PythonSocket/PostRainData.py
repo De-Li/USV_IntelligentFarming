@@ -8,6 +8,10 @@ author:De-Li
 version:1.0
 ---------------------------------------------------------------
 Comment:
+2021/12/07
+The Ip and port of Server
+	HOST = '140.116.202.132'
+    PORT = 3038
 2021/12/02
 The Ip and port of 5936 敬智's computer.
     HOST = '192.168.0.110'
