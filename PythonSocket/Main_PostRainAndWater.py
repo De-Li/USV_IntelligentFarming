@@ -29,6 +29,14 @@ import urllib.request
 HOST = '140.116.202.132'
 PORT = 3038	
 
+def CheckIfInternetIsConnected():
+	while(1):
+		try:
+			urllib.request.urlopen('https://tw.yahoo.com/', timeout=2)
+			return True
+		except urllib.error.URLError as err:
+			pass	
+
 def PostRainData():
 	while(1):
 		CurrentRainData = GetRainData()
@@ -68,13 +76,6 @@ def PostWaterData():
 	#sleep 1 seconds
 	#time.sleep(1)
 	client.close()
-def CheckIfInternetIsConnected():
-	while(1):
-		try:
-			urllib.request.urlopen('https://tw.yahoo.com/', timeout=5)
-			return True
-		except urllib.error.URLError as err:
-			pass	
 
 if __name__ == '__main__':
 	#Declare threading objects
@@ -91,4 +92,4 @@ if __name__ == '__main__':
 		#RainThreading.join()
 
 		print("Done")
-		time.sleep(2)
+		time.sleep(30)
