@@ -46,7 +46,7 @@ def PostRainData():
 	print('Server:', serverMessage)
         
 	#sleep 1 second
-	time.sleep(1)
+	#time.sleep(1)
 	#client.close()
 
 def PostWaterData():
@@ -66,7 +66,7 @@ def PostWaterData():
 	#print('Server:', serverMessage)
         
 	#sleep 1 seconds
-	time.sleep(1)
+	#time.sleep(1)
 	client.close()
 def CheckIfInternetIsConnected():
 	while(1):
@@ -91,4 +91,4 @@ if __name__ == '__main__':
 		#RainThreading.join()
 
 		print("Done")
-		time.sleep(30)
+		time.sleep(2)
