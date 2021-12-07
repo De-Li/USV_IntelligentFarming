@@ -72,7 +72,7 @@ def CheckIfInternetIsConnected():
 		try:
 			urllib2.urlopen('https://tw.yahoo.com/', timeout=5)
 			return True
-    		except urllib2.URLError as err: 
+		except urllib2.URLError as err:
 			pass	
 
 if __name__ == '__main__':
