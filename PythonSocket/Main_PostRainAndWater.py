@@ -21,7 +21,7 @@ Log:
 ---------------------------------------------------------------
 """
 
-from ReadRainSensor import GetRainData
+#from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
 import socket, time, urllib2, threading, serial, time
 
