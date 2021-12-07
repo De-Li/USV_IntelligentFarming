@@ -43,7 +43,7 @@ def PostRainData():
 	print('Server:', serverMessage)
         
 	#sleep 1 second
-	time.sleep(30)
+	time.sleep(1)
 	#client.close()
 	
 if __name__ == '__main__':
