@@ -21,22 +21,29 @@ Log:
 ---------------------------------------------------------------
 """
 import threading
-import time
+import time, urllib2
 from PostWaterData import PostWaterData
 from PostRainData import PostRainData
+def CheckIfInternetIsConnected():
+	while(1):
+		try:
+			urllib2.urlopen('https://tw.yahoo.com/', timeout=5)
+			return True
+    		except urllib2.URLError as err: 
+			pass	
 
-time.sleep(20)
 #Declare threading objects
 WaterThreading = threading.Thread(target = PostWaterData)
-RainThreading = threading.Thread(target = PostRainData)
+#RainThreading = threading.Thread(target = PostRainData)
+while(1):
+	CheckIfInternetIsConnected()
+	#Engage threading objects
+	WaterThreading.start()
+	#RainThreading.start()
 
-#Engage threading objects
-WaterThreading.start()
-RainThreading.start()
+	WaterThreading.join()
+	#RainThreading.join()
 
-WaterThreading.join()
-RainThreading.join()
-
-print("Done")
-time.sleep(30)
+	print("Done")
+	time.sleep(30)
 
