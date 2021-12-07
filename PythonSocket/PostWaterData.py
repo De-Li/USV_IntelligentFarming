@@ -40,8 +40,8 @@ def PostWaterData():
 		CurrentWaterData = GetWaterData()
 		if CurrentWaterData is not None:
 			break
-	HOST = '192.168.0.110'
-	PORT = 6969
+	HOST = '140.116.202.132'
+	PORT = 3038
 		
 	#Create a socket, DGRAM means UDP protocal
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
