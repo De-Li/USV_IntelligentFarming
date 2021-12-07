@@ -24,14 +24,15 @@ Log:
 from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
 import socket, time, urllib2, threading, serial, time
-	
+
+HOST = '140.116.202.132'
+PORT = 3038	
+
 def PostRainData():
 	while(1):
 		CurrentRainData = GetRainData()
 		if CurrentRainData is not None:
 			break			
-	HOST = '192.168.1.228'
-	PORT = 30000
 	#print(CurrentRainData)
 	#Create a socket
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
@@ -52,8 +53,6 @@ def PostWaterData():
 		CurrentWaterData = GetWaterData()
 		if CurrentWaterData is not None:
 			break
-	HOST = '140.116.202.132'
-	PORT = 3038
 		
 	#Create a socket, DGRAM means UDP protocal
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
