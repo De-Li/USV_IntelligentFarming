@@ -18,10 +18,6 @@ The Ip and port of 5910 DeLi's computer.
     PORT = 30000
 ---------------------------------------------------------------
 Log:
-2021/12/02
-adding water UDP posting code
-2021/11/30
-adding some comments.
 ---------------------------------------------------------------
 """
 from ReadRainSensor import GetRainData
