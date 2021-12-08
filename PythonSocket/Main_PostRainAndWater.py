@@ -92,4 +92,4 @@ if __name__ == '__main__':
 		#RainThreading.join()
 
 		print("Done")
-		time.sleep(30)
+		time.sleep(2)
