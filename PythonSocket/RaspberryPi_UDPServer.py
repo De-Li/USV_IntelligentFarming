@@ -20,8 +20,7 @@ def GetWeatherDataFromESP8266():
 	UDP_IP = "192.168.1.56"
 	UDP_PORT = 7777
 
-	sock = socket.socket(socket.AF_INET, # Internet
-			     socket.SOCK_DGRAM) # UDP
+	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
 	sock.bind((UDP_IP, UDP_PORT))
  
 while True:
