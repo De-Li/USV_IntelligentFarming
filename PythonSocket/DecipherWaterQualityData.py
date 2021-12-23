@@ -3,7 +3,7 @@
 Project: Unmmaned surface vehicle
 File name:DecodeWaterQualityData.py
 related file:ReadUnderWaterSensors.py
-function:Get data from under water sensors to http server.
+function:Get data from under water sensors to UDP server.
 author:De-Li
 version:1.0
 ---------------------------------------------------------------
