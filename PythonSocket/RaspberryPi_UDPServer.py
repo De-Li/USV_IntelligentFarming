@@ -29,7 +29,8 @@ def GetWeatherDataFromESP8266():
 		#data, addr = Receive_Sock.recvfrom(1024) # buffer size is 1024 bytes
 		if(Receive_Sock.recvfrom(1024)):
 			data= Receive_Sock.recvfrom(1024) # buffer size is 1024 bytes
-			print("received message: %s" % data)
+			print("received message: %s")
+			print(data)
 		Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
 		Send_Sock.sendto(MESSAGE.encode('utf-8'), (Client_UDP_IP, Client_UDP_PORT))
 		Send_Sock.close()
