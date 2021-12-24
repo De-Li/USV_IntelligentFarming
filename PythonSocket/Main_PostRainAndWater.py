@@ -23,6 +23,7 @@ Log:
 
 #from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
+from RaspberryPi_UDPServer import GetWeatherDataFromESP8266
 import socket, time, threading, serial, time
 import urllib.request
 
@@ -76,19 +77,41 @@ def PostWaterData():
 	#sleep 1 seconds
 	#time.sleep(1)
 	client.close()
+	
+def PostWeatherData():
+	while(1):
+		CurrentWeatherData = GetWeatherDataFromESP8266()
+		if CurrentWeatherData is not None:
+			break
+		
+	#Create a socket, DGRAM means UDP protocal
+	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
+        	
+	#encoding the receive data and sending to the server by UDP.
+	client.sendto(CurrentWeatherData.encode('utf-8'), (HOST, PORT)) 
+		
+	#Waiting for the echo message from the server.
+	#serverMessage = str(client.recv(1024), encoding = 'utf-8')
+	#print('Server:', serverMessage)
+        
+	#sleep 1 seconds
+	#time.sleep(1)
+	client.close()
+
 
 if __name__ == '__main__':
 	#Declare threading objects
 	WaterThreading = threading.Thread(target = PostWaterData)
 	RainThreading = threading.Thread(target = PostRainData)
+	WeatherThreading = threading.Thread(target = PostWeatherData)
 	while(1):
 		CheckIfInternetIsConnected()
-		WaterThreading = threading.Thread(target = PostWaterData)
 		#Engage threading objects
-		WaterThreading.start()
+		#WaterThreading.start()
 		#RainThreading.start()
+		WeatherThreading.start()
 
-		WaterThreading.join()
+		#WaterThreading.join()
 		#RainThreading.join()
 
 		print("Done")
