@@ -101,10 +101,13 @@ def PostWeatherData():
 
 if __name__ == '__main__':
 	#Declare threading objects
-	WaterThreading = threading.Thread(target = PostWaterData)
-	RainThreading = threading.Thread(target = PostRainData)
-	WeatherThreading = threading.Thread(target = PostWeatherData)
+	#WaterThreading = threading.Thread(target = PostWaterData)
+	#RainThreading = threading.Thread(target = PostRainData)
+	#WeatherThreading = threading.Thread(target = PostWeatherData)
 	while(1):
+		WaterThreading = threading.Thread(target = PostWaterData)
+		RainThreading = threading.Thread(target = PostRainData)
+		WeatherThreading = threading.Thread(target = PostWeatherData)
 		CheckIfInternetIsConnected()
 		#Engage threading objects
 		#WaterThreading.start()
@@ -113,6 +116,7 @@ if __name__ == '__main__':
 
 		#WaterThreading.join()
 		#RainThreading.join()
+		#WeatherThreading.join()
 
 		print("Done")
 		time.sleep(2)
