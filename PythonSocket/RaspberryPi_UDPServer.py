@@ -41,7 +41,7 @@ def GetWeatherDataFromESP8266():
 	Send_Sock.close()
 	'''
 	Receive_Sock.close()
-	return data
+	return data.decode("utf-8")
 if __name__ == '__main__':
 	while(1):
 		GetWeatherDataFromESP8266()
