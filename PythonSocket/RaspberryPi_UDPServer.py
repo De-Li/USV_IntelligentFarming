@@ -30,7 +30,6 @@ def GetWeatherDataFromESP8266():
 		print("received message: %s" % data)
 		sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
 		sock.sendto(MESSAGE, (Client_UDP_IP, Client_UDP_PORT))
-sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
 	
 if __name__ == '__main__':
 	while(1):
