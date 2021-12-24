@@ -22,14 +22,16 @@ def GetWeatherDataFromESP8266():
 	Client_UDP_IP = "192.168.1.145"
 	Client_UDP_PORT = 5555
 
-	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
-	sock.bind((Server_UDP_IP, Server_UDP_PORT))
+	Receive_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
+	Receive_Sock.bind((Server_UDP_IP, Server_UDP_PORT))
 	MESSAGE = "Hello this is server!"
 	while True:
-		data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
+		data, addr = Receive_Sock.recvfrom(1024) # buffer size is 1024 bytes
 		print("received message: %s" % data)
-		sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
-		sock.sendto(MESSAGE, (Client_UDP_IP, Client_UDP_PORT))
+		Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
+		Send_Sock.sendto(MESSAGE, (Client_UDP_IP, Client_UDP_PORT))
+		Send_Sock.close()
+		Receive_Sock.close()
 	
 if __name__ == '__main__':
 	while(1):
