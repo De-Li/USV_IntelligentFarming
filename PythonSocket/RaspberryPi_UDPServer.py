@@ -43,7 +43,7 @@ def SendingMessageToESP8266():
 	Client_UDP_IP = "192.168.1.145"
 	Client_UDP_PORT = 5555
 	MESSAGE = "Hello this is raspberry pi!"
-	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
+	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # UDP
 	Send_Sock.sendto(MESSAGE.encode('utf-8'), (Client_UDP_IP, Client_UDP_PORT))
 	print("The message is Sent")
 	Send_Sock.close()
