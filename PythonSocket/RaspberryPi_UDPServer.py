@@ -46,8 +46,9 @@ def SendingMessageToESP8266():
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # UDP
 	Send_Sock.connect((Client_UDP_IP,Client_UDP_PORT))
 	Send_Sock.send("Hello!".encode('utf-8'))
+	print(Send_Sock.recv(200))
 	#Send_Sock.sendto(MESSAGE.encode('utf-8'), (Client_UDP_IP, Client_UDP_PORT))
-	print("The message is Sent")
+	#print("The message is Sent")
 	Send_Sock.close()
 if __name__ == '__main__':
 	while(1):
