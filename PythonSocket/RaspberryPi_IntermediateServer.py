@@ -68,6 +68,8 @@ def SendingMessageToFloatChamber(command):
 		Send_Sock.send(command.encode('utf-8'))
 	elif command==PowerUp:
 		Send_Sock.send(command.encode('utf-8'))
+	else :
+		return "DoNothing"
 	print(Send_Sock.recv(200))
 	return Send_Sock.recv(200)
 	#close the socket
