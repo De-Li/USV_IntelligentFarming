@@ -23,7 +23,7 @@ Log:
 
 #from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
-from RaspberryPi_UDPServer import GetWeatherDataFromESP8266
+from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, SendingMessageToFloatChamber
 import socket, time, threading, serial, time
 import urllib.request
 
@@ -70,10 +70,11 @@ def PostWaterData():
 	#encoding the receive data and sending to the server by UDP.
 	client.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT)) 
 		
-	#Waiting for the echo message from the server.
-	#serverMessage = str(client.recv(1024), encoding = 'utf-8')
-	#print('Server:', serverMessage)
-        
+	#Waiting for the command from the server.
+	ServerMessage = str(client.recv(15), encoding = 'utf-8')
+	Output = SendingMessageToFloatChamber(ServerMessage)
+	if Output != "DoNothing":
+		client.sendto(Output.encode('utf-8'), (HOST, PORT))
 	#sleep 1 seconds
 	#time.sleep(1)
 	client.close()
@@ -90,13 +91,10 @@ def PostWeatherData():
 		
 	#Create a socket, DGRAM means UDP protocal
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
-    MeldWeatherData = CurrentWeatherData + CurrentRainData
+    MeldedWeatherData = CurrentWeatherData + CurrentRainData
+	print(MeldedWeatherData)
 	#encoding the receive data and sending to the server by UDP.
-	client.sendto(MeldWeatherData.encode('utf-8'), (HOST, PORT)) 
-		
-	#Waiting for the echo message from the server.
-	#serverMessage = str(client.recv(1024), encoding = 'utf-8')
-	#print('Server:', serverMessage)
+	client.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
         
 	#sleep 1 seconds
 	#time.sleep(1)
@@ -110,7 +108,6 @@ if __name__ == '__main__':
 	#WeatherThreading = threading.Thread(target = PostWeatherData)
 	while(1):
 		WaterThreading = threading.Thread(target = PostWaterData)
-		RainThreading = threading.Thread(target = PostRainData)
 		WeatherThreading = threading.Thread(target = PostWeatherData)
 		CheckIfInternetIsConnected()
 		#Engage threading objects
