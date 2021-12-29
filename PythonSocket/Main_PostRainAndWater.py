@@ -24,6 +24,7 @@ Log:
 #from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
 from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, SendingMessageToFloatChamber
+from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
 import urllib.request
 
