@@ -42,13 +42,13 @@ def GetRainData():
 				
 				#listen data per 0.5s
 				response = ser.readline()
-				if(response):
-				print("read data:")
+				if(response):	
 				'''
 				response = str(response) + "Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds"))
 				print(str(response))
 				print("Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds")))
 				'''
+					print("Rain data:")
 					print(str(response))
 					ser.close()
 					#The sequence of response is Acc(Accumulation), EventAcc, TotalAcc, RInt.
