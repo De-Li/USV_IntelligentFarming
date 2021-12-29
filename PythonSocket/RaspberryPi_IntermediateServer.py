@@ -78,7 +78,7 @@ def SendingMessageToFloatChamber(command):
 	
 if __name__ == '__main__':
 	while(1):
-		#GetWeatherDataFromGroundStation()
+		GetWeatherDataFromGroundStation()
 		#SendingMessageToFloatChamber(command)
 		time.sleep(1)
 	
