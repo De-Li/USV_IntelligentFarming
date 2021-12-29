@@ -82,22 +82,26 @@ def PostWaterData():
 	
 def PostWeatherData():
 	print("Entering PostWeatherData")
+	'''
 	while(1):
 		CurrentRainData = GetRainData()
 		if CurrentRainData is not None:
 			print("CurrentRainData")
 			print(CurrentRainData)
 			break
+	'''
 	while(1):
 		CurrentWeatherData = GetWeatherDataFromGroundStation()
 		if CurrentWeatherData is not None:
 			print("CurrentWeatherData")
 			print(CurrentWeatherData)
 			break
-		
+	CurrentWeatherData = GetWeatherDataFromGroundStation()	
+	print("CurrentWeatherData")
+	print(CurrentWeatherData)
 	#Create a socket, DGRAM means UDP protocal
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	MeldedWeatherData = CurrentWeatherData + CurrentRainData
+	#MeldedWeatherData = CurrentWeatherData + CurrentRainData
 	print(MeldedWeatherData)
 	#encoding the receive data and sending to the server by UDP.
 	client.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
