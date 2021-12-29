@@ -4,7 +4,7 @@ def DecipherRainData(response):
 	#extract the float data from response
 	FloatData = re.findall("\d+\.\d+", response)
 	#arrange rain data into CSV format. 
-	ArrangedResponse = '['+', '.join(str(e) for e in FloatData)+']'
+	ArrangedResponse = ', '.join(str(e) for e in FloatData)+']'
 	return ArrangedResponse
 def GetRainData():
   '''
