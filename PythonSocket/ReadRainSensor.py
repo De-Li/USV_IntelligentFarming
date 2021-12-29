@@ -7,13 +7,13 @@ def DecipherRainData(response):
 	ArrangedResponse = ', '.join(str(e) for e in FloatData)+']'
 	return ArrangedResponse
 def GetRainData():
-  '''
+	'''
   #  +8 timezone
   tz = timezone(timedelta(hours=+8))
 
   # getting current time and specifying time zone and change into iso format.
   datetime.now(tz).isoformat()
-'''
+	'''
 	ser = serial.Serial()
 	ser.port = "/dev/ttyUSB0"
 
