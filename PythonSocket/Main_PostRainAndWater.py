@@ -37,7 +37,7 @@ def CheckIfInternetIsConnected():
 			return True
 		except urllib.error.URLError as err:
 			pass	
-
+'''
 def PostRainData():
 	while(1):
 		CurrentRainData = GetRainData()
@@ -57,7 +57,7 @@ def PostRainData():
 	#sleep 1 second
 	#time.sleep(1)
 	#client.close()
-
+'''
 def PostWaterData():
 	while(1):
 		CurrentWaterData = GetWaterData()
@@ -80,15 +80,19 @@ def PostWaterData():
 	
 def PostWeatherData():
 	while(1):
-		CurrentWeatherData = GetWeatherDataFromESP8266()
+		CurrentRainData = GetRainData()
+		if CurrentRainData is not None:
+			break
+	while(1):
+		CurrentWeatherData = GetWeatherDataFromGroundStation()
 		if CurrentWeatherData is not None:
 			break
 		
 	#Create a socket, DGRAM means UDP protocal
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
-        	
+    MeldWeatherData = CurrentWeatherData + CurrentRainData
 	#encoding the receive data and sending to the server by UDP.
-	client.sendto(CurrentWeatherData.encode('utf-8'), (HOST, PORT)) 
+	client.sendto(MeldWeatherData.encode('utf-8'), (HOST, PORT)) 
 		
 	#Waiting for the echo message from the server.
 	#serverMessage = str(client.recv(1024), encoding = 'utf-8')
