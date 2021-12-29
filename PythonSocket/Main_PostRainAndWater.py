@@ -85,10 +85,14 @@ def PostWeatherData():
 	while(1):
 		CurrentRainData = GetRainData()
 		if CurrentRainData is not None:
+			print("CurrentRainData")
+			print(CurrentRainData)
 			break
 	while(1):
 		CurrentWeatherData = GetWeatherDataFromGroundStation()
 		if CurrentWeatherData is not None:
+			print("CurrentWeatherData")
+			print(CurrentWeatherData)
 			break
 		
 	#Create a socket, DGRAM means UDP protocal
