@@ -102,9 +102,9 @@ def PostWeatherData():
 	#Create a socket, DGRAM means UDP protocal
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	#MeldedWeatherData = CurrentWeatherData + CurrentRainData
-	print(MeldedWeatherData)
+	#print(MeldedWeatherData)
 	#encoding the receive data and sending to the server by UDP.
-	client.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
+	#client.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
         
 	#sleep 1 seconds
 	#time.sleep(1)
