@@ -121,4 +121,4 @@ if __name__ == '__main__':
 		#WeatherThreading.join()
 
 		print("Done")
-		time.sleep(2)
+		time.sleep(30)
