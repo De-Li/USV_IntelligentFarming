@@ -37,7 +37,7 @@ def GetWeatherDataFromGroundStation():
 		print(data)
 
 	Receive_Sock.close()
-	return data.decode("utf-8")
+	return data
 
 def GetCommandFromMainServer():
 	#Get command from main server(Website)
