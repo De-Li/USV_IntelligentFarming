@@ -39,17 +39,22 @@ def GetWeatherDataFromESP8266():
 	'''
 	Receive_Sock.close()
 	return data.decode("utf-8")
-def SendingMessageToESP8266():
-	Client_UDP_IP = "192.168.1.145"
-	Client_UDP_PORT = 5555
+def SendingMessageToESP8266(command):
+	Client_TCP_IP = "192.168.1.145"
+	Client_TCP_PORT = 5555
 	MESSAGE = "Hello this is raspberry pi!"
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # UDP
-	Send_Sock.connect((Client_UDP_IP,Client_UDP_PORT))
-	Send_Sock.send("Hello!".encode('utf-8'))
+	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
+	if command==ShowVoltage:
+		Send_Sock.send(command.encode('utf-8'))
+	elif command==ShutDown:
+		Send_Sock.send(command.encode('utf-8'))
+	elif command==PowerUp:
+		Send_Sock.send(command.encode('utf-8'))
 	print(Send_Sock.recv(200))
-	#Send_Sock.sendto(MESSAGE.encode('utf-8'), (Client_UDP_IP, Client_UDP_PORT))
-	#print("The message is Sent")
+	return Send_Sock.recv(200)
 	Send_Sock.close()
+	
 if __name__ == '__main__':
 	while(1):
 		#GetWeatherDataFromESP8266()
