@@ -81,6 +81,7 @@ def PostWaterData():
 	client.close()
 	
 def PostWeatherData():
+	print("Entering PostWeatherData")
 	while(1):
 		CurrentRainData = GetRainData()
 		if CurrentRainData is not None:
