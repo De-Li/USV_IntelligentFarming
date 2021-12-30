@@ -50,7 +50,9 @@ def GetRainData():
 	ser.rtscts = False     #disable hardware (RTS/CTS) flow control
 	ser.dsrdtr = False     #disable hardware (DSR/DTR) flow control
 	print("entering serial")
+	i=0
 	while(1):
+		i = i+1
 		try: 
 			if ser.isOpen():
 				pass
@@ -81,6 +83,9 @@ def GetRainData():
 					print(ArrangedResponse)
 					return ArrangedResponse
 				time.sleep(0.5)
+				if(i==20):
+					ser.close()
+					print("ReEnter")
 			except Exception as e1:
 				print ("communicating error " + str(e1))
 				return None
