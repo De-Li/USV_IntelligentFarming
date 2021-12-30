@@ -14,6 +14,11 @@ def SerialSetting(ser):
 	ser.xonxoff = False    #disable software flow control
 	ser.rtscts = False     #disable hardware (RTS/CTS) flow control
 	ser.dsrdtr = False     #disable hardware (DSR/DTR) flow control
+	try: 
+		ser.open()        
+	except Exception as ex:
+		print ("open serial port error " + str(ex))
+		exit() 
 	return ser
 
 def DecipherRainData(response):
@@ -46,11 +51,6 @@ def GetRainData(ser):
 	ser.dsrdtr = False     #disable hardware (DSR/DTR) flow control
 	'''
 	print("entering serial")
-	try: 
-		ser.open()        
-	except Exception as ex:
-		print ("open serial port error " + str(ex))
-		exit() 
 	if ser.isOpen():
 		while(1):
 			try:
@@ -67,6 +67,7 @@ def GetRainData(ser):
 					'''
 					print("Rain data:")
 					print(str(response))
+					#ser.close()
 					#The sequence of response is Acc(Accumulation), EventAcc, TotalAcc, RInt.
 					response = response.decode('UTF-8')
 					ArrangedResponse = DecipherRainData(response)
