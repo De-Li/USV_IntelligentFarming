@@ -45,6 +45,7 @@ def GetRainData(ser):
 	ser.rtscts = False     #disable hardware (RTS/CTS) flow control
 	ser.dsrdtr = False     #disable hardware (DSR/DTR) flow control
 	'''
+	print(entering serial)
 	try: 
 		ser.open()        
 	except Exception as ex:
