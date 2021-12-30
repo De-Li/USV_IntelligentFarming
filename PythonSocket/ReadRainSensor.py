@@ -81,7 +81,8 @@ def GetRainData():
 			return None
 
 if __name__ == '__main__':
-	ser = serial.Serial(ser)
+	ser = serial.Serial()
+	ser = SerialSetting(ser)
 	while(1):
 		RainData = GetRainData(ser)
 		time.sleep(2)
