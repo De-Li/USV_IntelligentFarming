@@ -57,10 +57,10 @@ def GetRainData():
 				time.sleep(0.5)
 			except Exception as e1:
 				print ("communicating error " + str(e1))
-				return "NO return!" 
+				return None
 		else:
 			print ("open serial port error")
-			return "Server isn't opening!"
+			return None
 
 if __name__ == '__main__':
 	RainData = GetRainData()
