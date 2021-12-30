@@ -89,7 +89,7 @@ def PostWeatherData():
 			print("CurrentRainData")
 			print(CurrentRainData)
 			break
-	
+	'''
 	while(1):
 		CurrentWeatherData = GetWeatherDataFromGroundStation()
 		if CurrentWeatherData is not None:
@@ -100,6 +100,7 @@ def PostWeatherData():
 	CurrentWeatherData = GetWeatherDataFromGroundStation()	
 	print("CurrentWeatherData")
 	print(CurrentWeatherData)
+	'''
 	#Create a socket, DGRAM means UDP protocal
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	#MeldedWeatherData = CurrentWeatherData + CurrentRainData
