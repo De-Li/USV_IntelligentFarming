@@ -129,7 +129,7 @@ if __name__ == '__main__':
 
 		#WaterThreading.join()
 		#RainThreading.join()
-		#WeatherThreading.join()
+		WeatherThreading.join()
 
 		print("Done")
 		time.sleep(30)
