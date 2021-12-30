@@ -30,6 +30,8 @@ import urllib.request
 
 HOST = '140.116.202.132'
 PORT = 3038	
+#delay time in second
+DelayTime = 10
 
 def CheckIfInternetIsConnected():
 	while(1):
@@ -84,10 +86,12 @@ def PostWeatherData():
 	RainSerialCount = 0
 	while(1):
 		CurrentRainData = GetRainData()
+		# 10 second for per waiting time.
 		RainSerialCount = RainSerialCount + 1
 		if CurrentRainData is not None:
 			break
-		elif RainSerialCount == 2:
+		#less half of update time.
+		elif RainSerialCount > DelayTime/20:
 			CurrentRainData = "0, 0, 0, 0]"
 			break
 	while(1):
@@ -111,6 +115,7 @@ if __name__ == '__main__':
 	#WaterThreading = threading.Thread(target = PostWaterData)
 	#RainThreading = threading.Thread(target = PostRainData)
 	#WeatherThreading = threading.Thread(target = PostWeatherData)
+	
 	while(1):
 		WaterThreading = threading.Thread(target = PostWaterData)
 		WeatherThreading = threading.Thread(target = PostWeatherData)
@@ -119,10 +124,9 @@ if __name__ == '__main__':
 		#WaterThreading.start()
 		#RainThreading.start()
 		WeatherThreading.start()
-
 		#WaterThreading.join()
 		#RainThreading.join()
 		WeatherThreading.join()
-
+		
 		print("Done")
 		time.sleep(10)
