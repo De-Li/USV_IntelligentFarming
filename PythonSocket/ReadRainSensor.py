@@ -67,4 +67,4 @@ def GetRainData():
 if __name__ == '__main__':
 	while(1):
 		RainData = GetRainData()
-		time.sleep(1)
+		time.sleep(5)
