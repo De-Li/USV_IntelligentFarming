@@ -1,4 +1,4 @@
-import serial, time, re, System
+import serial, time, re
 #from datetime import datetime, timezone, timedelta
 def DecipherRainData(response):
 	#extract the float data from response
@@ -52,7 +52,7 @@ def GetRainData():
 					print(str(response))
 					ser.close()
 					#The sequence of response is Acc(Accumulation), EventAcc, TotalAcc, RInt.
-					response = System.Text.Encoding.UTF8.GetString(response)
+					response = response.decode('UTF-8')
 					ArrangedResponse = DecipherRainData(response)
 					print(ArrangedResponse)
 					return ArrangedResponse
