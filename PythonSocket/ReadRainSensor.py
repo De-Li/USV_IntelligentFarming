@@ -52,6 +52,7 @@ def GetRainData():
 					print(str(response))
 					ser.close()
 					#The sequence of response is Acc(Accumulation), EventAcc, TotalAcc, RInt.
+					response = System.Text.Encoding.UTF8.GetString(response)
 					ArrangedResponse = DecipherRainData(response)
 					print(ArrangedResponse)
 					return ArrangedResponse
