@@ -85,7 +85,7 @@ def GetRainData():
 				time.sleep(0.2)
 				if(i==50):
 					ser.close()
-					print("ReEnter")
+					print("Rain receive waiting limit!")
 					return None
 			except Exception as e1:
 				print ("communicating error " + str(e1))
