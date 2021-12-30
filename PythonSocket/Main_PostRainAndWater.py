@@ -88,7 +88,7 @@ def PostWeatherData():
 		if CurrentRainData is not None:
 			break
 		elif RainSerialCount == 2:
-			CurrentRainData = "Null, Null, Null, Null]"
+			CurrentRainData = "0, 0, 0, 0]"
 			break
 	while(1):
 		CurrentWeatherData = GetWeatherDataFromGroundStation()
