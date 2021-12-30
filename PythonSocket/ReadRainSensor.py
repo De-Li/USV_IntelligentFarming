@@ -99,4 +99,6 @@ if __name__ == '__main__':
 	#ser = SerialSetting(ser)
 	while(1):
 		RainData = GetRainData()
-		time.sleep(5)
+		if RainData!=None:
+			time.sleep(5)
+			
