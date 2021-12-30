@@ -27,16 +27,17 @@ def DecipherRainData(response):
 	#arrange rain data into CSV format. 
 	ArrangedResponse = ', '.join(str(e) for e in FloatData)+', Null]'
 	return ArrangedResponse
-def GetRainData(ser):
+def GetRainData():
 	'''
 	#  +8 timezone
   tz = timezone(timedelta(hours=+8))
 
   # getting current time and specifying time zone and change into iso format.
   	datetime.now(tz).isoformat()
+	'''
 	ser = serial.Serial()
 	ser.port = "/dev/ttyUSB0"
-
+	
 	#9600,N,8,1
 	ser.baudrate = 9600
 	ser.bytesize = serial.EIGHTBITS #number of bits per bytes
@@ -48,18 +49,17 @@ def GetRainData(ser):
 	ser.xonxoff = False    #disable software flow control
 	ser.rtscts = False     #disable hardware (RTS/CTS) flow control
 	ser.dsrdtr = False     #disable hardware (DSR/DTR) flow control
-	'''
-	try: 
-		if ser.isOpen():
-			pass
-		else:
-			ser.open()        
-	except Exception as ex:
-		print ("open serial port error " + str(ex))
-		exit() 
-	print("entering serial")
-	if ser.isOpen():
-		while(1):
+	while(1):
+		try: 
+			if ser.isOpen():
+				pass
+			else:
+				ser.open()        
+		except Exception as ex:
+			print ("open serial port error " + str(ex))
+			exit() 
+		print("entering serial")
+		if ser.isOpen():	
 			try:
 				ser.flushInput() #flush input buffer
 				ser.flushOutput() #flush output buffer  
@@ -89,8 +89,8 @@ def GetRainData(ser):
 			return None
 
 if __name__ == '__main__':
-	ser = serial.Serial()
-	ser = SerialSetting(ser)
+	#ser = serial.Serial()
+	#ser = SerialSetting(ser)
 	while(1):
-		RainData = GetRainData(ser)
+		RainData = GetRainData()
 		time.sleep(5)
