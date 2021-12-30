@@ -27,7 +27,7 @@ def DecipherRainData(response):
 	#arrange rain data into CSV format. 
 	ArrangedResponse = ', '.join(str(e) for e in FloatData)+', Null]'
 	return ArrangedResponse
-def GetRainData():
+def GetRainData(ser):
 	'''
 	#  +8 timezone
   tz = timezone(timedelta(hours=+8))
@@ -89,8 +89,8 @@ def GetRainData():
 			return None
 
 if __name__ == '__main__':
-	#ser = serial.Serial()
-	#ser = SerialSetting(ser)
+	ser = serial.Serial()
+	ser = SerialSetting(ser)
 	while(1):
-		RainData = GetRainData()
+		RainData = GetRainData(ser)
 		time.sleep(5)
