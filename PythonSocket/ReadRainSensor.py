@@ -22,7 +22,7 @@ def DecipherRainData(response):
 	#arrange rain data into CSV format. 
 	ArrangedResponse = ', '.join(str(e) for e in FloatData)+', Null]'
 	return ArrangedResponse
-def GetRainData():
+def GetRainData(ser):
 	'''
   #  +8 timezone
   tz = timezone(timedelta(hours=+8))
