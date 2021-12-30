@@ -89,13 +89,14 @@ def PostWeatherData():
 			print("CurrentRainData")
 			print(CurrentRainData)
 			break
-	'''
+	
 	while(1):
 		CurrentWeatherData = GetWeatherDataFromGroundStation()
 		if CurrentWeatherData is not None:
 			print("CurrentWeatherData")
 			print(CurrentWeatherData)
 			break
+	'''
 	CurrentWeatherData = GetWeatherDataFromGroundStation()	
 	print("CurrentWeatherData")
 	print(CurrentWeatherData)
