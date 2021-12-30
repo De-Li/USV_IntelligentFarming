@@ -81,7 +81,6 @@ def PostWaterData():
 	client.close()
 	
 def PostWeatherData():
-	print("Entering PostWeatherData")
 	RainSerialCount = 0
 	while(1):
 		CurrentRainData = GetRainData()
