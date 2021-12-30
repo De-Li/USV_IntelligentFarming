@@ -53,6 +53,7 @@ def GetRainData():
 					ser.close()
 					#The sequence of response is Acc(Accumulation), EventAcc, TotalAcc, RInt.
 					ArrangedResponse = DecipherRainData(response)
+					print(ArrangedResponse)
 					return ArrangedResponse
 				time.sleep(0.5)
 			except Exception as e1:
