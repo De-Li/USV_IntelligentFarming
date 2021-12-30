@@ -49,6 +49,7 @@ def GetRainData():
 	ser.xonxoff = False    #disable software flow control
 	ser.rtscts = False     #disable hardware (RTS/CTS) flow control
 	ser.dsrdtr = False     #disable hardware (DSR/DTR) flow control
+	print("entering serial")
 	while(1):
 		try: 
 			if ser.isOpen():
@@ -57,8 +58,7 @@ def GetRainData():
 				ser.open()        
 		except Exception as ex:
 			print ("open serial port error " + str(ex))
-			exit() 
-		print("entering serial")
+			exit() 		
 		if ser.isOpen():	
 			try:
 				ser.flushInput() #flush input buffer
