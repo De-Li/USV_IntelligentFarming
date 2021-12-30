@@ -67,7 +67,6 @@ def GetRainData(ser):
 					'''
 					print("Rain data:")
 					print(str(response))
-					ser.close()
 					#The sequence of response is Acc(Accumulation), EventAcc, TotalAcc, RInt.
 					response = response.decode('UTF-8')
 					ArrangedResponse = DecipherRainData(response)
