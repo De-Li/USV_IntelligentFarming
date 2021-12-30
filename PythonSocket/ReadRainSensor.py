@@ -86,6 +86,7 @@ def GetRainData():
 				if(i==20):
 					ser.close()
 					print("ReEnter")
+					return None
 			except Exception as e1:
 				print ("communicating error " + str(e1))
 				return None
