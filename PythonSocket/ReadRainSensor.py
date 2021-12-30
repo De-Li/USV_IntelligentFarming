@@ -82,8 +82,8 @@ def GetRainData():
 					ArrangedResponse = DecipherRainData(response)
 					print(ArrangedResponse)
 					return ArrangedResponse
-				time.sleep(0.5)
-				if(i==20):
+				time.sleep(0.2)
+				if(i==50):
 					ser.close()
 					print("ReEnter")
 					return None
