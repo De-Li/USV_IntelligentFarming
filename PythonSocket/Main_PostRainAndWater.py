@@ -129,4 +129,4 @@ if __name__ == '__main__':
 		WeatherThreading.join()
 		
 		print("Done")
-		time.sleep(10)
+		time.sleep(DelayTime)
