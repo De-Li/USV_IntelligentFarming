@@ -80,9 +80,9 @@ def SendingMessageToFloatChamber(command):
 	Send_Sock.close()
 	
 if __name__ == '__main__':
+	i=0
 	while(1):
-		#GetWeatherDataFromGroundStation()
-		i=0
+		#GetWeatherDataFromGroundStation()	
 		if i%2==0:
 			command = "ShowVoltage"
 		elif i%3==0:
