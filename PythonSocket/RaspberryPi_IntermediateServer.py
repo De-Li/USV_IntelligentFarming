@@ -64,7 +64,7 @@ def SendingMessageToFloatChamber(command):
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
-	Send_Sock.settimeout(5)
+	Send_Sock.settimeout(20)
 	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
 	#Check the command
 	if command=="ShowVoltage":
