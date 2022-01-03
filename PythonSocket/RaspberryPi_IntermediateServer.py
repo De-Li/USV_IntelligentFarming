@@ -84,12 +84,12 @@ if __name__ == '__main__':
 		#GetWeatherDataFromGroundStation()
 		command = "ShowVoltage"
 		i=0
-		if i%3==0:
-			command = "ShutDown"
-		elif i%5==0:
-			command = "PowerUp"
-		elif i%2==0:
+		if i%2==0:
 			command = "ShowVoltage"
+		elif i%3==0:
+			command = "PowerUp"
+		elif i%5==0:
+			command = "ShutDown"
 		SendingMessageToFloatChamber(command)
 		i=i+1
 		time.sleep(1)
