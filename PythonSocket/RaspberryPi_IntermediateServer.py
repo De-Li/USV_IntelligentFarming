@@ -25,7 +25,7 @@ add SendingMessageToFloatChamber() function to control the electrical power on t
 add GetCommandFromMainServer() function to receive the command from the main server.
 ---------------------------------------------------------------
 """
-import socket, time
+import socket, time, select
 
 def GetWeatherDataFromGroundStation():
 	#Get weather data from ESP8266 on the ground station
@@ -64,6 +64,7 @@ def SendingMessageToFloatChamber(command):
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
+	Send_Sock.settimeout(5)
 	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
 	#Check the command
 	if command=="ShowVoltage":
