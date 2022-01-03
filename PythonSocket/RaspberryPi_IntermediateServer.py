@@ -66,11 +66,11 @@ def SendingMessageToFloatChamber(command):
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
 	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
 	#Check the command
-	if command==ShowVoltage:
+	if command=="ShowVoltage":
 		Send_Sock.send(command.encode('utf-8'))
-	elif command==ShutDown:
+	elif command=="ShutDown":
 		Send_Sock.send(command.encode('utf-8'))
-	elif command==PowerUp:
+	elif command=="PowerUp":
 		Send_Sock.send(command.encode('utf-8'))
 	else :
 		return "DoNothing"
