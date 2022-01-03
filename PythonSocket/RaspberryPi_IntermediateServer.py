@@ -91,6 +91,7 @@ if __name__ == '__main__':
 		elif i%2==0:
 			command = "ShowVoltage"
 		SendingMessageToFloatChamber(command)
+		i=i+1
 		time.sleep(1)
 	
 	
