@@ -15,6 +15,9 @@ Comment:
 	ESP8266
 	Client IP = "192.168.1.145"
 	Client PORT = 5555
+	ESP8266
+	Client IP = "192.168.1.29"
+	Client PORT = 5555
 ---------------------------------------------------------------
 Log:
 2021/12/29
@@ -56,7 +59,7 @@ def GetCommandFromMainServer():
 
 def SendingMessageToFloatChamber(command):
 	#Raspberry Pi send message to ESP8266 on the Float chamber
-	Client_TCP_IP = "192.168.1.145"
+	Client_TCP_IP = "192.168.1.29"
 	Client_TCP_PORT = 5555
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
@@ -78,8 +81,9 @@ def SendingMessageToFloatChamber(command):
 	
 if __name__ == '__main__':
 	while(1):
-		GetWeatherDataFromGroundStation()
-		#SendingMessageToFloatChamber(command)
+		#GetWeatherDataFromGroundStation()
+		command = "ShowVoltage"
+		SendingMessageToFloatChamber(command)
 		time.sleep(1)
 	
 	
