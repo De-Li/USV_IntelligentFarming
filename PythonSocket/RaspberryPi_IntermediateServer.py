@@ -93,6 +93,8 @@ if __name__ == '__main__':
 		elif i%5==0:
 			command = "ShutDown"
 			print(command)
+		elif i==20:
+			i=1
 		else :
 			command = "ShowVoltage"
 			print(command)
