@@ -84,14 +84,14 @@ if __name__ == '__main__':
 	i=1
 	while(1):
 		#GetWeatherDataFromGroundStation()	
-		if i%2==0:
-			command = "ShowVoltage"
+		if i%5==0:
+			command = "ShutDown"
 			print(command)
 		elif i%3==0:
 			command = "PowerUp"
 			print(command)
-		elif i%5==0:
-			command = "ShutDown"
+		elif i%2==0:
+			command = "ShowVoltage"
 			print(command)
 		elif i==20:
 			i=1
