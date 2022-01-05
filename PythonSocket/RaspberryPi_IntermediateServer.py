@@ -68,11 +68,11 @@ def SendingMessageToFloatChamber(command):
 	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
 	#Check the command
 	if command==1:
-		Send_Sock.send(command.encode('utf-8'))
+		Send_Sock.send(command)
 	elif command==2:
-		Send_Sock.send(command.encode('utf-8'))
+		Send_Sock.send(command)
 	elif command==3:
-		Send_Sock.send(command.encode('utf-8'))
+		Send_Sock.send(command)
 	else :
 		return "DoNothing"
 	print(Send_Sock.recv(200))
