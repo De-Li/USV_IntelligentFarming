@@ -67,12 +67,12 @@ def SendingMessageToFloatChamber(command):
 	Send_Sock.settimeout(20)
 	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
 	#Check the command
-	if command==1:
-		Send_Sock.send(command)
-	elif command==2:
-		Send_Sock.send(command)
-	elif command==3:
-		Send_Sock.send(command)
+	if command=='1':
+		Send_Sock.send(command.encode('utf-8'))
+	elif command=='2':
+		Send_Sock.send(command.encode('utf-8'))
+	elif command=='3':
+		Send_Sock.send(command.encode('utf-8'))
 	else :
 		return "DoNothing"
 	print(Send_Sock.recv(200))
@@ -85,13 +85,13 @@ if __name__ == '__main__':
 	while(1):
 		#GetWeatherDataFromGroundStation()	
 		if i%3==0:
-			command = 3
+			command = '3'
 			print(command)
 		elif i%2==0:
-			command = 2
+			command = '2'
 			print(command)
 		elif i%1==0:
-			command = 1
+			command = '1'
 			print(command)
 		elif i==20:
 			i=1
