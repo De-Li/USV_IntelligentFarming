@@ -9,8 +9,11 @@ version:1.0
 ---------------------------------------------------------------
 Comment:
 	In 5910 Lab
-	RaspberryPi
+	RaspberryPi-burned
 	Server IP = "192.168.1.56" 
+	Serve PORT = 7777
+	RaspberryPi-new
+	Server IP = "192.168.1.108" 
 	Serve PORT = 7777
 	ESP8266
 	Client IP = "192.168.1.145"
@@ -29,7 +32,7 @@ import socket, time, select
 
 def GetWeatherDataFromGroundStation():
 	#Get weather data from ESP8266 on the ground station
-	Server_UDP_IP = "192.168.1.56"
+	Server_UDP_IP = "192.168.1.108"
 	Server_UDP_PORT_ForESP8266 = 7777
 	Receive_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
 	Receive_Sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -44,7 +47,7 @@ def GetWeatherDataFromGroundStation():
 
 def GetCommandFromMainServer():
 	#Get command from main server(Website)
-	Server_UDP_IP = "192.168.1.56"
+	Server_UDP_IP = "192.168.1.108"
 	Server_UDP_PORT_ForMainServer = 6666
 	Receive_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
 	Receive_Sock.bind((Server_UDP_IP, Server_UDP_PORT_ForMainServer))
