@@ -42,7 +42,11 @@ def GetWeatherDataFromGroundStation():
 		print("received message: ")
 		print(data)
 	Receive_Sock.close()
-	return data.decode("utf-8")
+	DecodedData = data.decode("utf-8")
+	DecodedData = DecodedData.split(", ")
+	DecodedData = '['+', '.join(str(e) for e in DecodedData)
+	print(DecodedData)
+	return DecodedData
 
 def GetCommandFromMainServer():
 	#Get command from main server(Website)
