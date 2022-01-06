@@ -12,6 +12,8 @@ Comment:
 The Ip and port of main server.
 	HOST = '140.116.202.132'
 	PORT = 3038
+The external Ip of 5936 敬智's computer.	
+	HOST = '140.116.201.71'
 2021/12/02
 The Ip and port of 5936 敬智's computer.
     HOST = '192.168.0.110'
@@ -32,8 +34,7 @@ from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
 import urllib.request
 
-#HOST = '140.116.202.132'
-HOST = '140.116.201.71'
+HOST = '140.116.202.132'
 PORT = 3038	
 #delay time in second
 DelayTime = 10
