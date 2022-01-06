@@ -32,7 +32,8 @@ from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
 import urllib.request
 
-HOST = '140.116.202.132'
+#HOST = '140.116.202.132'
+HOST = '140.116.201.71'
 PORT = 3038	
 #delay time in second
 DelayTime = 10
