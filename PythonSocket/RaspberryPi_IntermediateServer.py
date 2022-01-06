@@ -18,7 +18,7 @@ Comment:
 	ESP8266
 	Client IP = "192.168.1.145"
 	Client PORT = 5555
-	ESP8266
+	ESP8266-float chamber
 	Client IP = "192.168.1.29"
 	Client PORT = 5555
 ---------------------------------------------------------------
@@ -70,12 +70,12 @@ def SendingMessageToFloatChamber(command):
 	Send_Sock.settimeout(20)
 	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
 	#Check the command
-	if command=='1':
-		Send_Sock.send(command.encode('utf-8'))
-	elif command=='2':
-		Send_Sock.send(command.encode('utf-8'))
-	elif command=='3':
-		Send_Sock.send(command.encode('utf-8'))
+	if command=='ShowVoltage':
+		Send_Sock.send('1'.encode('utf-8'))
+	elif command=='PowerUp':
+		Send_Sock.send('2'.encode('utf-8'))
+	elif command=='ShutDown':
+		Send_Sock.send('3'.encode('utf-8'))
 	else :
 		return "DoNothing"
 	print(Send_Sock.recv(200))
@@ -88,13 +88,13 @@ if __name__ == '__main__':
 	while(1):
 		#GetWeatherDataFromGroundStation()	
 		if i%3==0:
-			command = '3'
+			command = 'ShutDown'
 			print(command)
 		elif i%2==0:
-			command = '2'
+			command = 'PowerUp'
 			print(command)
 		elif i%1==0:
-			command = '1'
+			command = 'ShowVoltage'
 			print(command)
 		elif i==20:
 			i=1
