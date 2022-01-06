@@ -41,7 +41,6 @@ def GetWeatherDataFromGroundStation():
 	if(Receive_Sock.recvfrom(100)):
 		print("received message: ")
 		print(data)
-
 	Receive_Sock.close()
 	return data.decode("utf-8")
 
@@ -86,7 +85,8 @@ def SendingMessageToFloatChamber(command):
 if __name__ == '__main__':
 	i=1
 	while(1):
-		#GetWeatherDataFromGroundStation()	
+		GetWeatherDataFromGroundStation()	
+		'''
 		if i%3==0:
 			command = 'ShutDown'
 			print(command)
@@ -103,6 +103,7 @@ if __name__ == '__main__':
 			print(command)
 		SendingMessageToFloatChamber(command)
 		i=i+1
+		'''
 		time.sleep(1)
 	
 	
