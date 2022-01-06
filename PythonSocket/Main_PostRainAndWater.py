@@ -135,10 +135,10 @@ if __name__ == '__main__':
 		#Engage threading objects
 		WaterThreading.start()
 		#RainThreading.start()
-		WeatherThreading.start()
+		#WeatherThreading.start()
 		WaterThreading.join()
 		#RainThreading.join()
-		WeatherThreading.join()
+		#WeatherThreading.join()
 		
 		print("Done")
 		time.sleep(DelayTime)
