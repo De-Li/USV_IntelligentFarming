@@ -107,7 +107,7 @@ def PostWeatherData():
 	MeldedWeatherData = CurrentWeatherData + CurrentRainData
 	print(MeldedWeatherData)
 	#encoding the receive data and sending to the server by UDP.
-	#client.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
+	client.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
         
 	#sleep 1 seconds
 	#time.sleep(1)
