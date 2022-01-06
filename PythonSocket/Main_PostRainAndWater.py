@@ -68,9 +68,14 @@ def PostRainData():
 	#client.close()
 '''
 def PostWaterData():
+	WaterWaitingCount=0
 	while(1):
 		CurrentWaterData = GetWaterData()
+		WaterWaitingCount = WaterWaitingCount + 1
 		if CurrentWaterData is not None:
+			break
+		else WaterWaitingCount == 20:
+			CurrentWaterData = [0, 0, 0, 0, 0, 0, 0]
 			break
 		
 	#Create a socket, DGRAM means UDP protocal
@@ -127,10 +132,10 @@ if __name__ == '__main__':
 		WeatherThreading = threading.Thread(target = PostWeatherData)
 		CheckIfInternetIsConnected()
 		#Engage threading objects
-		#WaterThreading.start()
+		WaterThreading.start()
 		#RainThreading.start()
 		WeatherThreading.start()
-		#WaterThreading.join()
+		WaterThreading.join()
 		#RainThreading.join()
 		WeatherThreading.join()
 		
