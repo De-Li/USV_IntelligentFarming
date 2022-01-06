@@ -74,7 +74,7 @@ def PostWaterData():
 		WaterWaitingCount = WaterWaitingCount + 1
 		if CurrentWaterData is not None:
 			break
-		else WaterWaitingCount == 20:
+		elif WaterWaitingCount == 20:
 			CurrentWaterData = [0, 0, 0, 0, 0, 0, 0]
 			break
 		
