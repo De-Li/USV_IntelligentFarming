@@ -83,10 +83,11 @@ def PostWaterData():
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	CurrentWaterData = "[0, 0, 0, 0, 0, 0, 0]"	
 	#encoding the receive data and sending to the server by UDP.
-	client.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT)) 
-		
+	client.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
+	
 	#Waiting for the command from the server.
 	ServerMessage = str(client.recv(15), encoding = 'utf-8')
+	print(ServerMessage)
 	Output = SendingMessageToFloatChamber(ServerMessage)
 	if Output != "DoNothing":
 		client.sendto(Output.encode('utf-8'), (HOST, PORT))
