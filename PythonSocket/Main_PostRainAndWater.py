@@ -80,8 +80,8 @@ def PostWaterData():
 			break
 	'''
 	#Create a socket, DGRAM means UDP protocal
-	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
-        CurrentWaterData = [0, 0, 0, 0, 0, 0, 0]	
+	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	CurrentWaterData = [0, 0, 0, 0, 0, 0, 0]	
 	#encoding the receive data and sending to the server by UDP.
 	client.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT)) 
 		
