@@ -97,7 +97,7 @@ def PostWeatherData():
 			break
 		#less half of update time.
 		elif RainSerialCount > DelayTime/20:
-			CurrentRainData = "0, 0, 0, 0, 0]"
+			CurrentRainData = ", 0, 0, 0, 0, 0]"
 			break
 	while(1):
 		CurrentWeatherData = GetWeatherDataFromGroundStation()
