@@ -32,12 +32,19 @@ from ReadUnderWaterSensors import GetWaterData
 from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, SendingMessageToFloatChamber
 from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
-import urllib.request
+import urllib.request #URL related liberary
 
+#IP and port of main server
 HOST = '140.116.202.132'
 PORT = 3038	
+
+#IP and port of Raspberry pi
+RP_IP = '192.168.1.108'
+RP_Port = 5910
+
 #delay time in second
-DelayTime = 10
+SampleInterval = 10
+DelayTime = 0.3
 
 def CheckIfInternetIsConnected():
 	while(1):
@@ -68,7 +75,6 @@ def PostRainData():
 	#client.close()
 '''
 def PostWaterData():
-	'''
 	WaterWaitingCount=0
 	while(1):
 		CurrentWaterData = GetWaterData()
@@ -78,22 +84,26 @@ def PostWaterData():
 		elif WaterWaitingCount == 20:
 			CurrentWaterData = [0, 0, 0, 0, 0, 0, 0]
 			break
-	'''
 	#Create a socket, DGRAM means UDP protocal
-	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	CurrentWaterData = "[0, 0, 0, 0, 0, 0, 0]"	
+	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)	
 	#encoding the receive data and sending to the server by UDP.
 	client.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
-	time.sleep(1)
 	#Waiting for the command from the server.
 	ServerMessage = str(client.recv(15), encoding = 'utf-8')
 	print(ServerMessage)
 	Output = SendingMessageToFloatChamber(ServerMessage)
 	if Output != "DoNothing":
 		client.sendto(Output.encode('utf-8'), (HOST, PORT))
-	#sleep 1 seconds
-	#time.sleep(1)
 	client.close()
+
+def ListeningToMainServer(FlagOfListening):
+	#Create a socket, DGRAM means UDP protocal
+	UDPServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	UDPServer.bind((RP_IP, RP_Port))
+	command, addr = UDPServer.recvfrom(20)
+	StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+	UDPServer.sendto(StatusOfWaterChamber.encode(), addr)
+	FlagOfListening =
 	
 def PostWeatherData():
 	RainSerialCount = 0
@@ -104,7 +114,7 @@ def PostWeatherData():
 		if CurrentRainData is not None:
 			break
 		#less half of update time.
-		elif RainSerialCount > DelayTime/20:
+		elif RainSerialCount > SampleInterval/20:
 			CurrentRainData = ", 0, 0, 0, 0, 0]"
 			break
 	while(1):
@@ -122,24 +132,39 @@ def PostWeatherData():
 	#time.sleep(1)
 	client.close()
 
-
-if __name__ == '__main__':
-	#Declare threading objects
-	#WaterThreading = threading.Thread(target = PostWaterData)
-	#RainThreading = threading.Thread(target = PostRainData)
-	#WeatherThreading = threading.Thread(target = PostWeatherData)
+def DataSampling():
+	WaterThread = threading.Thread(target = PostWaterData)
+	WeatherThread = threading.Thread(target = PostWeatherData)
+	#Engage thread objects
+	WaterThread.start()
+	#WeatherThread.start()
+	WaterThread.join()
+	#WeatherThread.join()
 	
+if __name__ == '__main__':
+	StartTime = time.time()
+	FlagOfSample = False
+	FlagOfListening = False
+	ListeningThreading = threading.Thread(target = ListeningToMainServer())
+	DataSamplingThread = threading.Thread(target = DataSampling())
 	while(1):
-		WaterThreading = threading.Thread(target = PostWaterData)
-		WeatherThreading = threading.Thread(target = PostWeatherData)
-		CheckIfInternetIsConnected()
-		#Engage threading objects
-		WaterThreading.start()
-		#RainThreading.start()
-		#WeatherThreading.start()
-		WaterThreading.join()
-		#RainThreading.join()
-		#WeatherThreading.join()
+		CurrentTime = time.time()
+		ListeningThread.start()
 		
-		print("Done")
+		#Check if the sampling is successful
+		if(FlagOfSample == True)
+			#Declare threading objects
+			DataSamplingThread = threading.Thread(target = DataSampling())
+			FlagOfSample = False
+		#Check if Listening is successful
+		if(FlagOfListening == True):
+			ListeningThread = threading.Thread(target = ListeningToMainServer())
+			FlagOfListening = False
+		#Check the time interval
+		if(CurrentTime - StartTime > SampleInterval && FlagOfSample == False)
+			CheckIfInternetIsConnected()
+			DataSamplingThread.start()
+			print("Done")
+			StartTime = CurrentTime
+			FlagOfSample = True
 		time.sleep(DelayTime)
