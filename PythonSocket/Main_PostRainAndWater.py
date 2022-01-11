@@ -153,8 +153,8 @@ if __name__ == '__main__':
 	ListeningThreading = threading.Thread(target = ListeningToMainServer())
 	DataSamplingThread = threading.Thread(target = DataSampling())
 	CheckIfInternetIsConnected()
-	ListeningThread.start()
 	DataSamplingThread.start()
+	ListeningThread.start()
 	print('Start')
 	while(1):
 		CurrentTime = time.time()
