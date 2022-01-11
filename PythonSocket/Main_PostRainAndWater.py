@@ -96,14 +96,14 @@ def PostWaterData():
 		client.sendto(Output.encode('utf-8'), (HOST, PORT))
 	client.close()
 
-def ListeningToMainServer(FlagOfListening):
+def ListeningToMainServer():
 	#Create a socket, DGRAM means UDP protocal
 	UDPServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	UDPServer.bind((RP_IP, RP_Port))
 	command, addr = UDPServer.recvfrom(20)
 	StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 	UDPServer.sendto(StatusOfWaterChamber.encode(), addr)
-	FlagOfListening =
+	return True
 	
 def PostWeatherData():
 	RainSerialCount = 0
@@ -167,4 +167,5 @@ if __name__ == '__main__':
 			print("Done")
 			StartTime = CurrentTime
 			FlagOfSample = True
+		FlagOfListening = ListeningThreading.join()
 		time.sleep(DelayTime)
