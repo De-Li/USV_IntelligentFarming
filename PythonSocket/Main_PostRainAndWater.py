@@ -150,15 +150,15 @@ if __name__ == '__main__':
 	StartTime = time.time()
 	FlagOfSample = False
 	FlagOfListening = False
-	ListeningThreading = threading.Thread(target = ListeningToMainServer())
+	#ListeningThreading = threading.Thread(target = ListeningToMainServer())
 	DataSamplingThread = threading.Thread(target = DataSampling())
 	CheckIfInternetIsConnected()
 	DataSamplingThread.start()
-	ListeningThread.start()
+	#ListeningThread.start()
 	print('Start')
 	while(1):
 		CurrentTime = time.time()
-		ListeningThread.start()
+		#ListeningThread.start()
 		
 		#Check if the sampling is successful
 		if(FlagOfSample == True):
@@ -167,7 +167,7 @@ if __name__ == '__main__':
 			FlagOfSample = False
 		#Check if Listening is successful
 		if(FlagOfListening == True):
-			ListeningThread = threading.Thread(target = ListeningToMainServer())
+			#ListeningThread = threading.Thread(target = ListeningToMainServer())
 			FlagOfListening = False
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval and FlagOfSample == False):
@@ -176,5 +176,5 @@ if __name__ == '__main__':
 			print("Done")
 			StartTime = CurrentTime
 			FlagOfSample = True
-		FlagOfListening = ListeningThreading.join()
+		#FlagOfListening = ListeningThreading.join()
 		time.sleep(DelayTime)
