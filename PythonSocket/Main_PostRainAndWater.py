@@ -172,7 +172,7 @@ if __name__ == '__main__':
 			ListeningThread.start()
 			FlagOfListening = False
 		#Check the time interval
-		if(CurrentTime - StartTime > SampleInterval or FlagOfListeningInitialization = False):
+		if(CurrentTime - StartTime > SampleInterval or FlagOfListeningInitialization == False):
 			CheckIfInternetIsConnected()
 			DataSamplingThread.start()
 			print("Done")
