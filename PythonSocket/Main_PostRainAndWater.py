@@ -163,7 +163,7 @@ if __name__ == '__main__':
 			ListeningThread = threading.Thread(target = ListeningToMainServer())
 			FlagOfListening = False
 		#Check the time interval
-		if(CurrentTime - StartTime > SampleInterval && FlagOfSample == False):
+		if(CurrentTime - StartTime > SampleInterval and FlagOfSample == False):
 			CheckIfInternetIsConnected()
 			DataSamplingThread.start()
 			print("Done")
