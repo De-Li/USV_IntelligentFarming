@@ -43,7 +43,7 @@ RP_IP = '192.168.1.108'
 RP_Port = 5910
 
 #delay time in second
-SampleInterval = 10
+SampleInterval = 5
 DelayTime = 0.3
 
 def CheckIfInternetIsConnected():
@@ -146,6 +146,8 @@ if __name__ == '__main__':
 	FlagOfSample = False
 	FlagOfListening = False
 	ListeningThreading = threading.Thread(target = ListeningToMainServer())
+	CheckIfInternetIsConnected()
+	DataSamplingThread.start()
 	DataSamplingThread = threading.Thread(target = DataSampling())
 	while(1):
 		CurrentTime = time.time()
