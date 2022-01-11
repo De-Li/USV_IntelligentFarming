@@ -152,14 +152,14 @@ if __name__ == '__main__':
 	FlagOfListening = False
 	#ListeningThreading = threading.Thread(target = ListeningToMainServer())
 	DataSamplingThread = threading.Thread(target = DataSampling())
-	CheckIfInternetIsConnected()
-	DataSamplingThread.start()
+	#CheckIfInternetIsConnected()
+	#DataSamplingThread.start()
 	#ListeningThread.start()
 	print('Start')
 	while(1):
 		CurrentTime = time.time()
 		#ListeningThread.start()
-		
+		CheckIfInternetIsConnected()
 		#Check if the sampling is successful
 		if(FlagOfSample == True):
 			#Declare threading objects
