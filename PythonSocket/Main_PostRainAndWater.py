@@ -101,6 +101,7 @@ def ListeningToMainServer():
 	UDPServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	UDPServer.bind((RP_IP, RP_Port))
 	command, addr = UDPServer.recvfrom(20)
+	print(command)
 	StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 	UDPServer.sendto(StatusOfWaterChamber.encode(), addr)
 	return True
