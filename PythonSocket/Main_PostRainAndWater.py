@@ -147,9 +147,10 @@ if __name__ == '__main__':
 	FlagOfSample = False
 	FlagOfListening = False
 	ListeningThreading = threading.Thread(target = ListeningToMainServer())
-	CheckIfInternetIsConnected()
-	DataSamplingThread.start()
 	DataSamplingThread = threading.Thread(target = DataSampling())
+	CheckIfInternetIsConnected()
+	ListeningThread.start()
+	DataSamplingThread.start()
 	while(1):
 		CurrentTime = time.time()
 		ListeningThread.start()
