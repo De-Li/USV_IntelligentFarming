@@ -95,17 +95,6 @@ def PostWaterData():
 	if Output != "DoNothing":
 		client.sendto(Output.encode('utf-8'), (HOST, PORT))
 	client.close()
-
-def ListeningToMainServer():
-	print('ListeningToMainServer')
-	#Create a socket, DGRAM means UDP protocal
-	UDPServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	UDPServer.bind((RP_IP, RP_Port))
-	command, addr = UDPServer.recvfrom(20)
-	print(command)
-	StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-	UDPServer.sendto(StatusOfWaterChamber.encode(), addr)
-	return True
 	
 def PostWeatherData():
 	print('PostWeather')
@@ -144,14 +133,24 @@ def DataSampling():
 	WeatherThread.start()
 	#WaterThread.join()
 	WeatherThread.join()
-	
+
+def ListeningToMainServer():
+	print('ListeningToMainServer')
+	#Create a socket, DGRAM means UDP protocal
+	UDPServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	UDPServer.bind((RP_IP, RP_Port))
+	command, addr = UDPServer.recvfrom(20)
+	print(command)
+	StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+	UDPServer.sendto(StatusOfWaterChamber.encode(), addr)
+	return True
+
 if __name__ == '__main__':
 	print('Main')
 	StartTime = time.time()
 	FlagOfSample = False
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
-	ListeningThreading = threading.Thread(target = ListeningToMainServer())
 	DataSamplingThread = threading.Thread(target = DataSampling())
 	#DataSamplingThread.start()
 	#ListeningThread.start()
@@ -166,6 +165,7 @@ if __name__ == '__main__':
 			DataSamplingThread = threading.Thread(target = DataSampling())
 			FlagOfSample = False
 			if(FlagOfListening == False and FlagOfListeningInitialization == False):
+				ListeningThreading = threading.Thread(target = ListeningToMainServer())
 				ListeningThread.start()
 				FlagOfListeningInitialization = True
 		#Check if Listening is successful
