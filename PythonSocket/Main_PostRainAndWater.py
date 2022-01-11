@@ -146,6 +146,7 @@ def DataSampling():
 	WeatherThread.join()
 	
 if __name__ == '__main__':
+	print('Main')
 	StartTime = time.time()
 	FlagOfSample = False
 	FlagOfListening = False
@@ -154,7 +155,7 @@ if __name__ == '__main__':
 	CheckIfInternetIsConnected()
 	ListeningThread.start()
 	DataSamplingThread.start()
-	print('Main')
+	print('Start')
 	while(1):
 		CurrentTime = time.time()
 		ListeningThread.start()
