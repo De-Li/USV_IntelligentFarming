@@ -137,10 +137,10 @@ def DataSampling():
 	WaterThread = threading.Thread(target = PostWaterData)
 	WeatherThread = threading.Thread(target = PostWeatherData)
 	#Engage thread objects
-	WaterThread.start()
-	#WeatherThread.start()
-	WaterThread.join()
-	#WeatherThread.join()
+	#WaterThread.start()
+	WeatherThread.start()
+	#WaterThread.join()
+	WeatherThread.join()
 	
 if __name__ == '__main__':
 	StartTime = time.time()
