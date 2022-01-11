@@ -97,6 +97,7 @@ def PostWaterData():
 	client.close()
 
 def ListeningToMainServer():
+	print('ListeningToMainServer')
 	#Create a socket, DGRAM means UDP protocal
 	UDPServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	UDPServer.bind((RP_IP, RP_Port))
@@ -107,6 +108,7 @@ def ListeningToMainServer():
 	return True
 	
 def PostWeatherData():
+	print('PostWeather')
 	RainSerialCount = 0
 	while(1):
 		CurrentRainData = GetRainData()
@@ -134,6 +136,7 @@ def PostWeatherData():
 	client.close()
 
 def DataSampling():
+	print('DataSampling')
 	WaterThread = threading.Thread(target = PostWaterData)
 	WeatherThread = threading.Thread(target = PostWeatherData)
 	#Engage thread objects
@@ -151,6 +154,7 @@ if __name__ == '__main__':
 	CheckIfInternetIsConnected()
 	ListeningThread.start()
 	DataSamplingThread.start()
+	print('Main')
 	while(1):
 		CurrentTime = time.time()
 		ListeningThread.start()
