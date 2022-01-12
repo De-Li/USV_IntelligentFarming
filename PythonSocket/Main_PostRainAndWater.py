@@ -44,6 +44,7 @@ ListeningPort = 5910
 global FlagOfListening
 #delay time in second
 SampleInterval = 5
+WaitingLimit = 5
 DelayTime = 0.3
 
 def CheckIfInternetIsConnected():
@@ -61,7 +62,7 @@ def PostWaterData(MainSocket):
 		WaterWaitingCount = WaterWaitingCount + 1
 		if CurrentWaterData is not None:
 			break
-		elif WaterWaitingCount == 20:
+		elif WaterWaitingCount == WaitingLimit:
 			CurrentWaterData = [0, 0, 0, 0, 0, 0, 0]
 			break
 	#encoding the receive data and sending to the server by UDP.
