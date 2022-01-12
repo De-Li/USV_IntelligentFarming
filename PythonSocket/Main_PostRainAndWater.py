@@ -92,7 +92,6 @@ def PostWeatherData(MainSocket):
         
 	#sleep 1 seconds
 	#time.sleep(1)
-	client.close()
 
 def DataSampling(MainSocket):
 	print('DataSampling')
@@ -153,3 +152,4 @@ if __name__ == '__main__':
 			FlagOfSample = True
 		FlagOfListening = ListeningThreading.join()
 		time.sleep(DelayTime)
+	MainSocket.close()
