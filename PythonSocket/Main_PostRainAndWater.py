@@ -68,7 +68,6 @@ def PostWaterData(MainSocket):
 	MainSocket.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
 	
 def PostWeatherData(MainSocket):
-	print('PostWeather')
 	RainSerialCount = 0
 	while(1):
 		CurrentRainData = GetRainData()
@@ -153,6 +152,9 @@ if __name__ == '__main__':
 			print("Sampling is Done")
 			StartTime = time.time()
 			FlagOfSample = True
-		#FlagOfListening = ListeningThreading.join()
+		print("FlagOfSample")
+		print(FlagOfSample)
+		print("FlagOfListening")
+		print(FlagOfListening)
 		time.sleep(DelayTime)
 	MainSocket.close()
