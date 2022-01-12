@@ -123,10 +123,6 @@ if __name__ == '__main__':
 	FlagOfSample = False
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
-	DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
-	ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
-	ListeningThreading.setDaemon(True) #Set listening in Daemon mode.
-	DataSamplingThread.start()
 	StartTime = time.time()
 	while(1):
 		print('Start')
@@ -137,6 +133,8 @@ if __name__ == '__main__':
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			FlagOfSample = False
 			if(FlagOfListening == False and FlagOfListeningInitialization == False):
+				ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+				ListeningThreading.setDaemon(True) #Set listening in Daemon mode.
 				ListeningThread.start()
 				FlagOfListeningInitialization = True
 		#Check if Listening is successful
@@ -148,9 +146,10 @@ if __name__ == '__main__':
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval or FlagOfListeningInitialization == False):
 			CheckIfInternetIsConnected()
+			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			DataSamplingThread.start()
 			print("Sampling is Done")
-			StartTime = CurrentTime
+			StartTime = time.time()
 			FlagOfSample = True
 		FlagOfListening = ListeningThreading.join()
 		time.sleep(DelayTime)
