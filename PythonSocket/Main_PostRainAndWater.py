@@ -108,9 +108,11 @@ def ListeningToMainServer(MainSocket):
 		print('ListeningToMainServer')
 		command, addr = MainSocket.recvfrom(20)
 		print(command)
-		if(command == '200'):
+		if(command == 200):
 			continue
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+		print("StatusOfWaterChamber")
+		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
 		return True
 
