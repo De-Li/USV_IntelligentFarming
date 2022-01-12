@@ -108,7 +108,7 @@ def ListeningToMainServer(MainSocket):
 		print('ListeningToMainServer')
 		command, addr = MainSocket.recvfrom(20)
 		print(command)
-		if(command.decode == '200'):
+		if(command.decode() == '200'):
 			continue
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print("StatusOfWaterChamber")
@@ -137,7 +137,7 @@ if __name__ == '__main__':
 			if(FlagOfListening == False and FlagOfListeningInitialization == False):
 				ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
 				ListeningThreading.setDaemon(True) #Set listening in Daemon mode.
-				ListeningThread.start()
+				ListeningThreading.start()
 				FlagOfListeningInitialization = True
 		#Check if Listening is successful
 		if(FlagOfListening == True):
