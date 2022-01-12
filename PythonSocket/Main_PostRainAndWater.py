@@ -42,7 +42,6 @@ PORT = 3038
 LAB5910_IP = '192.168.1.108'
 ListeningPort = 5910
 global FlagOfListening
-FlagOfListening = False
 #delay time in second
 SampleInterval = 5
 DelayTime = 0.3
@@ -123,7 +122,6 @@ if __name__ == '__main__':
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
 	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	FlagOfSample = False
-	global FlagOfListening
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
 	StartTime = time.time()
