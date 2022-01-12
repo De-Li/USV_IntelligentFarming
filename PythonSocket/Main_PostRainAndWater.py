@@ -114,6 +114,7 @@ def ListeningToMainServer(MainSocket):
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
+		FlagOfListening = True
 		return True
 
 if __name__ == '__main__':
@@ -121,7 +122,7 @@ if __name__ == '__main__':
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
 	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	FlagOfSample = False
-	FlagOfListening = False
+	global FlagOfListening = False
 	FlagOfListeningInitialization = False
 	StartTime = time.time()
 	while(1):
@@ -133,14 +134,12 @@ if __name__ == '__main__':
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			FlagOfSample = False
 			if(FlagOfListening == False and FlagOfListeningInitialization == False):
-				global ListeningThreading 
 				ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
 				ListeningThreading.setDaemon(True) #Set listening in Daemon mode.
 				ListeningThread.start()
 				FlagOfListeningInitialization = True
 		#Check if Listening is successful
 		if(FlagOfListening == True):
-			global ListeningThreading 
 			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
 			ListeningThreading.setDaemon(True)
 			ListeningThread.start()
@@ -153,6 +152,6 @@ if __name__ == '__main__':
 			print("Sampling is Done")
 			StartTime = time.time()
 			FlagOfSample = True
-		FlagOfListening = ListeningThreading.join()
+		#FlagOfListening = ListeningThreading.join()
 		time.sleep(DelayTime)
 	MainSocket.close()
