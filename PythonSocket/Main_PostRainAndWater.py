@@ -41,7 +41,7 @@ PORT = 3038
 #IP and port of Raspberry pi
 LAB5910_IP = '192.168.1.108'
 ListeningPort = 5910
-FlagOfListening
+FlagOfListening = False
 #delay time in second
 SampleInterval = 5
 DelayTime = 0.3
