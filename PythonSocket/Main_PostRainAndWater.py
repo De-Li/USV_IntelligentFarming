@@ -79,6 +79,7 @@ def PostWeatherData(MainSocket):
 		#less half of update time.
 		elif RainSerialCount > WaitingLimit:
 			CurrentRainData = ", 0, 0, 0, 0, 0]"
+			print("Rain receive waiting limit!")
 			break
 	while(1):
 		CurrentWeatherData = GetWeatherDataFromGroundStation()
@@ -104,6 +105,7 @@ def DataSampling(MainSocket):
 	WeatherThread.join()
 
 def ListeningToMainServer(MainSocket):
+	global FlagOfListening
 	while(True):
 		print('ListeningToMainServer')
 		command, addr = MainSocket.recvfrom(20)
