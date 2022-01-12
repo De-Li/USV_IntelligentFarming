@@ -41,7 +41,7 @@ PORT = 3038
 #IP and port of Raspberry pi
 LAB5910_IP = '192.168.1.108'
 ListeningPort = 5910
-
+FlagOfListening
 #delay time in second
 SampleInterval = 5
 DelayTime = 0.3
@@ -104,10 +104,12 @@ def DataSampling(MainSocket):
 
 def ListeningToMainServer(MainSocket):
 	while(True):
+		global FlagOfListening
 		print('ListeningToMainServer')
 		command, addr = MainSocket.recvfrom(20)
+		command = command.decode()
 		print(command)
-		if(command.decode() == '200'):
+		if(command == '200'):
 			continue
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print("StatusOfWaterChamber")
