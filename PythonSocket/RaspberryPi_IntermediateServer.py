@@ -73,7 +73,6 @@ def SendingMessageToFloatChamber(command):
 	Send_Sock.settimeout(20)
 	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
 	#Check the command
-	command = command.decode()
 	if command=='ShowVoltage':
 		Send_Sock.send('1'.encode('utf-8'))
 	elif command=='PowerUp':
