@@ -27,7 +27,7 @@ def DecipherRainData(response):
 	#arrange rain data into CSV format. 
 	ArrangedResponse = ', ' +' , '.join(str(e) for e in FloatData)+', 0]'
 	return ArrangedResponse
-def GetRainData():
+def GetRainData(TryLimit):
 	'''
 	#  +8 timezone
   tz = timezone(timedelta(hours=+8))
@@ -82,8 +82,8 @@ def GetRainData():
 					ArrangedResponse = DecipherRainData(response)
 					print(ArrangedResponse)
 					return ArrangedResponse
-				time.sleep(0.2)
-				if(i==50):
+				time.sleep(0.1)
+				if(i==TryLimit):
 					ser.close()
 					print("Rain receive waiting limit!")
 					return None
