@@ -133,13 +133,13 @@ if __name__ == '__main__':
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			FlagOfSample = False
 			if(FlagOfListening == False and FlagOfListeningInitialization == False):
-				ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+				global ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
 				ListeningThreading.setDaemon(True) #Set listening in Daemon mode.
 				ListeningThread.start()
 				FlagOfListeningInitialization = True
 		#Check if Listening is successful
 		if(FlagOfListening == True):
-			ListeningThread = threading.Thread(target = ListeningToMainServer(MainSocket))
+			global ListeningThread = threading.Thread(target = ListeningToMainServer(MainSocket))
 			ListeningThreading.setDaemon(True)
 			ListeningThread.start()
 			FlagOfListening = False
