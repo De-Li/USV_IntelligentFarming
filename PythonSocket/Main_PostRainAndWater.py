@@ -39,8 +39,8 @@ HOST = '140.116.202.132'
 PORT = 3038	
 
 #IP and port of Raspberry pi
-RP_IP = '192.168.1.108'
-RP_Port = 5910
+LAB5910_IP = '192.168.1.108'
+ListeningPort = 5910
 
 #delay time in second
 SampleInterval = 5
@@ -53,28 +53,8 @@ def CheckIfInternetIsConnected():
 			return True
 		except urllib.error.URLError as err:
 			pass	
-'''
-def PostRainData():
-	while(1):
-		CurrentRainData = GetRainData()
-		if CurrentRainData is not None:
-			break			
-	#print(CurrentRainData)
-	#Create a socket
-	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
-        
-	#encoding the receive data and sending to the server by UDP.
-	client.sendto(CurrentRainData.encode('utf-8'), (HOST, PORT)) 
-        
-	#Waiting for the echo message from the server.
-	serverMessage = str(client.recv(1024), encoding = 'utf-8')
-	print('Server:', serverMessage)
-        
-	#sleep 1 second
-	#time.sleep(1)
-	#client.close()
-'''
-def PostWaterData():
+
+def PostWaterData(MainSocket):
 	WaterWaitingCount=0
 	while(1):
 		CurrentWaterData = GetWaterData()
@@ -84,19 +64,10 @@ def PostWaterData():
 		elif WaterWaitingCount == 20:
 			CurrentWaterData = [0, 0, 0, 0, 0, 0, 0]
 			break
-	#Create a socket, DGRAM means UDP protocal
-	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)	
 	#encoding the receive data and sending to the server by UDP.
-	client.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
-	#Waiting for the command from the server.
-	ServerMessage = str(client.recv(15), encoding = 'utf-8')
-	print(ServerMessage)
-	Output = SendingMessageToFloatChamber(ServerMessage)
-	if Output != "DoNothing":
-		client.sendto(Output.encode('utf-8'), (HOST, PORT))
-	client.close()
+	MainSocket.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
 	
-def PostWeatherData():
+def PostWeatherData(MainSocket):
 	print('PostWeather')
 	RainSerialCount = 0
 	while(1):
@@ -114,68 +85,70 @@ def PostWeatherData():
 		if CurrentWeatherData is not None:
 			break
 	#Create a socket, DGRAM means UDP protocal
-	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	MeldedWeatherData = CurrentWeatherData + CurrentRainData
 	print(MeldedWeatherData)
 	#encoding the receive data and sending to the server by UDP.
-	client.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
+	MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
         
 	#sleep 1 seconds
 	#time.sleep(1)
 	client.close()
 
-def DataSampling():
+def DataSampling(MainSocket):
 	print('DataSampling')
-	WaterThread = threading.Thread(target = PostWaterData)
-	WeatherThread = threading.Thread(target = PostWeatherData)
+	WaterThread = threading.Thread(target = PostWaterData(MainSocket))
+	WeatherThread = threading.Thread(target = PostWeatherData(MainSocket))
 	#Engage thread objects
 	#WaterThread.start()
 	WeatherThread.start()
 	#WaterThread.join()
 	WeatherThread.join()
 
-def ListeningToMainServer():
-	print('ListeningToMainServer')
-	#Create a socket, DGRAM means UDP protocal
-	UDPServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	UDPServer.bind((RP_IP, RP_Port))
-	command, addr = UDPServer.recvfrom(20)
-	print(command)
-	StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-	UDPServer.sendto(StatusOfWaterChamber.encode(), addr)
-	return True
+def ListeningToMainServer(MainSocket):
+	while(True):
+		print('ListeningToMainServer')
+		command, addr = MainSocket.recvfrom(20)
+		print(command)
+		if(command == '200'):
+			continue
+		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
+		return True
 
 if __name__ == '__main__':
 	print('Main')
-	StartTime = time.time()
+	#UDP socket to the "Main Server", DGRAM means UDP protocal.
+	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	FlagOfSample = False
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
-	DataSamplingThread = threading.Thread(target = DataSampling())
-	#DataSamplingThread.start()
-	#ListeningThread.start()
-	print('Start')
+	DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
+	ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+	ListeningThreading.setDaemon(True) #Set listening in Daemon mode.
+	DataSamplingThread.start()
+	StartTime = time.time()
 	while(1):
-		ListeningThreading = threading.Thread(target = ListeningToMainServer())
+		print('Start')
 		CurrentTime = time.time()
 		#Check if the sampling is successful
 		if(FlagOfSample == True):
 			#Declare threading objects
-			DataSamplingThread = threading.Thread(target = DataSampling())
+			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			FlagOfSample = False
 			if(FlagOfListening == False and FlagOfListeningInitialization == False):
 				ListeningThread.start()
 				FlagOfListeningInitialization = True
 		#Check if Listening is successful
 		if(FlagOfListening == True):
-			ListeningThread = threading.Thread(target = ListeningToMainServer())
+			ListeningThread = threading.Thread(target = ListeningToMainServer(MainSocket))
+			ListeningThreading.setDaemon(True)
 			ListeningThread.start()
 			FlagOfListening = False
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval or FlagOfListeningInitialization == False):
 			CheckIfInternetIsConnected()
 			DataSamplingThread.start()
-			print("Done")
+			print("Sampling is Done")
 			StartTime = CurrentTime
 			FlagOfSample = True
 		FlagOfListening = ListeningThreading.join()
