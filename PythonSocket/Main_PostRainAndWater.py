@@ -71,13 +71,13 @@ def PostWaterData(MainSocket):
 def PostWeatherData(MainSocket):
 	RainSerialCount = 0
 	while(1):
-		CurrentRainData = GetRainData()
-		# 10 second for per waiting time.
+		CurrentRainData = GetRainData(WaitingLimit)
+		# WaitingLimit*0.2 second for per waiting time.
 		RainSerialCount = RainSerialCount + 1
 		if CurrentRainData is not None:
 			break
 		#less half of update time.
-		elif RainSerialCount > SampleInterval/20:
+		elif RainSerialCount > WaitingLimit:
 			CurrentRainData = ", 0, 0, 0, 0, 0]"
 			break
 	while(1):
@@ -114,7 +114,7 @@ def ListeningToMainServer(MainSocket):
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
-		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
+		MainSocket.sendto(StatusOfWaterChamber, addr)
 		FlagOfListening = True
 		return True
 
