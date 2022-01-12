@@ -96,7 +96,7 @@ def PostWeatherData(MainSocket):
 
 def DataSampling(MainSocket):
 	print('DataSampling')
-	WaterThread = threading.Thread(target = PostWaterData(MainSocket))
+	#WaterThread = threading.Thread(target = PostWaterData(MainSocket))
 	WeatherThread = threading.Thread(target = PostWeatherData(MainSocket))
 	#Engage thread objects
 	#WaterThread.start()
