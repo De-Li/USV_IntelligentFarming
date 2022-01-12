@@ -41,6 +41,7 @@ PORT = 3038
 #IP and port of Raspberry pi
 LAB5910_IP = '192.168.1.108'
 ListeningPort = 5910
+global FlagOfListening
 FlagOfListening = False
 #delay time in second
 SampleInterval = 5
@@ -104,7 +105,6 @@ def DataSampling(MainSocket):
 
 def ListeningToMainServer(MainSocket):
 	while(True):
-		global FlagOfListening
 		print('ListeningToMainServer')
 		command, addr = MainSocket.recvfrom(20)
 		command = command.decode()
