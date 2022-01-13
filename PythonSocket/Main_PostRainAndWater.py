@@ -46,7 +46,7 @@ global StartTime
 global WaterData
 global WeatherData
 global RainData
-WaterData"[1, 1, 0, 0, 0, 0, 0]"
+WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
 global FlagOfSampling
 #delay time in second
