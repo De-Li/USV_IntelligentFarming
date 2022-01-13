@@ -121,6 +121,8 @@ def ListeningToMainServer(MainSocket):
 		elif(command== '404'):
 			pass
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+		if(StatusOfWaterChamber == "DoNothing"):
+			return True
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
