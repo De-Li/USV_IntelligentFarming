@@ -130,6 +130,7 @@ def ListeningToMainServer(MainSocket):
 if __name__ == '__main__':
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
 	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	MainSocket.settimeout(20)
 	global FlagOfListening
 	global StartTime
 	FlagOfSample = False
