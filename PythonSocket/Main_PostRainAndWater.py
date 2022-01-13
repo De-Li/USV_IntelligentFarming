@@ -134,7 +134,7 @@ def CommunicationToMainServer(content):
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
-			return True
+		return True
 	except:
 		pass
 
