@@ -116,7 +116,7 @@ def ListeningToMainServer(MainSocket):
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
-		MainSocket.sendto(StatusOfWaterChamber, addr)
+		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
 		FlagOfListening = True
 		return True
 
