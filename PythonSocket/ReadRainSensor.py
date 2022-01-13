@@ -69,12 +69,6 @@ def GetRainData(TryLimit):
 				#listen data per 0.5s
 				response = ser.readline()
 				if(response):	
-					'''
-					response = str(response) + "Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds"))
-					print(str(response))
-					print("Catch time:"+ str(datetime.now(tz).isoformat(timespec="seconds")))
-					'''
-					print("Rain data:")
 					print(str(response))
 					ser.close()
 					#The sequence of response is Acc(Accumulation), EventAcc, TotalAcc, RInt.
@@ -83,10 +77,12 @@ def GetRainData(TryLimit):
 					print(ArrangedResponse)
 					return ArrangedResponse
 				time.sleep(0.1)
-				if(i==TryLimit):
+				if(i==TryLimit/2):
 					ser.close()
 					#print("Rain receive waiting limit!")
-					return None
+				elif(i==TryLimit):
+					print("Rain receive waiting limit!")
+					return ", 0, 0, 0, 0, 0]"
 			except Exception as e1:
 				print ("communicating error " + str(e1))
 				return None
