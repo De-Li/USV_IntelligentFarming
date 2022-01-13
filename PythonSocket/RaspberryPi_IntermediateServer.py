@@ -81,8 +81,9 @@ def SendingMessageToFloatChamber(command):
 		Send_Sock.send('3'.encode('utf-8'))
 	else :
 		return "DoNothing"
-	print(Send_Sock.recv(200))
-	return Send_Sock.recv(200)
+	Reply = Send_Sock.recv(30)
+	print(Reply)
+	return Reply.decode()
 	#close the socket
 	Send_Sock.close()
 	
