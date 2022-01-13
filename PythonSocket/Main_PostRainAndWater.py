@@ -152,12 +152,6 @@ if __name__ == '__main__':
 			CommunicationThread.start()
 			WeatherSamplingThread.start()
 			WaterSamplingThread.start()
-			print("-------listening--------")
-			while(not FlagOfSampling):
-				print("listening")
-				CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
-				CommunicationThread.start()
-				#CommunicationThread.join()
 			WaterSamplingThread.join()
 			WeatherSamplingThread.join()
 			print("Sampling is Done")
@@ -175,9 +169,6 @@ if __name__ == '__main__':
 			CommunicationThread.start()
 			CommunicationThread.join()
 			count = count + 1
-			if(count%2 == 0):
-				WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-				WeatherSamplingThread.start()
 		else:
 			print("------------Pass------------")
 		time.sleep(DelayTime)
