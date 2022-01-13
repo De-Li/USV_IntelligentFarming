@@ -46,6 +46,7 @@ global StartTime
 global WaterData
 global WeatherData
 global RainData
+WaterData"[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
 global FlagOfSampling
 #delay time in second
@@ -65,21 +66,14 @@ def CheckIfInternetIsConnected():
 
 def PostWaterData():
 	global WaterData
-	WaterData = "[1, 1, 1, 1, 1, 1, 1]"
-	'''
 	WaterWaitingCount=0
-	while(1):
-		CurrentWaterData = GetWaterData()
-		WaterWaitingCount = WaterWaitingCount + 1
-		if CurrentWaterData is not None:
-			break
-		elif WaterWaitingCount == WaitingLimit:
-			CurrentWaterData = "[0, 0, 0, 0, 0, 0, 0]"
-			break
-	return CurrentWaterData	
+	CurrentWaterData = GetWaterData()
+	if CurrentWaterData is not None:
+		WaterData = CurrentWaterData
+	elif CurrentWaterData is None:
+		pass
 	#encoding the receive data and sending to the server by UDP.
 	#MainSocket.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
-	'''
 	print(WaterData)
 def PostWeatherData():
 	global WeatherData
