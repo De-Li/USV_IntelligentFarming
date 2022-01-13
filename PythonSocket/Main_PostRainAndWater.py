@@ -37,7 +37,7 @@ import urllib.request #URL related liberary
 
 #IP and port of main server
 HOST = '140.116.202.132'
-PORT = 3038	
+PORT = 30381
 
 #IP and port of Raspberry pi
 LAB5910_IP = '192.168.1.108'
