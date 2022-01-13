@@ -129,6 +129,7 @@ if __name__ == '__main__':
 	FlagOfSample = False
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
+	global FlagOfListening
 	global StartTime
 	StartTime = time.time()
 	while(1):
