@@ -117,7 +117,7 @@ def ListeningToMainServer(MainSocket):
 		if(command == '200'):
 			pass
 			#FlagOfListening = True
-			#return False
+			return False
 		elif(command== '404'):
 			pass
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
@@ -125,7 +125,7 @@ def ListeningToMainServer(MainSocket):
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
 		#FlagOfListening = True
-		#return True
+		return True
 
 if __name__ == '__main__':
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
@@ -136,9 +136,9 @@ if __name__ == '__main__':
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
 	StartTime = time.time()
-	ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
-	ListeningThreading.setDaemon(True)
-	ListeningThreading.start()
+	#ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+	#ListeningThreading.setDaemon(True)
+	#ListeningThreading.start()
 	print('Start')
 	while(True):
 		CurrentTime = time.time()
@@ -147,9 +147,9 @@ if __name__ == '__main__':
 			CheckIfInternetIsConnected()
 			FlagOfListening = False
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
-			#ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
 			DataSamplingThread.start()
-			#ListeningThreading.start()
+			ListeningThreading.start()
 			print("Sampling is Done")
 			StartTime = time.time()
 			FlagOfSample = True
@@ -157,8 +157,8 @@ if __name__ == '__main__':
 			CheckIfInternetIsConnected()
 			MainSocket.sendto("HeartBeat Message".encode('utf-8'), (HOST, PORT))
 			FlagOfListening = False
-			#ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
-			#ListeningThreading.start()
+			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+			ListeningThreading.start()
 		else:
 			print("------------Pass------------")
 		print("FlagOfSample")
