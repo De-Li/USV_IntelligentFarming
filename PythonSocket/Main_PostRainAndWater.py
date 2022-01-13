@@ -33,7 +33,7 @@ from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, Send
 from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
 import urllib.request #URL related liberary
-import daemon # keep listening in daemon mode
+#import daemon # keep listening in daemon mode
 
 #IP and port of main server
 HOST = '140.116.202.132'
