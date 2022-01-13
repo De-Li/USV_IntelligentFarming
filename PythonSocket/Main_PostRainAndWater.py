@@ -147,9 +147,9 @@ if __name__ == '__main__':
 				FlagOfListeningInitialization = True
 		#Check if Listening is successful
 		if(FlagOfListening == True):
-			ListeningThread = threading.Thread(target = ListeningToMainServer(MainSocket))
-			ListeningThread.setDaemon(True)
-			ListeningThread.start()
+			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+			ListeningThreading.setDaemon(True)
+			ListeningThreading.start()
 			FlagOfListening = False
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval or FlagOfListeningInitialization == False):
