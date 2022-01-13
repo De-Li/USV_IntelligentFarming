@@ -49,7 +49,7 @@ global FlagOfSampling
 #delay time in second
 SampleInterval = 10
 SocketTimeOut = 1
-MinTransmitTimeInterval = 1
+MinTransmitTimeInterval = 3
 WaitingLimit = 5
 DelayTime = 0.3
 
@@ -107,11 +107,11 @@ def PostWeatherData():
 	#MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
 		
 def CommunicationToMainServer(content):
+	print('ListeningToMainServer')
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
 	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	MainSocket.settimeout(SocketTimeOut)
 	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
-	print('ListeningToMainServer')
 	try:
 		command, addr = MainSocket.recvfrom(20)
 		command = command.decode()
