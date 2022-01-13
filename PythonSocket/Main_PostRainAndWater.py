@@ -149,10 +149,10 @@ if __name__ == '__main__':
 			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
 			WaterSamplingThread = threading.Thread(target = PostWaterData())
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-			print("-------listening--------")
 			CommunicationThread.start()
 			WeatherSamplingThread.start()
 			WaterSamplingThread.start()
+			print("-------listening--------")
 			while(not FlagOfSampling):
 				print("listening")
 				CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
