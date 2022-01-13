@@ -96,8 +96,10 @@ def GetWaterData():
 		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	except socket.timeout as e:
 		print(e)
+		return None
 	except:
 		print("Lose connection to <UnderWaterSensor!>")
+		return None
 	#print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
 	DecipheredData = DecipherWaterData(ReceiveArray)
