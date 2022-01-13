@@ -156,6 +156,7 @@ if __name__ == '__main__':
 			CheckIfInternetIsConnected()
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			DataSamplingThread.start()
+			DataSamplingThread.daemon = True
 			print("Sampling is Done")
 			StartTime = time.time()
 			FlagOfSample = True
