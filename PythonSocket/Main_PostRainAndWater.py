@@ -136,7 +136,6 @@ if __name__ == '__main__':
 	global WeatherData
 	global FlagOfSampling
 	FlagOfSampling = False
-	FlagOfSampling = 
 	StartTime = time.time()
 	print('Start')
 	count=1
