@@ -35,7 +35,7 @@ def GetWeatherDataFromGroundStation():
 	Server_UDP_IP = "192.168.1.108"
 	Server_UDP_PORT_ForESP8266 = 7777
 	Receive_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
-	Receive_Sock..settimeout(10)
+	Receive_Sock.settimeout(10)
 	Receive_Sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	try:
 		Receive_Sock.bind((Server_UDP_IP, Server_UDP_PORT_ForESP8266))
