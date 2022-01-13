@@ -149,6 +149,7 @@ if __name__ == '__main__':
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 			WaterSamplingThread.start()
 			WeatherSamplingThread.start()
+			print("-------listening--------")
 			while(not FlagOfSampling):
 				print("listening")
 				CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
