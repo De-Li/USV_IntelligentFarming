@@ -133,13 +133,12 @@ if __name__ == '__main__':
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
 	StartTime = time.time()
-	while(1):
-		print('Start')
+	print('Start')
+	while(True):
 		CurrentTime = time.time()
-		#Check if the sampling is successful
-		CheckIfInternetIsConnected()
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval):
+			CheckIfInternetIsConnected()
 			FlagOfListening = False
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
@@ -149,6 +148,7 @@ if __name__ == '__main__':
 			StartTime = time.time()
 			FlagOfSample = True
 		elif(CurrentTime - StartTime > MinTransmitTimeInterval):
+			CheckIfInternetIsConnected()
 			MainSocket.sendto("HeartBeat Message".encode('utf-8'), (HOST, PORT))
 			FlagOfListening = False
 			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
