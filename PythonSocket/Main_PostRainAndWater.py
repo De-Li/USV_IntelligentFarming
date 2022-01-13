@@ -46,6 +46,7 @@ global FlagOfListening
 global StartTime
 #delay time in second
 SampleInterval = 5
+MinTransmitTimeInterval = 1
 WaitingLimit = 5
 DelayTime = 0.3
 
@@ -114,7 +115,8 @@ def ListeningToMainServer(MainSocket):
 		command = command.decode()
 		print(command)
 		if(command == '200'):
-			continue
+			FlagOfListening = True
+			return False
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
@@ -123,7 +125,6 @@ def ListeningToMainServer(MainSocket):
 		return True
 
 if __name__ == '__main__':
-	print('Main')
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
 	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	global FlagOfListening
@@ -136,30 +137,24 @@ if __name__ == '__main__':
 		print('Start')
 		CurrentTime = time.time()
 		#Check if the sampling is successful
-		if(FlagOfSample == True):
-			#Declare threading objects
-			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
-			FlagOfSample = False
-			if(FlagOfListening == False and FlagOfListeningInitialization == False):
-				ListeningThread = threading.Thread(target = ListeningToMainServer(MainSocket))
-				ListeningThread.setDaemon(True) #Set listening in Daemon mode.
-				ListeningThread.start()
-				FlagOfListeningInitialization = True
-		#Check if Listening is successful
-		if(FlagOfListening == True):
-			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
-			ListeningThreading.setDaemon(True)
-			ListeningThreading.start()
-			FlagOfListening = False
+		CheckIfInternetIsConnected()
 		#Check the time interval
-		if(CurrentTime - StartTime > SampleInterval or FlagOfListeningInitialization == False):
-			CheckIfInternetIsConnected()
+		if(CurrentTime - StartTime > SampleInterval):
+			FlagOfListening = False
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
-			DataSamplingThread.setDaemon(True)
+			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
 			DataSamplingThread.start()
+			ListeningThreading.start()
 			print("Sampling is Done")
 			StartTime = time.time()
 			FlagOfSample = True
+		elif(CurrentTime - StartTime > MinTransmitTimeInterval):
+			MainSocket.sendto("HeartBeat Message".encode('utf-8'), (HOST, PORT))
+			FlagOfListening = False
+			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+			ListeningThreading.start()
+		else:
+			print("------------Pass------------")
 		print("FlagOfSample")
 		print(FlagOfSample)
 		print("FlagOfListening")
