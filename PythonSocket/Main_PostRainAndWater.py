@@ -42,10 +42,10 @@ PORT = 3038
 #IP and port of Raspberry pi
 LAB5910_IP = '192.168.1.108'
 ListeningPort = 5910
-global FlagOfListening
 global StartTime
 #delay time in second
-SampleInterval = 5
+SampleInterval = 10
+SocketTimeOut = 1
 MinTransmitTimeInterval = 1
 WaitingLimit = 5
 DelayTime = 0.3
@@ -59,6 +59,7 @@ def CheckIfInternetIsConnected():
 			pass	
 
 def PostWaterData(MainSocket):
+	'''
 	WaterWaitingCount=0
 	while(1):
 		CurrentWaterData = GetWaterData()
@@ -66,12 +67,14 @@ def PostWaterData(MainSocket):
 		if CurrentWaterData is not None:
 			break
 		elif WaterWaitingCount == WaitingLimit:
-			CurrentWaterData = [0, 0, 0, 0, 0, 0, 0]
+			CurrentWaterData = "[0, 0, 0, 0, 0, 0, 0]"
 			break
+	return CurrentWaterData	
 	#encoding the receive data and sending to the server by UDP.
-	MainSocket.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
-	
-def PostWeatherData(MainSocket):
+	#MainSocket.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
+	'''
+	return "[0, 0, 0, 0, 0, 0, 0]"
+def PostWeatherData():
 	RainSerialCount = 0
 	while(1):
 		CurrentRainData = GetRainData(WaitingLimit)
@@ -91,82 +94,71 @@ def PostWeatherData(MainSocket):
 	#Create a socket, DGRAM means UDP protocal
 	MeldedWeatherData = CurrentWeatherData + CurrentRainData
 	print(MeldedWeatherData)
+	return MeldedWeatherData
 	#encoding the receive data and sending to the server by UDP.
-	MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
+	#MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
         
-	#sleep 1 seconds
-	#time.sleep(1)
-
-def DataSampling(MainSocket):
+def DataSampling():
 	print('DataSampling')
-	#WaterThread = threading.Thread(target = PostWaterData(MainSocket))
-	WeatherThread = threading.Thread(target = PostWeatherData(MainSocket))
+	WaterThread = threading.Thread(target = PostWaterData())
+	WeatherThread = threading.Thread(target = PostWeatherData())
 	#Engage thread objects
-	#WaterThread.start()
+	WaterThread.start()
 	WeatherThread.start()
-	#WaterThread.join()
-	WeatherThread.join()
+	WaterData = WaterThread.join()
+	WeatherData = WeatherThread.join()
+	return WaterData, WeatherData
 		
-def ListeningToMainServer(MainSocket):
-	global FlagOfListening
-	while(True):
-		print('ListeningToMainServer')
+def CommunicationToMainServer(content):
+	#UDP socket to the "Main Server", DGRAM means UDP protocal.
+	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	MainSocket.settimeout(SocketTimeOut)
+	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
+	print('ListeningToMainServer')
+	try:
 		command, addr = MainSocket.recvfrom(20)
 		command = command.decode()
+		print("command")
 		print(command)
 		if(command == '200'):
-			pass
-			#FlagOfListening = True
-			return False
+			return True
 		elif(command== '404'):
-			pass
+			return True
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		if(StatusOfWaterChamber == "DoNothing"):
 			return True
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
-		#FlagOfListening = True
-		return True
+			return True
+	except:
+		pass
 
 if __name__ == '__main__':
-	#UDP socket to the "Main Server", DGRAM means UDP protocal.
-	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	MainSocket.settimeout(20)
-	global FlagOfListening
 	global StartTime
-	FlagOfSample = False
-	FlagOfListening = False
-	FlagOfListeningInitialization = False
 	StartTime = time.time()
-	#ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
-	#ListeningThreading.setDaemon(True)
-	#ListeningThreading.start()
 	print('Start')
 	while(True):
 		CurrentTime = time.time()
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval):
 			CheckIfInternetIsConnected()
-			FlagOfListening = False
-			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
-			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
+			DataSamplingThread = threading.Thread(target = DataSampling())
 			DataSamplingThread.start()
-			ListeningThreading.start()
+			WaterData, WeatherData = DataSamplingThread.join()
 			print("Sampling is Done")
+			CommunicationThread_Water = threading.Thread(target = CommunicationToMainServer(WaterData))
+			CommunicationThread_Water.start()
+			time.sleep(0.1)
+			CommunicationThread_Weather = threading.Thread(target = CommunicationToMainServer(WeatherData))
+			CommunicationThread_Weather.start()
+			print("Sending is Done")
 			StartTime = time.time()
-			FlagOfSample = True
 		elif(CurrentTime - StartTime > MinTransmitTimeInterval):
 			CheckIfInternetIsConnected()
-			MainSocket.sendto("HeartBeat Message".encode('utf-8'), (HOST, PORT))
-			FlagOfListening = False
-			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
-			ListeningThreading.start()
+			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
+			CommunicationThread.start()
 		else:
 			print("------------Pass------------")
-		print("FlagOfSample")
-		print(FlagOfSample)
-		#print("FlagOfListening")
-		#print(FlagOfListening)
 		time.sleep(DelayTime)
 	MainSocket.close()
