@@ -146,12 +146,12 @@ if __name__ == '__main__':
 		if(CurrentTime - StartTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
+			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
 			WaterSamplingThread = threading.Thread(target = PostWaterData())
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
 			print("-------listening--------")
-			WeatherSamplingThread.start()
 			CommunicationThread.start()
+			WeatherSamplingThread.start()
 			WaterSamplingThread.start()
 			while(not FlagOfSampling):
 				print("listening")
