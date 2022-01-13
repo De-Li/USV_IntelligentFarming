@@ -118,6 +118,7 @@ def ListeningToMainServer(MainSocket):
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
 		FlagOfListening = True
+		break
 		return True
 
 if __name__ == '__main__':
