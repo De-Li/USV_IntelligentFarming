@@ -78,6 +78,7 @@ def PostWaterData():
 	#encoding the receive data and sending to the server by UDP.
 	#MainSocket.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
 	'''
+	print(WaterData)
 def PostWeatherData():
 	global WeatherData
 	global FlagOfSampling
@@ -147,9 +148,11 @@ if __name__ == '__main__':
 			CheckIfInternetIsConnected()
 			WaterSamplingThread = threading.Thread(target = PostWaterData())
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
+			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
+			print("-------listening--------")
+			CommunicationThread.start()
 			WaterSamplingThread.start()
 			WeatherSamplingThread.start()
-			print("-------listening--------")
 			while(not FlagOfSampling):
 				print("listening")
 				CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
