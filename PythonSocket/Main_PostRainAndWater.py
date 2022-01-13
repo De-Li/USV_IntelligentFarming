@@ -122,7 +122,6 @@ def CommunicationToMainServer(content):
 
 if __name__ == '__main__':
 	global StartTime
-	global WaterData
 	global WeatherData
 	global FlagOfSampling
 	FlagOfSampling = False
