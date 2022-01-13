@@ -45,6 +45,7 @@ ListeningPort = 5910
 global StartTime
 global WaterData
 global WeatherData
+global FlagOfSampling
 #delay time in second
 SampleInterval = 10
 SocketTimeOut = 1
@@ -79,6 +80,7 @@ def PostWaterData():
 	'''
 def PostWeatherData():
 	global WeatherData
+	global FlagOfSampling
 	WeatherData = "[0, 0, 0, 0, 0, 0, 0]"
 	RainSerialCount = 0
 	while(1):
@@ -99,19 +101,9 @@ def PostWeatherData():
 	#Create a socket, DGRAM means UDP protocal
 	WeatherData = CurrentWeatherData + CurrentRainData
 	print(WeatherData)
+	FlagOfSampling = True
 	#encoding the receive data and sending to the server by UDP.
 	#MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
-        
-def DataSampling():
-	print('DataSampling')
-	WaterThread = threading.Thread(target = PostWaterData())
-	WeatherThread = threading.Thread(target = PostWeatherData())
-	#Engage thread objects
-	WaterThread.start()
-	WeatherThread.start()
-	WaterData = WaterThread.join()
-	WeatherData = WeatherThread.join()
-	return WaterData, WeatherData
 		
 def CommunicationToMainServer(content):
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
@@ -140,6 +132,11 @@ def CommunicationToMainServer(content):
 
 if __name__ == '__main__':
 	global StartTime
+	global WaterData
+	global WeatherData
+	global FlagOfSampling
+	FlagOfSampling = False
+	FlagOfSampling = 
 	StartTime = time.time()
 	print('Start')
 	count=1
@@ -153,6 +150,10 @@ if __name__ == '__main__':
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 			WaterSamplingThread.start()
 			WeatherSamplingThread.start()
+			while(!FlagOfSampling):
+				CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
+				CommunicationThread.start()
+				CommunicationThread.join()
 			WaterSamplingThread.join()
 			WeatherSamplingThread.join()
 			print("Sampling is Done")
