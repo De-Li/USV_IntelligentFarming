@@ -49,7 +49,7 @@ def GetRainData(TryLimit):
 	ser.xonxoff = False    #disable software flow control
 	ser.rtscts = False     #disable hardware (RTS/CTS) flow control
 	ser.dsrdtr = False     #disable hardware (DSR/DTR) flow control
-	print("entering serial")
+	#print("entering serial")
 	i=0
 	while(1):
 		i = i+1
