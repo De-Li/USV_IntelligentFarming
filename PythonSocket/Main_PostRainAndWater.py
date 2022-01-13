@@ -37,7 +37,7 @@ import urllib.request #URL related liberary
 
 #IP and port of main server
 HOST = '140.116.202.132'
-PORT = 30381
+PORT = 3038
 
 #IP and port of Raspberry pi
 LAB5910_IP = '192.168.1.108'
@@ -82,23 +82,10 @@ def PostWaterData():
 def PostWeatherData():
 	global WeatherData
 	global FlagOfSampling
-	WeatherData = "[0, 0, 0, 0, 0, 0, 0]"
-	RainSerialCount = 0
-	while(1):
-		CurrentRainData = GetRainData(WaitingLimit)
-		# WaitingLimit*0.2 second for per waiting time.
-		RainSerialCount = RainSerialCount + 1
-		if CurrentRainData is not None:
-			break
-		#less half of update time.
-		elif RainSerialCount > WaitingLimit:
-			CurrentRainData = ", 0, 0, 0, 0, 0]"
-			print("Rain receive waiting limit!")
-			break
-	while(1):
-		CurrentWeatherData = GetWeatherDataFromGroundStation()
-		if CurrentWeatherData is not None:
-			break
+	WeatherData = "[0, 0, 0, 0, 0, 0, 0]" 
+	CurrentRainData = GetRainData(WaitingLimit)
+	# WaitingLimit*0.1 second is the time for trying.
+	CurrentWeatherData = GetWeatherDataFromGroundStation()
 	#Create a socket, DGRAM means UDP protocal
 	WeatherData = CurrentWeatherData + CurrentRainData
 	print(WeatherData)
@@ -129,6 +116,7 @@ def CommunicationToMainServer(content):
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
 		return True
 	except:
+		print("Lose connection to Main Server!")
 		pass
 
 if __name__ == '__main__':
