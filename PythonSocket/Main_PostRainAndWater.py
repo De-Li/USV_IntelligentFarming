@@ -50,7 +50,7 @@ global FlagOfSampling
 SampleInterval = 10
 SocketTimeOut = 1
 MinTransmitTimeInterval = 3
-WaitingLimit = 5
+WaitingLimit = 20
 DelayTime = 0.3
 
 def CheckIfInternetIsConnected():
@@ -157,6 +157,9 @@ if __name__ == '__main__':
 			CommunicationThread.start()
 			CommunicationThread.join()
 			count = count + 1
+			if(count%2==0):
+				WeatherSamplingThread = threading.Thread(target = PostWeatherData())
+				WeatherSamplingThread.start()
 		else:
 			print("------------Pass------------")
 		time.sleep(DelayTime)
