@@ -40,11 +40,10 @@ def GetWeatherDataFromGroundStation():
 	try:
 		Receive_Sock.bind((Server_UDP_IP, Server_UDP_PORT_ForESP8266))
 		data, addr = Receive_Sock.recvfrom(40) # buffer size is 100 bytes
-		if(Receive_Sock.recvfrom(40)):
-		Receive_Sock.close()
 		DecodedData = data.decode("utf-8")
 		DecodedData = DecodedData.split(", ")
 		DecodedData = '['+', '.join(str(e) for e in DecodedData)
+		Receive_Sock.close()
 		return DecodedData
 	except:
 		print("Lose connection to <weather ESP8266!>")
