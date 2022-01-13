@@ -58,9 +58,9 @@ def GetWaterData():
 	InquiryArray_AmmoniaNitrogen = bytes([0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb])
 	
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	client.connect((HOST, PORT))
-	client.settimeout(1)
 	try:
+		client.connect((HOST, PORT))
+		client.settimeout(1)
 		client.sendall(InquiryArray_DissolvedOxygenValue)
 		ServerMessage = client.recv(10)
 		ReceiveArray = np.array(ServerMessage)
@@ -96,6 +96,8 @@ def GetWaterData():
 		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 	except socket.timeout as e:
 		print(e)
+	except:
+		print("Lose connection to <UnderWaterSensor!>")
 	#print('Server:', ServerMessage)	
 	print('Receive Array: ', ReceiveArray)
 	DecipheredData = DecipherWaterData(ReceiveArray)
