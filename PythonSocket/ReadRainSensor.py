@@ -82,7 +82,7 @@ def GetRainData(TryLimit):
 					#print("Rain receive waiting limit!")
 				elif(i==TryLimit):
 					print("Rain receive waiting limit!")
-					return ", 0, 0, 0, 0, 0]"
+					return None
 			except Exception as e1:
 				print ("communicating error " + str(e1))
 				return None
