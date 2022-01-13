@@ -115,13 +115,13 @@ def ListeningToMainServer(MainSocket):
 		command = command.decode()
 		print(command)
 		if(command == '200'):
-			FlagOfListening = True
+			#FlagOfListening = True
 			return False
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
-		FlagOfListening = True
+		#FlagOfListening = True
 		return True
 
 if __name__ == '__main__':
@@ -157,7 +157,7 @@ if __name__ == '__main__':
 			print("------------Pass------------")
 		print("FlagOfSample")
 		print(FlagOfSample)
-		print("FlagOfListening")
-		print(FlagOfListening)
+		#print("FlagOfListening")
+		#print(FlagOfListening)
 		time.sleep(DelayTime)
 	MainSocket.close()
