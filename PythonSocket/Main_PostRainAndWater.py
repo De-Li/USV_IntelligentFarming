@@ -60,7 +60,7 @@ def CheckIfInternetIsConnected():
 		except urllib.error.URLError as err:
 			pass	
 
-def PostWaterData(MainSocket):
+def PostWaterData():
 	global WaterData
 	WaterData = "[0, 0, 0, 0, 0, 0, 0]"
 	'''
