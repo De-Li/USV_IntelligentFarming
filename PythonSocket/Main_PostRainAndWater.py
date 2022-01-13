@@ -62,7 +62,7 @@ def CheckIfInternetIsConnected():
 
 def PostWaterData():
 	global WaterData
-	WaterData = "[0, 0, 0, 0, 0, 0, 0]"
+	WaterData = "[1, 1, 1, 1, 1, 1, 1]"
 	'''
 	WaterWaitingCount=0
 	while(1):
@@ -142,10 +142,12 @@ if __name__ == '__main__':
 	global StartTime
 	StartTime = time.time()
 	print('Start')
+	count=1
 	while(True):
 		CurrentTime = time.time()
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval):
+			print("DataSampling")
 			CheckIfInternetIsConnected()
 			WaterSamplingThread = threading.Thread(target = PostWaterData())
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
@@ -161,11 +163,13 @@ if __name__ == '__main__':
 			CommunicationThread_Weather.start()
 			print("Sending is Done")
 			StartTime = time.time()
-		elif(CurrentTime - StartTime > MinTransmitTimeInterval):
+			count=1
+		elif(CurrentTime - StartTime > MinTransmitTimeInterval*count):
 			CheckIfInternetIsConnected()
 			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
 			CommunicationThread.start()
 			CommunicationThread.join()
+			count = count + 1
 		else:
 			print("------------Pass------------")
 		time.sleep(DelayTime)
