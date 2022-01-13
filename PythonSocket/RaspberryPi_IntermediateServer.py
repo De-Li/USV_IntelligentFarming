@@ -40,12 +40,12 @@ def GetWeatherDataFromGroundStation():
 	data, addr = Receive_Sock.recvfrom(100) # buffer size is 100 bytes
 	if(Receive_Sock.recvfrom(100)):
 		print("received message: ")
-		print(data)
+		#print(data)
 	Receive_Sock.close()
 	DecodedData = data.decode("utf-8")
 	DecodedData = DecodedData.split(", ")
 	DecodedData = '['+', '.join(str(e) for e in DecodedData)
-	print(DecodedData)
+	#print(DecodedData)
 	return DecodedData
 '''
 def GetCommandFromMainServer():
