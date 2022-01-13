@@ -175,6 +175,9 @@ if __name__ == '__main__':
 			CommunicationThread.start()
 			CommunicationThread.join()
 			count = count + 1
+			if(Count%3 == 0):
+				WeatherSamplingThread = threading.Thread(target = PostWeatherData())
+				WeatherSamplingThread.start()
 		else:
 			print("------------Pass------------")
 		time.sleep(DelayTime)
