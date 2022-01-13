@@ -175,7 +175,7 @@ if __name__ == '__main__':
 			CommunicationThread.start()
 			CommunicationThread.join()
 			count = count + 1
-			if(Count%3 == 0):
+			if(count%2 == 0):
 				WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 				WeatherSamplingThread.start()
 		else:
