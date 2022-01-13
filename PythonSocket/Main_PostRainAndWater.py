@@ -129,6 +129,7 @@ if __name__ == '__main__':
 	FlagOfSample = False
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
+	global StartTime
 	StartTime = time.time()
 	while(1):
 		print('Start')
@@ -151,7 +152,7 @@ if __name__ == '__main__':
 			FlagOfListening = False
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval or FlagOfListeningInitialization == False):
-			global StartTime
+			
 			CheckIfInternetIsConnected()
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			DataSamplingThread.start()
