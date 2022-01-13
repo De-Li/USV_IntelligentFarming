@@ -42,6 +42,7 @@ PORT = 3038
 LAB5910_IP = '192.168.1.108'
 ListeningPort = 5910
 global FlagOfListening
+global StartTime
 #delay time in second
 SampleInterval = 5
 WaitingLimit = 5
@@ -128,7 +129,6 @@ if __name__ == '__main__':
 	FlagOfSample = False
 	FlagOfListening = False
 	FlagOfListeningInitialization = False
-	global StartTime
 	StartTime = time.time()
 	while(1):
 		print('Start')
