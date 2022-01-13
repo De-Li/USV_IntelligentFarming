@@ -43,6 +43,8 @@ PORT = 3038
 LAB5910_IP = '192.168.1.108'
 ListeningPort = 5910
 global StartTime
+global WaterData
+global WeatherData
 #delay time in second
 SampleInterval = 10
 SocketTimeOut = 1
@@ -59,6 +61,8 @@ def CheckIfInternetIsConnected():
 			pass	
 
 def PostWaterData(MainSocket):
+	global WaterData
+	WaterData = "[0, 0, 0, 0, 0, 0, 0]"
 	'''
 	WaterWaitingCount=0
 	while(1):
@@ -73,8 +77,9 @@ def PostWaterData(MainSocket):
 	#encoding the receive data and sending to the server by UDP.
 	#MainSocket.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
 	'''
-	return "[0, 0, 0, 0, 0, 0, 0]"
 def PostWeatherData():
+	global WeatherData
+	WeatherData = "[0, 0, 0, 0, 0, 0, 0]"
 	RainSerialCount = 0
 	while(1):
 		CurrentRainData = GetRainData(WaitingLimit)
@@ -92,9 +97,8 @@ def PostWeatherData():
 		if CurrentWeatherData is not None:
 			break
 	#Create a socket, DGRAM means UDP protocal
-	MeldedWeatherData = CurrentWeatherData + CurrentRainData
-	print(MeldedWeatherData)
-	return MeldedWeatherData
+	WeatherData = CurrentWeatherData + CurrentRainData
+	print(WeatherData)
 	#encoding the receive data and sending to the server by UDP.
 	#MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
         
@@ -143,9 +147,12 @@ if __name__ == '__main__':
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval):
 			CheckIfInternetIsConnected()
-			DataSamplingThread = threading.Thread(target = DataSampling())
-			DataSamplingThread.start()
-			WaterData, WeatherData = DataSamplingThread.join()
+			WaterSamplingThread = threading.Thread(target = PostWaterData())
+			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
+			WaterSamplingThread.start()
+			WeatherSamplingThread.start()
+			WaterSamplingThread.join()
+			WeatherSamplingThread.join()
 			print("Sampling is Done")
 			CommunicationThread_Water = threading.Thread(target = CommunicationToMainServer(WaterData))
 			CommunicationThread_Water.start()
@@ -158,6 +165,7 @@ if __name__ == '__main__':
 			CheckIfInternetIsConnected()
 			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
 			CommunicationThread.start()
+			CommunicationThread.join()
 		else:
 			print("------------Pass------------")
 		time.sleep(DelayTime)
