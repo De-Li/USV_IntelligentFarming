@@ -33,6 +33,7 @@ from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, Send
 from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
 import urllib.request #URL related liberary
+import daemon # keep listening in daemon mode
 
 #IP and port of main server
 HOST = '140.116.202.132'
@@ -104,7 +105,7 @@ def DataSampling(MainSocket):
 	WeatherThread.start()
 	#WaterThread.join()
 	WeatherThread.join()
-
+		
 def ListeningToMainServer(MainSocket):
 	global FlagOfListening
 	while(True):
@@ -119,7 +120,6 @@ def ListeningToMainServer(MainSocket):
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
 		FlagOfListening = True
-		break
 		return True
 
 if __name__ == '__main__':
@@ -142,18 +142,17 @@ if __name__ == '__main__':
 			FlagOfSample = False
 			if(FlagOfListening == False and FlagOfListeningInitialization == False):
 				ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
-				ListeningThreading.setDaemon(True) #Set listening in Daemon mode.
+				ListeningThreading.daemon = True #Set listening in Daemon mode.
 				ListeningThreading.start()
 				FlagOfListeningInitialization = True
 		#Check if Listening is successful
 		if(FlagOfListening == True):
 			ListeningThreading = threading.Thread(target = ListeningToMainServer(MainSocket))
-			ListeningThreading.setDaemon(True)
+			ListeningThreading.daemon = True
 			ListeningThreading.start()
 			FlagOfListening = False
 		#Check the time interval
 		if(CurrentTime - StartTime > SampleInterval or FlagOfListeningInitialization == False):
-			
 			CheckIfInternetIsConnected()
 			DataSamplingThread = threading.Thread(target = DataSampling(MainSocket))
 			DataSamplingThread.start()
