@@ -150,9 +150,10 @@ if __name__ == '__main__':
 			WaterSamplingThread.start()
 			WeatherSamplingThread.start()
 			while(not FlagOfSampling):
+				print("listening")
 				CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
 				CommunicationThread.start()
-				CommunicationThread.join()
+				#CommunicationThread.join()
 			WaterSamplingThread.join()
 			WeatherSamplingThread.join()
 			print("Sampling is Done")
