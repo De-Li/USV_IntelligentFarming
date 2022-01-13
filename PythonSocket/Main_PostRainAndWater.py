@@ -45,6 +45,8 @@ ListeningPort = 5910
 global StartTime
 global WaterData
 global WeatherData
+global RainData
+RainData = ", 0, 0, 0, 0, 0]"
 global FlagOfSampling
 #delay time in second
 SampleInterval = 10
@@ -81,9 +83,14 @@ def PostWaterData():
 	print(WaterData)
 def PostWeatherData():
 	global WeatherData
+	global RainData
 	global FlagOfSampling
-	WeatherData = "[0, 0, 0, 0, 0, 0, 0]" 
+	#WeatherData = "[0, 0, 0, 0, 0, 0, 0]" 
 	CurrentRainData = GetRainData(WaitingLimit)
+	if(CurrentRainData == None):
+		CurrentRainData = RainData
+	else:
+		RainData = CurrentRainData
 	# WaitingLimit*0.1 second is the time for trying.
 	CurrentWeatherData = GetWeatherDataFromGroundStation()
 	#Create a socket, DGRAM means UDP protocal
