@@ -158,6 +158,7 @@ def CommunicationToMainServer(content):
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
 	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	MainSocket.settimeout(SocketTimeOut)
+	'''
 	if(content == "Return Status"):
 		command = "ShowVoltage"
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
@@ -174,6 +175,7 @@ def CommunicationToMainServer(content):
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
 		return True
+	'''
 	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
 	try:
 		command, addr = MainSocket.recvfrom(20)
