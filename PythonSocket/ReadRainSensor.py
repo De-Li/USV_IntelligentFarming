@@ -79,16 +79,15 @@ def GetRainData(TryLimit):
 				time.sleep(0.1)
 				if(i==TryLimit/2):
 					ser.close()
-					#print("Rain receive waiting limit!")
 				elif(i==TryLimit):
 					print("Rain receive waiting limit!")
 					return None
 			except Exception as e1:
 				print ("communicating error " + str(e1))
-				return None
+				return "Communication Error"
 		else:
 			print ("open serial port error")
-			return None
+			return "Communication Error"
 
 if __name__ == '__main__':
 	#ser = serial.Serial()
