@@ -61,8 +61,7 @@ global WaterData
 global WeatherData
 global RainData
 global FlagOfException
-FlagOfException
-WaterData = "[1, 1, 0, 0, 0, 0, 0]"
+#WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 VoltageLimit = 10
