@@ -61,7 +61,7 @@ global WaterData
 global WeatherData
 global RainData
 global FlagOfException
-FlagOfException = 0b0000000
+
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
@@ -200,6 +200,8 @@ if __name__ == '__main__':
 	global WeatherData
 	global WaterData
 	global FlagOfException
+	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
+	FlagOfException = 0b0000000
 	StartTime = time.time()
 	print('Start')
 	count=1
