@@ -236,8 +236,10 @@ if __name__ == '__main__':
 			if(count%2==0):
 				WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 				WeatherSamplingThread.start()
-		elif():
-			
+		'''
+		elif(FlagOfException is not 0b0000000):
+			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
+		'''	
 		else:
 			print("------------Pass------------")
 		time.sleep(DelayTime)
