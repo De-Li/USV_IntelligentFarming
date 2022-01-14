@@ -94,8 +94,13 @@ def CheckIfInternetIsConnected():
 	while(1):
 		try:
 			urllib.request.urlopen('https://tw.yahoo.com/', timeout=2)
+			FlagOfException = FlagOfException & 0b1111110
 			return True
 		except urllib.error.URLError as err:
+			if(FlagOfException & 0b0000001 == 0b0000001):
+				pass
+			else:
+				FlagOfException = FlagOfException | 0b0000001
 			pass	
 
 def PostWaterData():
@@ -164,13 +169,7 @@ def CommunicationToMainServer(content):
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		if(StatusOfWaterChamber == "DoNothing"):
 			return True
-		if(StatusOfWaterChamber == "Lose connection to the ESP8266 on the Float chamber"):
-			if(FlagOfException & 0b0000010 == 0b0000010):
-				pass
-			else:
-				FlagOfException = FlagOfException | 0b0000010
-		else:
-			FlagOfException = FlagOfException & 0b1111101
+
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
@@ -189,6 +188,14 @@ def CommunicationToMainServer(content):
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		if(StatusOfWaterChamber == "DoNothing"):
 			return True
+		elif(StatusOfWaterChamber == "Lose connection to the ESP8266 on the Float chamber"):
+			if(FlagOfException & 0b0000010 == 0b0000010):
+				pass
+			else:
+				FlagOfException = FlagOfException | 0b0000010
+			StatusOfWaterChamber = "[,]"
+		else:
+			FlagOfException = FlagOfException & 0b1111101
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
@@ -222,10 +229,8 @@ if __name__ == '__main__':
 		elif(CurrentTime - StartTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
-			CommunicationThread = threading.Thread(target = CommunicationToMainServer("Return Status"))
 			WaterSamplingThread = threading.Thread(target = PostWaterData())
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-			CommunicationThread.start()
 			WeatherSamplingThread.start()
 			WaterSamplingThread.start()
 			WaterSamplingThread.join()
@@ -240,11 +245,10 @@ if __name__ == '__main__':
 			if(count%2==0):
 				WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 				WeatherSamplingThread.start()
+		elif(FlagOfException is not 0b0000000):
+			CommunicationThread = threading.Thread(target = CommunicationToMainServer(FlagOfException))
 		else:
 			print("------------Pass------------")
-		'''
-		elif(FlagOfException is not 0b0000000):
-			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
-		'''	
+		
 		time.sleep(DelayTime)
 	MainSocket.close()
