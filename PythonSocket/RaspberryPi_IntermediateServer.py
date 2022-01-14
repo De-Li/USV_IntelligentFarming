@@ -47,6 +47,7 @@ def GetWeatherDataFromGroundStation():
 		return DecodedData
 	except:
 		print("Lose connection to <weather ESP8266!>")
+		return "Lose connection to <weather ESP8266!>"
 		pass
 '''
 def GetCommandFromMainServer():
@@ -71,22 +72,25 @@ def SendingMessageToFloatChamber(command):
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
-	Send_Sock.settimeout(20)
-	Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
-	#Check the command
-	if command=='ShowVoltage':
-		Send_Sock.send('1'.encode('utf-8'))
-	elif command=='PowerUp':
-		Send_Sock.send('2'.encode('utf-8'))
-	elif command=='ShutDown':
-		Send_Sock.send('3'.encode('utf-8'))
-	else :
-		return "DoNothing"
-	Reply = Send_Sock.recv(30)
-	print(Reply)
-	return Reply.decode()
-	#close the socket
-	Send_Sock.close()
+	Send_Sock.settimeout(10)
+	try:
+		Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
+		#Check the command
+		if command=='ShowVoltage':
+			Send_Sock.send('1'.encode('utf-8'))
+		elif command=='PowerUp':
+			Send_Sock.send('2'.encode('utf-8'))
+		elif command=='ShutDown':
+			Send_Sock.send('3'.encode('utf-8'))
+		else :
+			return "DoNothing"
+		Reply = Send_Sock.recv(30)
+		print(Reply)
+		return Reply.decode()
+		#close the socket
+		Send_Sock.close()
+	except:
+		return "Lose connection to the ESP8266 on the Float chamber"	
 	
 if __name__ == '__main__':
 	i=1
