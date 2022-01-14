@@ -61,6 +61,7 @@ global WaterData
 global WeatherData
 global RainData
 global FlagOfException
+FlagOfException = 0b0000000
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
