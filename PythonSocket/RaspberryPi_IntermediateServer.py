@@ -108,6 +108,13 @@ def SendingMessageToFloatChamber(command):
 		ReturnList.append("Normal")
 	elif(VoltageValue < 10.8):
 		if(status == 1):
+			Send_Sock.close()
+			try:
+				Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
+			except:
+				ReturnList.append("None")
+				ReturnList.append("Lose connection to the ESP8266 on the Float chamber")
+				return ReturnList
 			Send_Sock.send('3'.encode('utf-8'))
 			Reply = Send_Sock.recv(30)
 			status = re.findall("\d+", Reply.decode('utf-8'))
@@ -115,8 +122,8 @@ def SendingMessageToFloatChamber(command):
 		ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
 		ReturnList.append("The voltage of battery is too low, SHUTDOWN!")
 		print("The voltage of battery is too low, SHUTDOWN!")
-	#close the socket
 	print(ReturnList)
+	#close the socket
 	Send_Sock.close()
 	return ReturnList
 	
