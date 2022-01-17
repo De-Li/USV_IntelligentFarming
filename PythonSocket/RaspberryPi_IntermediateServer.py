@@ -83,27 +83,31 @@ def SendingMessageToFloatChamber(command):
 		elif command=='ShutDown':
 			Send_Sock.send('3'.encode('utf-8'))
 		else :
-			return "DoNothing"
+			return "None", "DoNothing"
 		Reply = Send_Sock.recv(30)
 		print(Reply)
-		
+		Reply = Reply.decode('utf-8')
 		#Check if the voltage is below the limit, if the voltage is below the limit then shut the float chamber down.
 		VoltageValue = re.findall("\d+\.\d+", Reply)
 		VoltageValue = float(VoltageValue[0])
 		status = re.findall("\d+", Reply)
 		status = int(status[2])
-		if(VoltageValue < 10.8):
+		if(VoltageValue > 10.8 and status == 1):
+			return "[" + str(VoltageValue) + ', ' + str(status), "Normal"
+		elif(VoltageValue < 10.8):
 			if(status == 1):
 				Send_Sock.send('3'.encode('utf-8'))
 				Reply = Send_Sock.recv(30)
-			print("The voltage of battery is too low, SHUTDOWN!")
-			return "The voltage of battery is too low, SHUTDOWN!"
-		elif(VoltageValue > 10.8 and status == 0):
-			Send_Sock.send('2'.encode('utf-8'))
-			Reply = Send_Sock.recv(30)
-			print("The battery is recharging, PowerUp!")
-		else:
-			pass
+				status = re.findall("\d+", Reply.decode('utf-8'))
+				status = int(status[2])
+				return "[" + str(VoltageValue) + ', ' + status, "The voltage of battery is too low, SHUTDOWN!"
+				print("The voltage of battery is too low, SHUTDOWN!")
+			return 
+		#elif(VoltageValue > 10.8 and status == 0):
+			#Send_Sock.send('2'.encode('utf-8'))
+			#Reply = Send_Sock.recv(30)
+			#print("The battery is recharging, PowerUp!")
+		
 		#close the socket
 		Send_Sock.close()
 		return Reply.decode()
