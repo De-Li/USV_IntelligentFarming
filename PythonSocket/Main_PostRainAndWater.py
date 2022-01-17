@@ -185,9 +185,12 @@ def CommunicationToMainServer(content):
 			return True
 		elif(command== '404'):
 			return True
-		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-		CPUTemperature = str(CheckCPUTemperature())
-		StatusParameter = StatusOfWaterChamber + ', ' + CPUTemperature + ', ' + str(FlagOfException)
+		try:
+			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+			CPUTemperature = str(CheckCPUTemperature())
+			StatusParameter = StatusOfWaterChamber + ', ' + CPUTemperature + ', ' + str(FlagOfException)
+		except:
+			print("StatusOfWaterChamber error!")
 		print("StatusParameter")
 		print(StatusParameter)
 		if(StatusOfWaterChamber == "DoNothing"):
