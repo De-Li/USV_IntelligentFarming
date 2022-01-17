@@ -92,9 +92,10 @@ def SendingMessageToFloatChamber(command):
 		VoltageValue = float(VoltageValue[0])
 		status = re.findall("\d+", Reply)
 		status = int(status[2])
-		if(VoltageValue < 10.8 and status == 1):
-			Send_Sock.send('3'.encode('utf-8'))
-			Reply = Send_Sock.recv(30)
+		if(VoltageValue < 10.8):
+			if(status == 1):
+				Send_Sock.send('3'.encode('utf-8'))
+				Reply = Send_Sock.recv(30)
 			print("The voltage of battery is too low, SHUTDOWN!")
 			return "The voltage of battery is too low, SHUTDOWN!"
 		elif(VoltageValue > 10.8 and status == 0):
