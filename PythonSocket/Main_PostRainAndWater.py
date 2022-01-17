@@ -205,7 +205,7 @@ def CommunicationToMainServer(content):
 			StatusOfWaterChamber = "[Battery, Low]"
 		elif(StatusOfWaterChamber is not "Lose connection to the ESP8266 on the Float chamber"):
 			FlagOfException = FlagOfException & 0b1111101
-		elif(StatusOfWaterChamber is not "The voltage of battery is too low, SHUTDOWN!")
+		elif(StatusOfWaterChamber is not "The voltage of battery is too low, SHUTDOWN!"):
 			FlagOfException = FlagOfException & 0b1011111
 		print("StatusParameter")
 		print(StatusParameter)
