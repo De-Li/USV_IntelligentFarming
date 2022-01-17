@@ -29,6 +29,7 @@ add GetCommandFromMainServer() function to receive the command from the main ser
 ---------------------------------------------------------------
 """
 import socket, time, select, re
+global VoltageRecord
 
 def GetWeatherDataFromGroundStation():
 	#Get weather data from ESP8266 on the ground station
@@ -94,11 +95,12 @@ def SendingMessageToFloatChamber(command):
 		Send_Sock.close()
 		return ReturnList
 	Reply = Send_Sock.recv(30)
-	#print(Reply)
+	print(Reply)
 	Reply = Reply.decode('utf-8')
 	#Check if the voltage is below the limit, if the voltage is below the limit then shut the float chamber down.
 	VoltageValue = re.findall("\d+\.\d+", Reply)
 	VoltageValue = float(VoltageValue[0])
+	VoltageRecord = VoltageValue
 	status = re.findall("\d+", Reply)
 	status = int(status[2])
 	if(VoltageValue > 10.8 and status == 1):
