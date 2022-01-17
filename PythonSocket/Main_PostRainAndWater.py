@@ -160,10 +160,11 @@ def PostWeatherData():
 def CheckCPUTemperature():
 	global FlagOfException
 	Cpu = CPUTemperature()
-	if(Cpu.temperature < 85):
+	if(Cpu.temperature < 60):
 		if(FlagOfException & 0b1000000 == 0b1000000):
 			FlagOfException = FlagOfException & 0b0111111
-	elif(FlagOfException & 0b1000000 == 0b1000000):
+		pass
+	elif(Cpu.temperature > 60 and FlagOfException & 0b1000000 == 0b1000000):
 		pass	
 	else:	
 		FlagOfException = FlagOfException | 0b1000000
@@ -182,12 +183,12 @@ def CommunicationToMainServer(content):
 	except:
 		print("Lose connection to Main Server!")
 		pass
-		print("command")
-		print(command)
-		if(command == '200'):
-			return True
-		elif(command== '404'):
-			return True
+	print("command")
+	print(command)
+	if(command == '200'):
+		return True
+	elif(command== '404'):
+		return True
 	StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 	print("StatusOfWaterChamber")
 	print(StatusOfWaterChamber)
@@ -238,8 +239,8 @@ if __name__ == '__main__':
 			time.sleep(0.1)
 			CommunicationThread_Weather = threading.Thread(target = CommunicationToMainServer(WeatherData))
 			CommunicationThread_Weather.start()
-			StartTime = time.time()
 			count=1
+			StartTime = time.time()
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			SendingMessageToFloatChamber('ShowVoltage')
@@ -260,9 +261,9 @@ if __name__ == '__main__':
 			CommunicationThread.start()
 			CommunicationThread.join()
 			count = count + 1
-			if(count%2==0):
-				WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-				WeatherSamplingThread.start()
+			#if(count%2==0):
+				#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
+				#WeatherSamplingThread.start()
 		else:
 			print("------------Pass------------")
 		#elif(FlagOfException is not 0b0000000):
