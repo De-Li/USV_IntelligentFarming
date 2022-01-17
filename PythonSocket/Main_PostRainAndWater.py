@@ -160,14 +160,14 @@ def PostWeatherData():
 def CheckCPUTemperature():
 	global FlagOfException
 	Cpu = CPUTemperature()
-	if(cpu.temperature < 85):
+	if(Cpu.temperature < 85):
 		if(FlagOfException & 0b1000000 == 0b1000000):
 			FlagOfException = FlagOfException & 0b0111111
 	elif(FlagOfException & 0b1000000 == 0b1000000):
 		pass	
 	else:	
 		FlagOfException = FlagOfException | 0b1000000
-	return cpu.temperature
+	return Cpu.temperature
 
 def CommunicationToMainServer(content):
 	global FlagOfException
