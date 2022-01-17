@@ -16,6 +16,7 @@ FlagOfException
 4.loss of connection of Underwater sensor system 2^3
 5.loss of connection of RainSensor 2^4
 6.The voltage of battery is too low 2^5
+7.CPU's Temperature is too high 2^6
 
 2022/1/06
 The Ip and port of main server.
@@ -48,7 +49,7 @@ from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, Send
 from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
 import urllib.request #URL related liberary
-#import daemon # keep listening in daemon mode
+from gpiozero import CPUTemperature
 
 #IP and port of main server
 HOST = '140.116.202.132'
@@ -157,25 +158,24 @@ def PostWeatherData():
 		print(WeatherData)
 		#encoding the receive data and sending to the server by UDP.
 		#MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
-		
+def CheckCPUTemperature():
+	global FlagOfException
+	Cpu = CPUTemperature()
+	if(cpu.temperature < 85):
+		if(FlagOfException & 0b1000000 == 0b1000000):
+			FlagOfException = FlagOfException & 0b0111111
+	elif:(FlagOfException & 0b1000000 == 0b1000000):
+		pass	
+	else:	
+		FlagOfException = FlagOfException | 0b1000000
+	return cpu.temperature
+
 def CommunicationToMainServer(content):
 	global FlagOfException
 	print('ListeningToMainServer')
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
 	MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	MainSocket.settimeout(SocketTimeOut)
-	'''
-	if(content == "Return Status"):
-		command = "ShowVoltage"
-		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-		if(StatusOfWaterChamber == "DoNothing"):
-			return True
-
-		print("StatusOfWaterChamber")
-		print(StatusOfWaterChamber)
-		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
-		return True
-	'''
 	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
 	try:
 		command, addr = MainSocket.recvfrom(20)
@@ -187,6 +187,8 @@ def CommunicationToMainServer(content):
 		elif(command== '404'):
 			return True
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+		CPUTemperature = str(CheckCPUTemperature())
+		StatusParameter = StatusOfWaterChamber + ', ' + CPUTemperature + ', ' + str(FlagOfException)
 		if(StatusOfWaterChamber == "DoNothing"):
 			return True
 		elif(StatusOfWaterChamber == "Lose connection to the ESP8266 on the Float chamber"):
@@ -205,9 +207,9 @@ def CommunicationToMainServer(content):
 			FlagOfException = FlagOfException & 0b1111101
 		elif(StatusOfWaterChamber is not "The voltage of battery is too low, SHUTDOWN!")
 			FlagOfException = FlagOfException & 0b1011111
-		print("StatusOfWaterChamber")
-		print(StatusOfWaterChamber)
-		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
+		print("StatusParameter")
+		print(StatusParameter)
+		MainSocket.sendto(StatusParameter.encode(), addr)
 		return True
 	except:
 		print("Lose connection to Main Server!")
@@ -234,6 +236,7 @@ if __name__ == '__main__':
 			CommunicationThread_Weather.start()
 			StartTime = time.time()
 			count=1
+			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			SendingMessageToFloatChamber('ShowVoltage')
 			print("Uploading is Done")
