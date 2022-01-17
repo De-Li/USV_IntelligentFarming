@@ -112,7 +112,7 @@ def SendingMessageToFloatChamber(command):
 			try:
 				Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
 			except:
-				ReturnList.append("None")
+				ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
 				ReturnList.append("Lose connection to the ESP8266 on the Float chamber")
 				return ReturnList
 			Send_Sock.send('3'.encode('utf-8'))
