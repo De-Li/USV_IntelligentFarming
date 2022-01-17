@@ -69,6 +69,7 @@ def SendingMessageToFloatChamber(command):
 	#Raspberry Pi send message to ESP8266 on the Float chamber
 	Client_TCP_IP = "192.168.1.29"
 	Client_TCP_PORT = 5555
+	ReturnList = []
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
@@ -83,9 +84,12 @@ def SendingMessageToFloatChamber(command):
 		elif command=='ShutDown':
 			Send_Sock.send('3'.encode('utf-8'))
 		else :
-			return ["None", "DoNothing"]
+			ReturnList.append("None")
+			ReturnList.append("Donothing")
+			Send_Sock.close()
+			return ReturnList
 		Reply = Send_Sock.recv(30)
-		print(Reply)
+		#print(Reply)
 		Reply = Reply.decode('utf-8')
 		#Check if the voltage is below the limit, if the voltage is below the limit then shut the float chamber down.
 		VoltageValue = re.findall("\d+\.\d+", Reply)
@@ -93,27 +97,25 @@ def SendingMessageToFloatChamber(command):
 		status = re.findall("\d+", Reply)
 		status = int(status[2])
 		if(VoltageValue > 10.8 and status == 1):
-			return ["[" + str(VoltageValue) + ', ' + str(status), "Normal"]
+			ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
+			ReturnList.append("Normal")
 		elif(VoltageValue < 10.8):
 			if(status == 1):
 				Send_Sock.send('3'.encode('utf-8'))
 				Reply = Send_Sock.recv(30)
 				status = re.findall("\d+", Reply.decode('utf-8'))
 				status = int(status[2])
-				return ["[" + str(VoltageValue) + ', ' + status, "The voltage of battery is too low, SHUTDOWN!"]
-				print("The voltage of battery is too low, SHUTDOWN!")
-			return ["[" + str(VoltageValue) + ', ' + status, "The voltage of battery is too low, SHUTDOWN!"]
+			ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
+			ReturnList.append("The voltage of battery is too low, SHUTDOWN!")
 			print("The voltage of battery is too low, SHUTDOWN!")
-		#elif(VoltageValue > 10.8 and status == 0):
-			#Send_Sock.send('2'.encode('utf-8'))
-			#Reply = Send_Sock.recv(30)
-			#print("The battery is recharging, PowerUp!")
-		#close the socket
-		Send_Sock.close()
-		return Reply.decode()
-
 	except:
-		return "Lose connection to the ESP8266 on the Float chamber"	
+		ReturnList.append("None")
+		ReturnList.append("Lose connection to the ESP8266 on the Float chamber")
+		return ReturnList
+	#close the socket
+	print(ReturnList)
+	Send_Sock.close()
+	return ReturnList
 	
 if __name__ == '__main__':
 	i=1
