@@ -154,9 +154,9 @@ def PostWeatherData():
 		FlagOfException = FlagOfException & 0b1111011
 		#Create a socket, DGRAM means UDP protocal
 		WeatherData = CurrentWeatherData + CurrentRainData
-		print(WeatherData)
 		#encoding the receive data and sending to the server by UDP.
 		#MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
+	print(WeatherData)
 def CheckCPUTemperature():
 	global FlagOfException
 	Cpu = CPUTemperature()
@@ -262,7 +262,7 @@ if __name__ == '__main__':
 			print("------------Pass------------")
 		#elif(FlagOfException is not 0b0000000):
 			#CommunicationThread = threading.Thread(target = CommunicationToMainServer(FlagOfException))
-		
+		print(FlagOfException)
 		
 		time.sleep(DelayTime)
 	MainSocket.close()
