@@ -90,7 +90,7 @@ def SendingMessageToFloatChamber(command):
 	elif command=='ShutDown':
 		Send_Sock.send('3'.encode('utf-8'))
 	else :
-		ReturnList.append("None")
+		ReturnList.append("[None, None")
 		ReturnList.append("Donothing")
 		Send_Sock.close()
 		return ReturnList
