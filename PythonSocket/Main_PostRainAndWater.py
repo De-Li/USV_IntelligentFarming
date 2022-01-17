@@ -262,7 +262,7 @@ if __name__ == '__main__':
 			print("------------Pass------------")
 		#elif(FlagOfException is not 0b0000000):
 			#CommunicationThread = threading.Thread(target = CommunicationToMainServer(FlagOfException))
-		print(FlagOfException)
+		print(bin(FlagOfException))
 		
 		time.sleep(DelayTime)
 	MainSocket.close()
