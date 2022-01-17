@@ -28,7 +28,7 @@ add SendingMessageToFloatChamber() function to control the electrical power on t
 add GetCommandFromMainServer() function to receive the command from the main server.
 ---------------------------------------------------------------
 """
-import socket, time, select
+import socket, time, select, re
 
 def GetWeatherDataFromGroundStation():
 	#Get weather data from ESP8266 on the ground station
@@ -86,9 +86,27 @@ def SendingMessageToFloatChamber(command):
 			return "DoNothing"
 		Reply = Send_Sock.recv(30)
 		print(Reply)
-		return Reply.decode()
+		
+		#Check if the voltage is below the limit, if the voltage is below the limit then shut the float chamber down.
+		VoltageValue = re.findall("\d+\.\d+", Reply)
+		VoltageValue = float(VoltageValue[0])
+		status = re.findall("\d+", Reply)
+		status = int(status[2])
+		if(VoltageValue < 10.8 and status == 1):
+			Send_Sock.send('3'.encode('utf-8'))
+			Reply = Send_Sock.recv(30)
+			print("The voltage of battery is too low, SHUTDOWN!")
+			return "The voltage of battery is too low, SHUTDOWN!"
+		elif(VoltageValue > 10.8 and status == 0):
+			Send_Sock.send('2'.encode('utf-8'))
+			Reply = Send_Sock.recv(30)
+			print("The battery is recharging, PowerUp!")
+		else:
+			pass
 		#close the socket
 		Send_Sock.close()
+		return Reply.decode()
+
 	except:
 		return "Lose connection to the ESP8266 on the Float chamber"	
 	
