@@ -15,6 +15,7 @@ FlagOfException
 3.loss of connection of ESP8266 in the shutter box 2^2
 4.loss of connection of Underwater sensor system 2^3
 5.loss of connection of RainSensor 2^4
+6.The voltage of battery is too low 2^5
 
 2022/1/06
 The Ip and port of main server.
@@ -193,9 +194,17 @@ def CommunicationToMainServer(content):
 				pass
 			else:
 				FlagOfException = FlagOfException | 0b0000010
-			StatusOfWaterChamber = "[,]"
-		else:
+			StatusOfWaterChamber = "[Lose, Connection]"
+		elif(StatusOfWaterChamber == "The voltage of battery is too low, SHUTDOWN!"):
+			if(FlagOfException & 0b0100000 == 0b0100000):
+				pass
+			else:
+				FlagOfException = FlagOfException | 0b0100000
+			StatusOfWaterChamber = "[Battery, Low]"
+		elif(StatusOfWaterChamber is not "Lose connection to the ESP8266 on the Float chamber"):
 			FlagOfException = FlagOfException & 0b1111101
+		elif(StatusOfWaterChamber is not "The voltage of battery is too low, SHUTDOWN!")
+			FlagOfException = FlagOfException & 0b1011111
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		MainSocket.sendto(StatusOfWaterChamber.encode(), addr)
@@ -225,6 +234,8 @@ if __name__ == '__main__':
 			CommunicationThread_Weather.start()
 			StartTime = time.time()
 			count=1
+			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
+			SendingMessageToFloatChamber('ShowVoltage')
 			print("Uploading is Done")
 		elif(CurrentTime - StartTime > SampleInterval):
 			print("DataSampling")
