@@ -187,10 +187,10 @@ def CommunicationToMainServer(content):
 			return True
 		try:
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-			CPUTemperature = str(CheckCPUTemperature())
-			StatusParameter = StatusOfWaterChamber + ', ' + CPUTemperature + ', ' + str(FlagOfException)
 		except:
 			print("StatusOfWaterChamber error!")
+		CPUTemperature = str(CheckCPUTemperature())
+		StatusParameter = StatusOfWaterChamber + ', ' + CPUTemperature + ', ' + str(FlagOfException)
 		print("StatusParameter")
 		print(StatusParameter)
 		if(StatusOfWaterChamber == "DoNothing"):
