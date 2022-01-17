@@ -141,7 +141,6 @@ def PostWeatherData():
 		else:
 			RainData = CurrentRainData
 		FlagOfException = FlagOfException & 0b1101111
-	# WaitingLimit*0.1 second is the time for trying.
 	
 	#Get weather data from esp8266 in shutter box
 	CurrentWeatherData = GetWeatherDataFromGroundStation()
@@ -189,6 +188,8 @@ def CommunicationToMainServer(content):
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		CPUTemperature = str(CheckCPUTemperature())
 		StatusParameter = StatusOfWaterChamber + ', ' + CPUTemperature + ', ' + str(FlagOfException)
+		print("StatusParameter")
+		print(StatusParameter)
 		if(StatusOfWaterChamber == "DoNothing"):
 			return True
 		elif(StatusOfWaterChamber == "Lose connection to the ESP8266 on the Float chamber"):
@@ -207,8 +208,6 @@ def CommunicationToMainServer(content):
 			FlagOfException = FlagOfException & 0b1111101
 		elif(StatusOfWaterChamber is not "The voltage of battery is too low, SHUTDOWN!"):
 			FlagOfException = FlagOfException & 0b1011111
-		print("StatusParameter")
-		print(StatusParameter)
 		MainSocket.sendto(StatusParameter.encode(), addr)
 		return True
 	except:
