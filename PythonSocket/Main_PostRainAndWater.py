@@ -56,8 +56,10 @@ HOST = '140.116.202.132'
 PORT = 3038
 
 #IP and port of Raspberry pi
-LAB5910_IP = '192.168.1.108'
-ListeningPort = 5910
+#LAB5910_IP = '192.168.1.108'
+#ListeningPort = 5910
+TPLink_IP = '192.168.1.102'
+ListeningPort = 6060
 global StartTime
 global WaterData
 global WeatherData
@@ -67,7 +69,7 @@ global FlagOfException
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
-VoltageLimit = 10
+#VoltageLimit = 10.8
 #Time(second)
 UploadInterval =120
 SampleInterval = UploadInterval/3
