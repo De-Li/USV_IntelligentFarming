@@ -259,7 +259,7 @@ if __name__ == '__main__':
 			WaterSamplingThread.start()
 			WaterSamplingThread.join()
 			WeatherSamplingThread.join()
-			Sampling_LastTime = = time.time()
+			Sampling_LastTime = time.time()
 			print("Sampling is Done")
 		elif(CurrentTime - Listening_LastTime > MinTransmitTimeInterval*count):
 			CheckIfInternetIsConnected()
