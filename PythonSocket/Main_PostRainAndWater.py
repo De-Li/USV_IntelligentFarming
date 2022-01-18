@@ -111,7 +111,10 @@ def PostWaterData():
 	global WaterData
 	global FlagOfException
 	WaterWaitingCount=0
-	CurrentWaterData = GetWaterData()
+	try:
+		CurrentWaterData = GetWaterData()
+	except:
+		CurrentWaterData = "Lose connection to <UnderWaterSensor!>"
 	if(CurrentWaterData == "Lose connection to <UnderWaterSensor!>"):
 		if(FlagOfException & 0b0001000 == 0b0001000):
 			pass
@@ -130,7 +133,11 @@ def PostWeatherData():
 	global WeatherData
 	global RainData
 	global FlagOfException
-	CurrentRainData = GetRainData(WaitingLimit)
+	try:
+		CurrentRainData = GetRainData(WaitingLimit)
+	except:
+		CurrentRainData = "Communication Error"
+		print("RaindataAquicitionError")
 	if(CurrentRainData == "Communication Error"):
 		if(FlagOfException & 0b0010000 == 0b0010000):
 			pass
@@ -145,7 +152,10 @@ def PostWeatherData():
 		FlagOfException = FlagOfException & 0b1101111
 	
 	#Get weather data from esp8266 in shutter box
-	CurrentWeatherData = GetWeatherDataFromGroundStation()
+	try:
+		CurrentWeatherData = GetWeatherDataFromGroundStation()
+	except:
+		CurrentWeatherData = "Lose connection to <weather ESP8266!>"
 	if(CurrentWeatherData == "Lose connection to <weather ESP8266!>"):
 		if(FlagOfException & 0b0000100 == 0b0000100):
 			pass
