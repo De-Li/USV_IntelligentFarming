@@ -113,6 +113,7 @@ def PostWaterData():
 	WaterWaitingCount=0
 	try:
 		CurrentWaterData = GetWaterData()
+		print("CurrentWaterData: ", CurrentWaterData)
 	except:
 		CurrentWaterData = "Lose connection to <UnderWaterSensor!>"
 	if(CurrentWaterData == "Lose connection to <UnderWaterSensor!>"):
