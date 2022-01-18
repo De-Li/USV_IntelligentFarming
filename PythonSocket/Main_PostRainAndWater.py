@@ -249,7 +249,7 @@ if __name__ == '__main__':
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			SendingMessageToFloatChamber('ShowVoltage')
 			print("Uploading is Done")
-		elif(CurrentTime - StartTime > SampleInterval*count):
+		elif(CurrentTime - StartTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
 			WaterSamplingThread = threading.Thread(target = PostWaterData())
