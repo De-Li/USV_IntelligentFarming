@@ -92,7 +92,7 @@ def DecipherWaterData(RawDataArray):
 			DecipheredData = np.hstack((DecipheredData,Temp))			
 	#transferring the data array into string type in order to send data easily.
 	DecipheredData = '['+', '.join(str(e) for e in DecipheredData)+']'
-	print(DecipheredData)
+	#print(DecipheredData)
 	return DecipheredData
 
                 
