@@ -205,8 +205,8 @@ def CommunicationToMainServer(content):
 			if(FlagOfException & 0b0000010 == 0b0000010):
 				pass
 			else:
-			FlagOfException = FlagOfException | 0b0000010
-			StatusOfWaterChamber = "[Lose, Connection]"
+				FlagOfException = FlagOfException | 0b0000010
+				StatusOfWaterChamber = "[Lose, Connection]"
 		elif(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 			if(FlagOfException & 0b0100000 == 0b0100000):
 				pass
