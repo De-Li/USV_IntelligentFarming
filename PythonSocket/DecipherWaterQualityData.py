@@ -66,7 +66,7 @@ def SplitString(StringArray):
 				SplitedString = np.vstack((SplitedString,IterData))			
 		return SplitedString
 	except:
-		Print("Waterdata return incomplete!")
+		print("Waterdata return incomplete!")
 def DecipherWaterData(RawDataArray):
         #DecipheredData = np.array([['DissolvedOxygenValue'],['Temperature'],['WaterQuality'],['Turbidity'],['AmmoniaNitrogen'],['Conductivity'],['PHValue']])
 	SplitedData = SplitString(RawDataArray)
