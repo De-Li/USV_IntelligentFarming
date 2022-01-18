@@ -45,25 +45,28 @@ def CombineHexAndDecipherFour(Num1,Num2,Num3,Num4):
         #'!f' means decipher the hex for float type, and it convert string to float
 	return struct.unpack('!f', bytes.fromhex(H_Combined))[0]
 def SplitString(StringArray):        
-	for i in range(0,7):
-		#Since the data from sensors are encoded with b'' and \0x, it is mandatory to remove them before analysis.
-		#removing \0x from original data.
-		IterData = codecs.encode(StringArray[i][0],'hex')
-		#removing b''from encoded data.
-		IterData = IterData.decode("utf-8")
-		#transferring string into array.
-		IterData = [IterData[i:i+2] for i in range(0,len(IterData),2)]
-		#print(IterData)                
-		if i == 0:
-			SplitedString = np.array(IterData)
-		elif i==6:
-			#Due to the incommensurate length of receive data, the filling array help to fill the vacancy.
-			filling = np.array([['0','0'],['0','0'],['0','0'],['0','0'],['0','0'],['0','0'],])
-			SplitedString = np.hstack((SplitedString, filling))
-			SplitedString = np.vstack((SplitedString, IterData))
-		elif i>0:
-			SplitedString = np.vstack((SplitedString,IterData))			
-	return SplitedString
+	try:
+		for i in range(0,7):
+			#Since the data from sensors are encoded with b'' and \0x, it is mandatory to remove them before analysis.
+			#removing \0x from original data.
+			IterData = codecs.encode(StringArray[i][0],'hex')
+			#removing b''from encoded data.
+			IterData = IterData.decode("utf-8")
+			#transferring string into array.
+			IterData = [IterData[i:i+2] for i in range(0,len(IterData),2)]
+			#print(IterData)                
+			if i == 0:
+				SplitedString = np.array(IterData)
+			elif i==6:
+				#Due to the incommensurate length of receive data, the filling array help to fill the vacancy.
+				filling = np.array([['0','0'],['0','0'],['0','0'],['0','0'],['0','0'],['0','0'],])
+				SplitedString = np.hstack((SplitedString, filling))
+				SplitedString = np.vstack((SplitedString, IterData))
+			elif i>0:
+				SplitedString = np.vstack((SplitedString,IterData))			
+		return SplitedString
+	except:
+		Print("Waterdata return incomplete!")
 def DecipherWaterData(RawDataArray):
         #DecipheredData = np.array([['DissolvedOxygenValue'],['Temperature'],['WaterQuality'],['Turbidity'],['AmmoniaNitrogen'],['Conductivity'],['PHValue']])
 	SplitedData = SplitString(RawDataArray)
