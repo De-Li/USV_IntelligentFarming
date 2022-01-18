@@ -71,12 +71,12 @@ RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 #VoltageLimit = 10.8
 #Time(second)
-UploadInterval =120
-SampleInterval = UploadInterval/3
+UploadInterval =60
+SampleInterval = 25 #UploadInterval/3
 MinTransmitTimeInterval = 3
 SocketTimeOut = 1
 WaitingLimit = 20
-DelayTime = 0.3
+DelayTime = 0.5
 '''
 def ExceptionHandler(Status, Error):
 	global FlagOfException
@@ -199,7 +199,7 @@ def CommunicationToMainServer(content):
 		print("Lose connection to the ESP8266 on the Float chamber")
 		pass
 	CPUTemperature = str(CheckCPUTemperature())
-	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']"'
+	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
 	print("StatusParameter")
 	print(StatusParameter)
 	if(StatusOfWaterChamber[1] == "DoNothing"):
