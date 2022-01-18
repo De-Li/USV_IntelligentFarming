@@ -188,6 +188,10 @@ def CommunicationToMainServer(content):
 			return True
 		elif(command== '404'):
 			return True
+	except:
+		print("Lose connection to Main Server!")
+		pass
+	try:
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
@@ -195,11 +199,6 @@ def CommunicationToMainServer(content):
 		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + bin(FlagOfException) + ']"'
 		print("StatusParameter")
 		print(StatusParameter)
-	except:
-		print("Lose connection to Main Server!")
-		pass
-	
-	try:
 		if(StatusOfWaterChamber[1] == "DoNothing"):
 			return True
 		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
