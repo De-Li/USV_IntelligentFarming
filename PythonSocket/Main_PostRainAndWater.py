@@ -199,8 +199,7 @@ def CommunicationToMainServer(content):
 		print("Lose connection to the ESP8266 on the Float chamber")
 		pass
 	CPUTemperature = str(CheckCPUTemperature())
-	#ExceptionReturn = int(FlagOfException,2)
-	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + FlagOfException + ']"'
+	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']"'
 	print("StatusParameter")
 	print(StatusParameter)
 	if(StatusOfWaterChamber[1] == "DoNothing"):
