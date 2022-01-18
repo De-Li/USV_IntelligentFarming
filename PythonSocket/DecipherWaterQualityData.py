@@ -53,7 +53,7 @@ def SplitString(StringArray):
 		IterData = IterData.decode("utf-8")
 		#transferring string into array.
 		IterData = [IterData[i:i+2] for i in range(0,len(IterData),2)]
-		print(IterData)                
+		#print(IterData)                
 		if i == 0:
 			SplitedString = np.array(IterData)
 		elif i==6:
