@@ -180,22 +180,23 @@ def CommunicationToMainServer(content):
 	try:
 		command, addr = MainSocket.recvfrom(20)
 		command = command.decode()
+		print("command")
+		print(command)
+		if(command == '200'):
+			return True
+		elif(command== '404'):
+			return True
+		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+		print("StatusOfWaterChamber")
+		print(StatusOfWaterChamber)
+		CPUTemperature = str(CheckCPUTemperature())
+		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + bin(FlagOfException) + ']"'
+		print("StatusParameter")
+		print(StatusParameter)
 	except:
 		print("Lose connection to Main Server!")
 		pass
-	print("command")
-	print(command)
-	if(command == '200'):
-		return True
-	elif(command== '404'):
-		return True
-	StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-	print("StatusOfWaterChamber")
-	print(StatusOfWaterChamber)
-	CPUTemperature = str(CheckCPUTemperature())
-	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + bin(FlagOfException) + ']"'
-	print("StatusParameter")
-	print(StatusParameter)
+	
 	try:
 		if(StatusOfWaterChamber[1] == "DoNothing"):
 			return True
@@ -218,6 +219,7 @@ def CommunicationToMainServer(content):
 		MainSocket.sendto(StatusParameter.encode(), addr)
 		return True
 	except:
+		print("Lose connection to the ESP8266 on the Float chamber")
 		pass
 
 if __name__ == '__main__':
