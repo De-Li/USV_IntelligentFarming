@@ -107,7 +107,7 @@ def SendingMessageToFloatChamber(command):
 	VoltageRecord = VoltageValue
 	status = re.findall("\d+", Reply)
 	status = int(status[2])
-	if(VoltageValue > 10.8 and status == 1):
+	if(VoltageValue > 10.8):
 		ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
 		ReturnList.append("Normal")
 	elif(VoltageValue < 10.8):
