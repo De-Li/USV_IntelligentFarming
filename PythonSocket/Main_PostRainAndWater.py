@@ -73,7 +73,7 @@ RainData = ", 0, 0, 0, 0, 0]"
 #Time(second)
 UploadInterval =60
 SampleInterval = 25 #UploadInterval/3
-MinTransmitTimeInterval = 3
+MinTransmitTimeInterval = 5
 SocketTimeOut = 1
 WaitingLimit = 20
 DelayTime = 0.5
@@ -278,6 +278,7 @@ if __name__ == '__main__':
 			CommunicationThread.start()
 			CommunicationThread.join()
 			Listening_LastTime = time.time()
+			print(bin(FlagOfException))
 			#if(count%2==0):
 				#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 				#WeatherSamplingThread.start()
@@ -285,7 +286,5 @@ if __name__ == '__main__':
 			print("------------Pass------------")
 		#elif(FlagOfException is not 0b0000000):
 			#CommunicationThread = threading.Thread(target = CommunicationToMainServer(FlagOfException))
-		print(bin(FlagOfException))
-		
 		time.sleep(DelayTime)
 	MainSocket.close()
