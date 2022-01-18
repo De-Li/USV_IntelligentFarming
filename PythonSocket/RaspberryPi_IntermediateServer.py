@@ -37,8 +37,8 @@ global VoltageRecord
 
 def GetWeatherDataFromGroundStation():
 	#Get weather data from ESP8266 on the ground station
-	Server_UDP_IP = "192.168.1.108"
-	Server_UDP_PORT_ForESP8266 = 7777
+	Server_UDP_IP = "192.168.1.102"
+	Server_UDP_PORT_ForESP8266 = 6060
 	Receive_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
 	Receive_Sock.settimeout(10)
 	Receive_Sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
