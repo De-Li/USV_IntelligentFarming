@@ -195,33 +195,33 @@ def CommunicationToMainServer(content):
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
+		CPUTemperature = str(CheckCPUTemperature())
+		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
+		print("StatusParameter")
+		print(StatusParameter)
+		if(StatusOfWaterChamber[1] == "DoNothing"):
+			return True
+		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
+			if(FlagOfException & 0b0000010 == 0b0000010):
+				pass
+			else:
+			FlagOfException = FlagOfException | 0b0000010
+			StatusOfWaterChamber = "[Lose, Connection]"
+		elif(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
+			if(FlagOfException & 0b0100000 == 0b0100000):
+				pass
+			else:
+				FlagOfException = FlagOfException | 0b0100000
+			StatusOfWaterChamber = "[Battery, Low]"
+		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
+			FlagOfException = FlagOfException & 0b1111101
+		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
+			FlagOfException = FlagOfException & 0b1011111
+		MainSocket.sendto(StatusParameter.encode(), addr)
+		return True
 	except:
 		print("Lose connection to the ESP8266 on the Float chamber")
 		pass
-	CPUTemperature = str(CheckCPUTemperature())
-	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
-	print("StatusParameter")
-	print(StatusParameter)
-	if(StatusOfWaterChamber[1] == "DoNothing"):
-		return True
-	elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
-		if(FlagOfException & 0b0000010 == 0b0000010):
-			pass
-		else:
-			FlagOfException = FlagOfException | 0b0000010
-		StatusOfWaterChamber = "[Lose, Connection]"
-	elif(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
-		if(FlagOfException & 0b0100000 == 0b0100000):
-			pass
-		else:
-			FlagOfException = FlagOfException | 0b0100000
-		StatusOfWaterChamber = "[Battery, Low]"
-	elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
-		FlagOfException = FlagOfException & 0b1111101
-	elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
-		FlagOfException = FlagOfException & 0b1011111
-	MainSocket.sendto(StatusParameter.encode(), addr)
-	return True
 
 
 if __name__ == '__main__':
