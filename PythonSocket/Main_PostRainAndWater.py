@@ -196,7 +196,7 @@ def CommunicationToMainServer(content):
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		CPUTemperature = str(CheckCPUTemperature())
-		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + bin(FlagOfException) + ']"'
+		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + FlagOfException + ']"'
 		print("StatusParameter")
 		print(StatusParameter)
 		if(StatusOfWaterChamber[1] == "DoNothing"):
@@ -230,25 +230,27 @@ if __name__ == '__main__':
 	global FlagOfException
 	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 	FlagOfException = 0b0000000
-	StartTime = time.time()
+	Uploading_LastTime = time.time()
+	Sampling_LastTime = time.time()
+	Listening_LastTime = time.time()
 	print('Start')
 	count=1
 	while(True):
 		CurrentTime = time.time()
 		#Check the time interval
-		if(CurrentTime - StartTime > UploadInterval):
+		if(CurrentTime - Uploading_LastTime > UploadInterval):
 			CommunicationThread_Water = threading.Thread(target = CommunicationToMainServer(WaterData))
 			CommunicationThread_Water.start()
 			time.sleep(0.1)
 			CommunicationThread_Weather = threading.Thread(target = CommunicationToMainServer(WeatherData))
 			CommunicationThread_Weather.start()
 			count=1
-			StartTime = time.time()
+			Uploading_LastTime = time.time()
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			SendingMessageToFloatChamber('ShowVoltage')
 			print("Uploading is Done")
-		elif(CurrentTime - StartTime > SampleInterval):
+		elif(CurrentTime - Sampling_LastTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
 			WaterSamplingThread = threading.Thread(target = PostWaterData())
@@ -257,13 +259,14 @@ if __name__ == '__main__':
 			WaterSamplingThread.start()
 			WaterSamplingThread.join()
 			WeatherSamplingThread.join()
+			Sampling_LastTime = = time.time()
 			print("Sampling is Done")
-		elif(CurrentTime - StartTime > MinTransmitTimeInterval*count):
+		elif(CurrentTime - Listening_LastTime > MinTransmitTimeInterval*count):
 			CheckIfInternetIsConnected()
 			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
 			CommunicationThread.start()
 			CommunicationThread.join()
-			count = count + 1
+			Listening_LastTime = time.time()
 			#if(count%2==0):
 				#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 				#WeatherSamplingThread.start()
