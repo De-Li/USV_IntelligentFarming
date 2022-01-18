@@ -101,7 +101,7 @@ def GetWaterData():
 		print("Lose connection to <UnderWaterSensor!>")
 		return "Lose connection to <UnderWaterSensor!>"
 	#print('Server:', ServerMessage)	
-	print('Receive Array: ', ReceiveArray)
+	#print('Receive Array: ', ReceiveArray)
 	DecipheredData = DecipherWaterData(ReceiveArray)
 	return DecipheredData
 	client.close()
