@@ -8,6 +8,10 @@ author:De-Li
 version:1.0
 ---------------------------------------------------------------
 Comment:
+	In Tp-link A/P
+	ESP8266-float chamber
+	IP = "192.168.1.103"
+	PORT = "5555"
 	In 5910 Lab
 	RaspberryPi-burned
 	Server IP = "192.168.1.56" 
@@ -68,7 +72,7 @@ def GetCommandFromMainServer():
 '''
 def SendingMessageToFloatChamber(command):
 	#Raspberry Pi send message to ESP8266 on the Float chamber
-	Client_TCP_IP = "192.168.1.29"
+	Client_TCP_IP = "192.168.1.103"
 	Client_TCP_PORT = 5555
 	ReturnList = []
 	#MESSAGE = "Hello this is raspberry pi!"
