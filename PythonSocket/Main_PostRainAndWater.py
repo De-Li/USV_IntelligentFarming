@@ -212,18 +212,19 @@ def CommunicationToMainServer(content):
 		if(StatusOfWaterChamber[1] == "DoNothing"):
 			return True
 		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
+			print("Lose connection to the ESP8266 on the Float chamber")
 			StatusOfWaterChamber[0] = "[1.1, 1"
 			if(FlagOfException & 0b0000010 == 0b0000010):
 				pass
 			else:
 				FlagOfException = FlagOfException | 0b0000010
-				StatusOfWaterChamber = "[Lose, Connection]"
 		elif(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
+			print("The voltage of battery is too low, SHUTDOWN!")
 			if(FlagOfException & 0b0100000 == 0b0100000):
 				pass
 			else:
 				FlagOfException = FlagOfException | 0b0100000
-			StatusOfWaterChamber = "[0.0, 0]"
+			StatusOfWaterChamber = "[0.0, 0"
 		if(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
 			FlagOfException = FlagOfException & 0b1111101
 		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
