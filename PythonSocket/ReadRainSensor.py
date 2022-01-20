@@ -93,7 +93,7 @@ if __name__ == '__main__':
 	#ser = serial.Serial()
 	#ser = SerialSetting(ser)
 	while(1):
-		RainData = GetRainData()
+		RainData = GetRainData(20)
 		if RainData!=None:
-			time.sleep(5)
+			time.sleep(2)
 			
