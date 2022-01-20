@@ -97,7 +97,7 @@ def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
 		try:
-			urllib.request.urlopen('https://tw.yahoo.com/', timeout=0.01)
+			urllib.request.urlopen('https://tw.yahoo.com/', timeout=10)
 			FlagOfException = FlagOfException & 0b1111110
 			return True
 		except urllib.error.URLError as err:
