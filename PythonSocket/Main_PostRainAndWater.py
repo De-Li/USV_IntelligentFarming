@@ -97,7 +97,7 @@ def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
 		try:
-			urllib.request.urlopen('https://tw.yahoo.com/', timeout=2)
+			urllib.request.urlopen('https://tw.yahoo.com/', timeout=0.01)
 			FlagOfException = FlagOfException & 0b1111110
 			return True
 		except urllib.error.URLError as err:
@@ -105,7 +105,9 @@ def CheckIfInternetIsConnected():
 				pass
 			else:
 				FlagOfException = FlagOfException | 0b0000001
-			pass	
+			pass
+		except socket.timeout as e:
+			print('socket timeout')
 
 def PostWaterData():
 	global WaterData
@@ -207,12 +209,10 @@ def CommunicationToMainServer(content):
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		CPUTemperature = str(CheckCPUTemperature())
-		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
-		print("StatusParameter")
-		print(StatusParameter)
 		if(StatusOfWaterChamber[1] == "DoNothing"):
 			return True
 		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
+			StatusOfWaterChamber[0] = "[1.1, 1"
 			if(FlagOfException & 0b0000010 == 0b0000010):
 				pass
 			else:
@@ -223,11 +223,14 @@ def CommunicationToMainServer(content):
 				pass
 			else:
 				FlagOfException = FlagOfException | 0b0100000
-			StatusOfWaterChamber = "[Battery, Low]"
-		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
+			StatusOfWaterChamber = "[0.0, 0]"
+		if(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
 			FlagOfException = FlagOfException & 0b1111101
 		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
 			FlagOfException = FlagOfException & 0b1011111
+		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
+		print("StatusParameter")
+		print(StatusParameter)
 		MainSocket.sendto(StatusParameter.encode(), addr)
 		return True
 	except:
