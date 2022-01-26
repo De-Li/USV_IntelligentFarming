@@ -71,7 +71,7 @@ RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 #VoltageLimit = 10.8
 #Time(second)
-UploadInterval =60
+UploadInterval =150
 SampleInterval = 25 #UploadInterval/3
 MinTransmitTimeInterval = 5
 SocketTimeOut = 1
