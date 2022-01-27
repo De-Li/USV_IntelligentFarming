@@ -65,14 +65,17 @@ global WaterData
 global WeatherData
 global RainData
 global FlagOfException
+global ReturnList
 
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 #VoltageLimit = 10.8
 #Time(second)
-UploadInterval =150
-SampleInterval = 25 #UploadInterval/3
+UploadInterval = 600
+WaterSampleInterval = 500
+WaterPowercontrolTryingLimit = 10
+SampleInterval = UploadInterval/2 #UploadInterval/3
 MinTransmitTimeInterval = 5
 SocketTimeOut = 1
 WaitingLimit = 20
@@ -186,6 +189,7 @@ def CheckCPUTemperature():
 	return Cpu.temperature
 
 def CommunicationToMainServer(content):
+	global ReturnList
 	global FlagOfException
 	print('ListeningToMainServer')
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
@@ -205,7 +209,7 @@ def CommunicationToMainServer(content):
 		print("Lose connection to Main Server!")
 		pass
 	try:
-		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+		CommandESP8266Inchamber(command)
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		CPUTemperature = str(CheckCPUTemperature())
@@ -237,20 +241,37 @@ def CommunicationToMainServer(content):
 	except:
 		print("Lose connection to the ESP8266 on the Float chamber")
 		pass
-
-
+def CommandESP8266Inchamber(command):
+	global ReturnList
+	TryingTime = time.time()
+	while(True):
+		time.sleep(0.2)
+		CurrentTime = time.time()
+		if(CurrentTime - TryingTime > WaterPowercontrolTryingLimit):
+			return False
+		try:
+			ReturnList = SendingMessageToFloatChamber(command)
+			if(command == 'PowerUp' and ReturnList[2] == True):
+				return True
+			elif(command == 'ShutDown' and ReturnList[2] == False):
+				return True
+			elif(command == 'ShowVoltage'):
+				return ReturnList[1]
+		except:
+			print("Fail to connect ESP8266 in the chamber!")
 if __name__ == '__main__':
 	global StartTime
 	global WeatherData
 	global WaterData
 	global FlagOfException
+	BatteryStatus = True
 	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 	FlagOfException = 0b0000000
 	Uploading_LastTime = time.time()
 	Sampling_LastTime = time.time()
 	Listening_LastTime = time.time()
+	WaterSampling_LastTime = time.time()
 	print('Start')
-	count=1
 	while(True):
 		CurrentTime = time.time()
 		#Check the time interval
@@ -260,20 +281,42 @@ if __name__ == '__main__':
 			time.sleep(0.1)
 			CommunicationThread_Weather = threading.Thread(target = CommunicationToMainServer(WeatherData))
 			CommunicationThread_Weather.start()
-			count=1
 			Uploading_LastTime = time.time()
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
-			SendingMessageToFloatChamber('ShowVoltage')
+			if(CommandESP8266Inchamber('ShowVoltage') == "The voltage of battery is too low, SHUTDOWN!"):
+				CommandESP8266Inchamber('ShutDown')
+				BatteryStatus = False
+			elif(CommandESP8266Inchamber('ShowVoltage') == "Normal"):
+				BatteryStatus = True
+				pass
 			print("Uploading is Done")
+		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
+			if(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
+				WaterSamplingThread = threading.Thread(target = PostWaterData())
+				WaterSamplingThread.start()
+				while(True):
+					if(time.time() - CurrentTime > 20):
+						print("Can't shut the power down!!")
+						break
+					if(CommandESP8266Inchamber("ShutDown") == True):
+						break
+					else:
+						print("Can't shut the power down!!")
+			if(BatteryStatus == False):
+				print("Battery is too low, wait for charge!")
+				pass
+			else:
+				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
+			WaterSampling_LastTime =  time.time()
 		elif(CurrentTime - Sampling_LastTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
-			WaterSamplingThread = threading.Thread(target = PostWaterData())
+			#WaterSamplingThread = threading.Thread(target = PostWaterData())
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 			WeatherSamplingThread.start()
-			WaterSamplingThread.start()
-			WaterSamplingThread.join()
+			#WaterSamplingThread.start()
+			#WaterSamplingThread.join()
 			WeatherSamplingThread.join()
 			Sampling_LastTime = time.time()
 			print("Sampling is Done")
