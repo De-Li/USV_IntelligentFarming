@@ -72,8 +72,8 @@ RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 #VoltageLimit = 10.8
 #Time(second)
-UploadInterval = 600
-WaterSampleInterval = 500
+UploadInterval = 30
+WaterSampleInterval = UploadInterval*(5/6)
 WaterPowercontrolTryingLimit = 10
 SampleInterval = UploadInterval/2 #UploadInterval/3
 MinTransmitTimeInterval = 5
