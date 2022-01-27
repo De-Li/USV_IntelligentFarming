@@ -233,15 +233,14 @@ def CommunicationToMainServer(content):
 			StatusOfWaterChamber = "[0.0, 0"
 		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
 			FlagOfException = FlagOfException & 0b1011111
-		
+		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
+		print("StatusParameter")
+		print(StatusParameter)
+		MainSocket.sendto(StatusParameter.encode(), addr)
+		return True
 	except:
 		print("Data formal problem or Lose connection to ESP8266")
 		pass
-	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
-	print("StatusParameter")
-	print(StatusParameter)
-	MainSocket.sendto(StatusParameter.encode(), addr)
-	return True
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
 	TryingTime = time.time()
@@ -294,7 +293,7 @@ if __name__ == '__main__':
 			print("Uploading is Done")
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			if(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
-				time.sleep(10)
+				#time.sleep(10)
 				print("Waterdata saampling")
 				WaterSamplingThread = threading.Thread(target = PostWaterData())
 				WaterSamplingThread.start()
