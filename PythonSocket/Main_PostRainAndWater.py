@@ -281,7 +281,8 @@ if __name__ == '__main__':
 			time.sleep(0.1)
 			CommunicationThread_Weather = threading.Thread(target = CommunicationToMainServer(WeatherData))
 			CommunicationThread_Weather.start()
-			Uploading_LastTime = time.time()
+			CommunicationThread_Water.join()
+			CommunicationThread_Weather.join()
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			if(CommandESP8266Inchamber('ShowVoltage') == "The voltage of battery is too low, SHUTDOWN!"):
@@ -291,6 +292,7 @@ if __name__ == '__main__':
 				BatteryStatus = True
 				pass
 			print("Uploading is Done")
+			Uploading_LastTime = time.time()
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			if(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
 				#time.sleep(10)
