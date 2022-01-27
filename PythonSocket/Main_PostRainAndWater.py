@@ -330,7 +330,7 @@ if __name__ == '__main__':
 			Listening_LastTime = time.time()
 			print(bin(FlagOfException))
 			print("Upload time in: (Second)")
-			print(600 - CurrentTime)
+			print(UploadInterval - CurrentTime)
 		else:
 			#print("------------Pass------------")
 			pass
