@@ -293,6 +293,8 @@ if __name__ == '__main__':
 			print("Uploading is Done")
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			if(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
+				time.sleep(10)
+				print(Waterdata saampling)
 				WaterSamplingThread = threading.Thread(target = PostWaterData())
 				WaterSamplingThread.start()
 				while(True):
