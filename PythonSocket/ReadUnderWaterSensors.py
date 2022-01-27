@@ -94,7 +94,7 @@ def GetWaterData():
 		client.sendall(InquiryArray_AmmoniaNitrogen)
 		ServerMessage = client.recv(10)
 		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
-		print(ReceiveArray)
+		#print(ReceiveArray)
 	except socket.timeout as e:
 		print(e)
 		return "Lose connection to <UnderWaterSensor!>"
