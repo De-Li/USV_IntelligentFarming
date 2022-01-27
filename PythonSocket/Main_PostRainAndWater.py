@@ -303,11 +303,11 @@ if __name__ == '__main__':
 						break
 					else:
 						print("Can't shut the power down!!")
+			else:
+				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
 			if(BatteryStatus == False):
 				print("Battery is too low, wait for charge!")
 				pass
-			else:
-				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
 			WaterSampling_LastTime =  time.time()
 		elif(CurrentTime - Sampling_LastTime > SampleInterval):
 			print("DataSampling")
