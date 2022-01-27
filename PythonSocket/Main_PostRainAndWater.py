@@ -65,7 +65,7 @@ global WaterData
 global WeatherData
 global RainData
 global FlagOfException
-global ReturnList
+global StatusOfWaterChamber
 
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
@@ -189,7 +189,7 @@ def CheckCPUTemperature():
 	return Cpu.temperature
 
 def CommunicationToMainServer(content):
-	global ReturnList
+	global StatusOfWaterChamber
 	global FlagOfException
 	print('ListeningToMainServer')
 	#UDP socket to the "Main Server", DGRAM means UDP protocal.
@@ -243,7 +243,7 @@ def CommunicationToMainServer(content):
 	MainSocket.sendto(StatusParameter.encode(), addr)
 	return True
 def CommandESP8266Inchamber(command):
-	global ReturnList
+	global StatusOfWaterChamber
 	TryingTime = time.time()
 	while(True):
 		time.sleep(0.2)
@@ -251,13 +251,13 @@ def CommandESP8266Inchamber(command):
 		if(CurrentTime - TryingTime > WaterPowercontrolTryingLimit):
 			return False
 		try:
-			ReturnList = SendingMessageToFloatChamber(command)
-			if(command == 'PowerUp' and ReturnList[2] == True):
+			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+			if(command == 'PowerUp' and StatusOfWaterChamber[2] == True):
 				return True
-			elif(command == 'ShutDown' and ReturnList[2] == False):
+			elif(command == 'ShutDown' and StatusOfWaterChamber[2] == False):
 				return True
 			elif(command == 'ShowVoltage'):
-				return ReturnList[1]
+				return StatusOfWaterChamber[1]
 		except:
 			print("Fail to connect ESP8266 in the chamber!")
 if __name__ == '__main__':
