@@ -51,8 +51,12 @@ def GetWeatherDataFromGroundStation():
 		
 		print(DecodedData)
 		DecodedData = DecodedData.split(", ")
-		if(DecodedData[2] == '0.'):
+		if(DecodedData[2] == '    0.'): #4
 			DecodedData[2] = '0'
+		elif(DecodedData[2] == '     0.'):#5
+			DecodedData[2] = '0'
+		elif(DecodedData[2] == '      0.'):#6
+			DecodedData[2] = '0'	
 		print(DecodedData)
 		DecodedData = '['+', '.join(str(e) for e in DecodedData)
 		print(DecodedData)
