@@ -331,9 +331,7 @@ if __name__ == '__main__':
 			print("Sampling is Done")
 		elif(CurrentTime - Listening_LastTime > MinTransmitTimeInterval):
 			CheckIfInternetIsConnected()
-			CommunicationThread = threading.Thread(target = CommunicationToMainServer("HeartBeat Message"))
-			CommunicationThread.start()
-			CommunicationThread.join()
+			CommunicationToMainServer("HeartBeat Message")
 			Listening_LastTime = time.time()
 			print(bin(FlagOfException))
 			print("Upload time in: (Second)")
