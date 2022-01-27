@@ -283,6 +283,8 @@ if __name__ == '__main__':
 			CommunicationThread_Weather.start()
 			CommunicationThread_Water.join()
 			CommunicationThread_Weather.join()
+			stop_thread(CommunicationThread_Weather)
+			stop_thread(CommunicationThread_Water)
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			if(CommandESP8266Inchamber('ShowVoltage') == "The voltage of battery is too low, SHUTDOWN!"):
