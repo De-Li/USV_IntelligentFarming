@@ -327,9 +327,6 @@ if __name__ == '__main__':
 			CommunicationThread.join()
 			Listening_LastTime = time.time()
 			print(bin(FlagOfException))
-			#if(count%2==0):
-				#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-				#WeatherSamplingThread.start()
 		else:
 			print("------------Pass------------")
 		#elif(FlagOfException is not 0b0000000):
