@@ -297,8 +297,9 @@ if __name__ == '__main__':
 				print("Waterdata saampling")
 				WaterSamplingThread = threading.Thread(target = PostWaterData())
 				WaterSamplingThread.start()
+				CurrentTryingTime = time.time()
 				while(True):
-					if(time.time() - CurrentTime > 20):
+					if(time.time() - CurrentTryingTime > 20):
 						print("Can't shut the power down!!")
 						break
 					if(CommandESP8266Inchamber("ShutDown") == True):
