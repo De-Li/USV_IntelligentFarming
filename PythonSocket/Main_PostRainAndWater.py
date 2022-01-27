@@ -329,8 +329,11 @@ if __name__ == '__main__':
 			CommunicationThread.join()
 			Listening_LastTime = time.time()
 			print(bin(FlagOfException))
+			print("Upload time in: (Second)")
+			print(CurrentTime - Uploading_LastTime)
 		else:
-			print("------------Pass------------")
+			#print("------------Pass------------")
+			pass
 		#elif(FlagOfException is not 0b0000000):
 			#CommunicationThread = threading.Thread(target = CommunicationToMainServer(FlagOfException))
 		time.sleep(DelayTime)
