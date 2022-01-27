@@ -233,14 +233,15 @@ def CommunicationToMainServer(content):
 			StatusOfWaterChamber = "[0.0, 0"
 		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
 			FlagOfException = FlagOfException & 0b1011111
-		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
-		print("StatusParameter")
-		print(StatusParameter)
-		MainSocket.sendto(StatusParameter.encode(), addr)
-		return True
+		
 	except:
-		print("Lose connection to the ESP8266 on the Float chamber")
+		print("Data formal problem or Lose connection to ESP8266")
 		pass
+	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
+	print("StatusParameter")
+	print(StatusParameter)
+	MainSocket.sendto(StatusParameter.encode(), addr)
+	return True
 def CommandESP8266Inchamber(command):
 	global ReturnList
 	TryingTime = time.time()
