@@ -118,14 +118,14 @@ def SendingMessageToFloatChamber(command):
 	VoltageValue = float(VoltageValue[0])
 	status = re.findall("\d+", Reply)
 	status = int(status[2])
-	if(VoltageValue >= 11.6):
+	if(VoltageValue >= 11.8):
 		ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
 		ReturnList.append("Normal")
 		if(status == 1):
 			ReturnList.append(True)
 		elif(status == 0):
 			ReturnList.append(False)
-	elif(VoltageValue < 11.6):
+	elif(VoltageValue < 11.8):
 		'''
 			try:
 				Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
