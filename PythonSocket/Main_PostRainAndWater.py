@@ -276,6 +276,7 @@ if __name__ == '__main__':
 		CurrentTime = time.time()
 		#Check the time interval
 		if(CurrentTime - Uploading_LastTime > UploadInterval):
+			CheckIfInternetIsConnected()
 			CommunicationThread_Water = threading.Thread(target = CommunicationToMainServer(WaterData))
 			CommunicationThread_Water.start()
 			time.sleep(0.1)
@@ -294,12 +295,17 @@ if __name__ == '__main__':
 				pass
 			print("Uploading is Done")
 			Uploading_LastTime = time.time()
+		#Read Water data
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
+			CheckIfInternetIsConnected()
 			if(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
 				#time.sleep(10)
 				print("Waterdata saampling")
-				WaterSamplingThread = threading.Thread(target = PostWaterData())
-				WaterSamplingThread.start()
+				i=0
+				while(i<12):
+					time.sleep(5)
+					PostWaterData()
+					i = i + 1
 				i=0
 				while(True):
 					if(i>20):
@@ -320,6 +326,7 @@ if __name__ == '__main__':
 		elif(CurrentTime - Sampling_LastTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
+			PostWeatherData()
 			#WaterSamplingThread = threading.Thread(target = PostWaterData())
 			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 			WeatherSamplingThread.start()
