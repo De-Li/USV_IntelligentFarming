@@ -307,8 +307,8 @@ if __name__ == '__main__':
 				#time.sleep(10)
 				print("Waterdata saampling")
 				i=0
-				while(i<12):
-					time.sleep(5)
+				while(i<3):
+					time.sleep(10)
 					PostWaterData()
 					i = i + 1
 				i=0
