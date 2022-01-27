@@ -73,7 +73,7 @@ RainData = ", 0, 0, 0, 0, 0]"
 #VoltageLimit = 10.8
 #Time(second)
 UploadInterval = 600
-WaterSampleInterval = (UploadInterval*0.5)-150
+WaterSampleInterval = UploadInterval*0.8
 WaterPowercontrolTryingLimit = 10
 SampleInterval = UploadInterval/3
 MinTransmitTimeInterval = 5
@@ -299,15 +299,17 @@ if __name__ == '__main__':
 				print("Waterdata saampling")
 				WaterSamplingThread = threading.Thread(target = PostWaterData())
 				WaterSamplingThread.start()
-				CurrentTryingTime = time.time()
+				i=0
 				while(True):
-					if(time.time() - CurrentTryingTime > 20):
+					if(i>20):
 						print("Can't shut the power down!!")
 						break
 					if(CommandESP8266Inchamber("ShutDown") == True):
 						break
 					else:
 						print("Can't shut the power down!!")
+					time.sleep(0.1)
+					i = i + 1
 			else:
 				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
 			if(BatteryStatus == False):
