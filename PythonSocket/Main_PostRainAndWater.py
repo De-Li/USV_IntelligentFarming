@@ -77,7 +77,7 @@ UploadInterval = 600
 WaterSampleInterval = UploadInterval*0.4
 WaterPowercontrolTryingLimit = 10
 WaterWaitingTime = 30
-WeatherSampleInterval = UploadInterval/20
+RainSampleInterval = UploadInterval/20
 MinTransmitTimeInterval = 5
 SocketTimeOut = 1
 WaitingLimit = 10
@@ -281,19 +281,17 @@ if __name__ == '__main__':
 	while(True):
 		CurrentTime = time.time()
 		#Check the time interval
-		if(CurrentTime - Uploading_LastTime > UploadInterval/2):
+		if(CurrentTime - Uploading_LastTime > UploadInterval):
 			print("Uploading DATA to MainServer")
 			CheckIfInternetIsConnected()
-			if(CurrentTime - Uploading_LastTime > UploadInterval):
-				CommunicationToMainServer(WaterData)
-				time.sleep(0.1)
-				CommunicationToMainServer(WeatherData)
-				#Reset the basic time
-				Uploading_LastTime = time.time()
-				WaterSampling_LastTime =  time.time()
-				Sampling_LastTime = time.time()
-			else:
-				CommunicationToMainServer(WeatherData)
+			CommunicationToMainServer(WaterData)
+			time.sleep(0.1)
+			CommunicationToMainServer(WeatherData)
+			#Reset the basic time
+			Uploading_LastTime = time.time()
+			WaterSampling_LastTime =  time.time()
+			Sampling_LastTime = time.time()
+			WeatherSampling_LastTime = time.time()
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			if(CommandESP8266Inchamber('ShowVoltage') == "The voltage of battery is too low, SHUTDOWN!"):
@@ -336,22 +334,23 @@ if __name__ == '__main__':
 				pass
 			else:
 				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
-		elif(CurrentTime - Sampling_LastTime > WeatherSampleInterval):
+		elif(CurrentTime - WeatherSampling_LastTime > UploadInterval/3):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
 			#Get Weather once before uploading 40 seconds
-			if(CurrentTime - Uploading_LastTime > UploadInterval/3):
-				PostWeatherData('All')
-			else:
-				PostWeatherData('Rain')
+			PostWeatherData('All')
 			#WaterSamplingThread = threading.Thread(target = PostWaterData())
 			#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 			#WeatherSamplingThread.start()
 			#WaterSamplingThread.start()
 			#WaterSamplingThread.join()
 			#WeatherSamplingThread.join()
-			Sampling_LastTime = time.time()
+			WeatherSampling_LastTime = time.time()
 			print("Sampling is Done")
+		elif(CurrentTime - Sampling_LastTime > RainSampleInterval):
+			CheckIfInternetIsConnected()
+			PostWeatherData('Rain')
+			Sampling_LastTime = time.time()
 		elif(CurrentTime - Listening_LastTime > MinTransmitTimeInterval):
 			CheckIfInternetIsConnected()
 			CommunicationToMainServer("HeartBeat Message")
