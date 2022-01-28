@@ -147,7 +147,7 @@ def SendingMessageToFloatChamber(command):
 		'''
 		ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
 		ReturnList.append("The voltage of battery is too low, SHUTDOWN!")
-		print("The voltage of battery is too low, SHUTDOWN!")
+		#print("The voltage of battery is too low, SHUTDOWN!")
 		if(status == 1):
 			ReturnList.append(True)
 		elif(status == 0):
