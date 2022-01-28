@@ -251,6 +251,7 @@ def CommandESP8266Inchamber(command):
 		time.sleep(0.2)
 		CurrentTime = time.time()
 		if(CurrentTime - TryingTime > WaterPowercontrolTryingLimit):
+			print("Esp8266 Waiting TimeOUT!")
 			return False
 		try:
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
