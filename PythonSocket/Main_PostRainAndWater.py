@@ -256,6 +256,7 @@ def CommandESP8266Inchamber(command):
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 				CommandESP8266Inchamber('ShutDown')
+				print("The power is ShutDown!")
 				BatterySwitch = False
 				BatteryStatus = False
 			elif(command == 'PowerUp' and StatusOfWaterChamber[2] == True):
