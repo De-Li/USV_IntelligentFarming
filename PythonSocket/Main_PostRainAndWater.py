@@ -154,7 +154,6 @@ def PostWeatherData():
 		else:
 			RainData = CurrentRainData
 		FlagOfException = FlagOfException & 0b1101111
-	
 	#Get weather data from esp8266 in shutter box
 	try:
 		CurrentWeatherData = GetWeatherDataFromGroundStation()
@@ -301,9 +300,12 @@ if __name__ == '__main__':
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			CheckIfInternetIsConnected()
 			if(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
-				#time.sleep(10)
 				print("Waterdata saampling")
-				PostWaterData()
+				i=0
+				while(i<3):
+					time.sleep(1)
+					PostWaterData()
+					i = i + 1
 				i=0
 				while(True):
 					if(i>20):
