@@ -296,6 +296,8 @@ if __name__ == '__main__':
 				pass
 			print("Uploading is Done")
 			Uploading_LastTime = time.time()
+			WaterSampling_LastTime =  time.time()
+			Sampling_LastTime = time.time()
 		#Read Water data
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			CheckIfInternetIsConnected()
