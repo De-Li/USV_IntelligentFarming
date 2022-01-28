@@ -152,7 +152,7 @@ def PostWeatherData(FlagOfSampling):
 				FlagOfException = FlagOfException | 0b0010000
 			CurrentRainData = ", 1, 1, 1, 1, 1]"
 		else:
-			if(CurrentRainData == None):
+			if(CurrentRainData == None or CurrentRainData == "Rain data is not complete!"):
 				CurrentRainData = RainData
 			else:
 				RainData = CurrentRainData
@@ -345,10 +345,11 @@ if __name__ == '__main__':
 		elif(CurrentTime - Sampling_LastTime > WeatherSampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
-			PostWeatherData('Rain')
 			#Get Weather once before uploading 40 seconds
-			if(Sampling_LastTime - Uploading_LastTime > (UploadInterval-40)):
+			if(CurrentTime - Uploading_LastTime > (UploadInterval-40)):
 				PostWeatherData('All')
+			else:
+				PostWeatherData('Rain')
 			#WaterSamplingThread = threading.Thread(target = PostWaterData())
 			#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 			#WeatherSamplingThread.start()
