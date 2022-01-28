@@ -258,14 +258,16 @@ def CommandESP8266Inchamber(command):
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 				SendingMessageToFloatChamber('ShutDown')
-				print("The power is ShutDown!")
+				print("The power is ShutDown! Due to low battery")
 				BatterySwitch = False
 				BatteryStatus = False
 				return False
 			elif(command == 'PowerUp' and StatusOfWaterChamber[2] == True):
+				print("PowerUp the sensor!")
 				BatterySwitch = True
 				return True
 			elif(command == 'ShutDown' and StatusOfWaterChamber[2] == False):
+				print("The power is ShutDown!")
 				BatterySwitch = False
 				return True
 			elif(command == 'ShowVoltage'):
@@ -313,7 +315,6 @@ if __name__ == '__main__':
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval and BatteryStatus == True):
 			CheckIfInternetIsConnected()
 			if(BatterySwitch == False):
-				print("PowerUp the sensor!")
 				CommandESP8266Inchamber("PowerUp")
 				WaterSampling_LastTime = WaterSampling_LastTime + WaterWaitingTime
 			elif(BatterySwitch == True):
