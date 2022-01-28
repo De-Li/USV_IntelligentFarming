@@ -44,26 +44,26 @@ def GetWeatherDataFromGroundStation():
 	Receive_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # UDP
 	Receive_Sock.settimeout(10)
 	Receive_Sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-	try:
-		Receive_Sock.bind((Server_UDP_IP, Server_UDP_PORT_ForESP8266))
-		data, addr = Receive_Sock.recvfrom(40) # buffer size is 40 bytes
-		DecodedData = data.decode("utf-8")
-		#print(DecodedData)
-		DecodedData = DecodedData.split(", ")
-		print(DecodedData)
-		#print(DecodedData)
-		DecodedData[2] = re.sub("[^\d\.]", '',DecodedData[2])
-		if(DecodedData[2] == '    0.'): #4
-			DecodedData[2] = '0'
-		elif(DecodedData[2] == '     0.'):#5
-			DecodedData[2] = '0'
-		elif(DecodedData[2] == '      0.'):#6
-			DecodedData[2] = '0'
-		elif((DecodedData[2]).is_integer()):
-			DecodedData[2] = str(float(DecodedData[2]) + 0.1)
-		DecodedData = '['+', '.join(str(e) for e in DecodedData)
-		Receive_Sock.close()
-		return DecodedData
+	#try:
+	Receive_Sock.bind((Server_UDP_IP, Server_UDP_PORT_ForESP8266))
+	data, addr = Receive_Sock.recvfrom(40) # buffer size is 40 bytes
+	DecodedData = data.decode("utf-8")
+	#print(DecodedData)
+	DecodedData = DecodedData.split(", ")
+	print(DecodedData)
+	#print(DecodedData)
+	DecodedData[2] = re.sub("[^\d\.]", '',DecodedData[2])
+	if(DecodedData[2] == '    0.'): #4
+		DecodedData[2] = '0'
+	elif(DecodedData[2] == '     0.'):#5
+		DecodedData[2] = '0'
+	elif(DecodedData[2] == '      0.'):#6
+		DecodedData[2] = '0'
+	elif((DecodedData[2]).is_integer()):
+		DecodedData[2] = str(float(DecodedData[2]) + 0.1)
+	DecodedData = '['+', '.join(str(e) for e in DecodedData)
+	Receive_Sock.close()
+	return DecodedData
 	except:
 		print("Lose connection to <weather ESP8266!>")
 		return "Lose connection to <weather ESP8266!>"
