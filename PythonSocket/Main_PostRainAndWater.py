@@ -254,13 +254,19 @@ def CommandESP8266Inchamber(command):
 			return False
 		try:
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-			if(command == 'PowerUp' and StatusOfWaterChamber[2] == True):
+			if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
+				CommandESP8266Inchamber('ShutDown')
+				BatterySwitch = False
+				BatteryStatus = False
+			elif(command == 'PowerUp' and StatusOfWaterChamber[2] == True):
 				BatterySwitch = True
 				return True
 			elif(command == 'ShutDown' and StatusOfWaterChamber[2] == False):
 				BatterySwitch = False
 				return True
 			elif(command == 'ShowVoltage'):
+				if(CommandESP8266Inchamber('ShowVoltage') == "Normal"):
+					BatteryStatus = True
 				return StatusOfWaterChamber[1]
 		except:
 			print("Fail to connect ESP8266 in the chamber!")
@@ -297,12 +303,7 @@ if __name__ == '__main__':
 			WeatherSampling_LastTime = time.time()
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
-			if(CommandESP8266Inchamber('ShowVoltage') == "The voltage of battery is too low, SHUTDOWN!"):
-				CommandESP8266Inchamber('ShutDown')
-				BatteryStatus = False
-			elif(CommandESP8266Inchamber('ShowVoltage') == "Normal"):
-				BatteryStatus = True
-				pass
+			CommandESP8266Inchamber('ShowVoltage')
 			print("Uploading is Done")
 		#Read Water data
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval and BatteryStatus == True):
