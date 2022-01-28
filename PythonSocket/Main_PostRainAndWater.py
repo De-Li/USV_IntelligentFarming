@@ -139,7 +139,7 @@ def PostWeatherData(FlagOfSampling):
 	global WeatherData
 	global RainData
 	global FlagOfException
-	if(Flag == 'Rain' or Flag == 'All'):
+	if(FlagOfSampling == 'Rain' or FlagOfSampling == 'All'):
 		try:
 			CurrentRainData = GetRainData(WaitingLimit)
 		except:
@@ -157,7 +157,7 @@ def PostWeatherData(FlagOfSampling):
 			else:
 				RainData = CurrentRainData
 			FlagOfException = FlagOfException & 0b1101111
-	if(Flag == 'All'):
+	if(FlagOfSampling == 'All'):
 		#Get weather data from esp8266 in shutter box
 		try:
 			CurrentWeatherData = GetWeatherDataFromGroundStation()
