@@ -66,6 +66,7 @@ global WeatherData
 global RainData
 global FlagOfException
 global StatusOfWaterChamber
+global BatterySwitch
 
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
@@ -238,6 +239,7 @@ def CommunicationToMainServer(content):
 		pass
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
+	global BatterySwitch
 	TryingTime = time.time()
 	while(True):
 		time.sleep(0.2)
@@ -247,8 +249,10 @@ def CommandESP8266Inchamber(command):
 		try:
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			if(command == 'PowerUp' and StatusOfWaterChamber[2] == True):
+				BatterySwitch = True
 				return True
 			elif(command == 'ShutDown' and StatusOfWaterChamber[2] == False):
+				BatterySwitch = False
 				return True
 			elif(command == 'ShowVoltage'):
 				return StatusOfWaterChamber[1]
@@ -259,7 +263,9 @@ if __name__ == '__main__':
 	global WeatherData
 	global WaterData
 	global FlagOfException
+	global BatterySwitch
 	BatteryStatus = True
+	BatterySwitch = False
 	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 	FlagOfException = 0b0000000
 	Uploading_LastTime = time.time()
@@ -301,11 +307,12 @@ if __name__ == '__main__':
 		#Read Water data
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			CheckIfInternetIsConnected()
-			if(BatteryStatus == True and CommandESP8266Inchamber("ShutDown") == True):
+			if(BatteryStatus == True and BatterySwitch == False):
 				print("PowerUp the sensor!")
 				CommandESP8266Inchamber("PowerUp")
 				WaterSampling_LastTime = WaterSampling_LastTime + 60
-			elif(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
+			elif(BatteryStatus == True and BatterySwitch == True):
+				#CommandESP8266Inchamber("PowerUp")
 				print("Waterdata is sampling")
 				i=0
 				while(i<2):
