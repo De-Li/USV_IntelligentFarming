@@ -164,10 +164,13 @@ def PostWeatherData(FlagOfSampling):
 			FlagOfException = FlagOfException & 0b1101111
 	if(FlagOfSampling == 'All'):
 		#Get weather data from esp8266 in shutter box
+		CurrentWeatherData = GetWeatherDataFromGroundStation()
+		'''
 		try:
 			CurrentWeatherData = GetWeatherDataFromGroundStation()
 		except:
 			CurrentWeatherData = "Lose connection to <weather ESP8266!>"
+		'''
 		if(CurrentWeatherData == "Lose connection to <weather ESP8266!>"):
 			if(FlagOfException & 0b0000100 == 0b0000100):
 				pass
