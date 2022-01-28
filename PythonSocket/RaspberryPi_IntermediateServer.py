@@ -48,14 +48,16 @@ def GetWeatherDataFromGroundStation():
 		Receive_Sock.bind((Server_UDP_IP, Server_UDP_PORT_ForESP8266))
 		data, addr = Receive_Sock.recvfrom(40) # buffer size is 40 bytes
 		DecodedData = data.decode("utf-8")
-		DecodedData = DecodedData.split(", ")
+		print(DecodedData)
 		DecodedData[2] = re.findall("\d+\.\d+",DecodedData[2])
+		DecodedData = DecodedData.split(", ")
+		print(DecodedData)
 		if(DecodedData[2] == '    0.'): #4
 			DecodedData[2] = '0'
 		elif(DecodedData[2] == '     0.'):#5
 			DecodedData[2] = '0'
 		elif(DecodedData[2] == '      0.'):#6
-			DecodedData[2] = '0'	
+			DecodedData[2] = '0'
 		DecodedData = '['+', '.join(str(e) for e in DecodedData)
 		Receive_Sock.close()
 		return DecodedData
