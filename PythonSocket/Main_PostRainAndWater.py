@@ -292,6 +292,7 @@ if __name__ == '__main__':
 	Listening_LastTime = time.time()
 	WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
+	CommandESP8266Inchamber('ShowVoltage')
 	print('Start')
 	while(True):
 		CurrentTime = time.time()
