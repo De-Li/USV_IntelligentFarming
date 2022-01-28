@@ -349,6 +349,7 @@ if __name__ == '__main__':
 			#WeatherSamplingThread.join()
 			Sampling_LastTime = time.time()
 			print("Sampling is Done")
+		elif()
 		elif(CurrentTime - Listening_LastTime > MinTransmitTimeInterval):
 			CheckIfInternetIsConnected()
 			CommunicationToMainServer("HeartBeat Message")
