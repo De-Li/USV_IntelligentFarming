@@ -73,7 +73,7 @@ RainData = ", 0, 0, 0, 0, 0]"
 #VoltageLimit = 10.8
 #Time(second)
 UploadInterval = 600
-WaterSampleInterval = UploadInterval*0.5
+WaterSampleInterval = UploadInterval*0.4
 WaterPowercontrolTryingLimit = 10
 SampleInterval = UploadInterval/3
 MinTransmitTimeInterval = 5
@@ -301,7 +301,7 @@ if __name__ == '__main__':
 		#Read Water data
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			CheckIfInternetIsConnected()
-			if(BatteryStatus == True and CommandESP8266Inchamber("ShowVoltage") == False):
+			if(BatteryStatus == True and CommandESP8266Inchamber("ShutDown") == True):
 				print("PowerUp the sensor!")
 				CommandESP8266Inchamber("PowerUp")
 				WaterSampling_LastTime = WaterSampling_LastTime + 60
