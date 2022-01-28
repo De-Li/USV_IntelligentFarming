@@ -283,9 +283,9 @@ if __name__ == '__main__':
 		if(CurrentTime - Uploading_LastTime > UploadInterval):
 			print("Uploading DATA to MainServer")
 			CheckIfInternetIsConnected()
-			#CommunicationToMainServer(WaterData)
+			CommunicationToMainServer(WaterData)
 			time.sleep(0.1)
-			#CommunicationToMainServer(WeatherData)
+			CommunicationToMainServer(WeatherData)
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			if(CommandESP8266Inchamber('ShowVoltage') == "The voltage of battery is too low, SHUTDOWN!"):
