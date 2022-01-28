@@ -76,6 +76,7 @@ RainData = ", 0, 0, 0, 0, 0]"
 UploadInterval = 600
 WaterSampleInterval = UploadInterval*0.4
 WaterPowercontrolTryingLimit = 10
+WaterWaitingTime = 30
 SampleInterval = UploadInterval/3
 MinTransmitTimeInterval = 5
 SocketTimeOut = 1
@@ -310,7 +311,7 @@ if __name__ == '__main__':
 			if(BatteryStatus == True and BatterySwitch == False):
 				print("PowerUp the sensor!")
 				CommandESP8266Inchamber("PowerUp")
-				WaterSampling_LastTime = WaterSampling_LastTime + 60
+				WaterSampling_LastTime = WaterSampling_LastTime + WaterWaitingTime
 			elif(BatteryStatus == True and BatterySwitch == True):
 				#CommandESP8266Inchamber("PowerUp")
 				print("Waterdata is sampling")
