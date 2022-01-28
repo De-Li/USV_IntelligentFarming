@@ -262,11 +262,11 @@ def CommandESP8266Inchamber(command):
 				BatterySwitch = False
 				BatteryStatus = False
 				return False
-			elif(command == 'PowerUp' and StatusOfWaterChamber[2] == True):
+			elif(command == 'PowerUp'):
 				print("PowerUp the sensor!")
 				BatterySwitch = True
 				return True
-			elif(command == 'ShutDown' and StatusOfWaterChamber[2] == False):
+			elif(command == 'ShutDown'):
 				print("The power is ShutDown!")
 				BatterySwitch = False
 				return True
@@ -295,11 +295,12 @@ if __name__ == '__main__':
 	print('Start')
 	while(True):
 		CurrentTime = time.time()
-		#Check the time interval
+		#Uploading data
 		if(CurrentTime - Uploading_LastTime > UploadInterval):
 			print("Uploading DATA to MainServer")
 			CheckIfInternetIsConnected()
-			CommunicationToMainServer(WaterData)
+			if(BatteryStatus == True):
+				CommunicationToMainServer(WaterData)
 			time.sleep(0.1)
 			CommunicationToMainServer(WeatherData)
 			#Reset the basic time
