@@ -24,9 +24,13 @@ def SerialSetting(ser):
 def DecipherRainData(response):
 	#extract the float data from response
 	FloatData = re.findall("\d+\.\d+", response)
-	#arrange rain data into CSV format. 
-	ArrangedResponse = ', ' +' , '.join(str(e) for e in FloatData)+', 0]'
-	return ArrangedResponse
+	try:
+		if(FloatData[3] is not None):		
+		#arrange rain data into CSV format. 
+		ArrangedResponse = ', ' +' , '.join(str(e) for e in FloatData)+', 0]'
+		return ArrangedResponse
+	except:
+		return "Rain data is not complete!"
 def GetRainData(TryLimit):
 	'''
 	#  +8 timezone
