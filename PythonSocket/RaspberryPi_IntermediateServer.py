@@ -60,7 +60,7 @@ def GetWeatherDataFromGroundStation():
 		elif(DecodedData[2] == '      0.'):#6
 			DecodedData[2] = '0'
 		elif((DecodedData[2]).is_integer()):
-			DecodedData[2] = float(DecodedData[2]) + 0.1
+			DecodedData[2] = str(float(DecodedData[2]) + 0.1)
 		DecodedData = '['+', '.join(str(e) for e in DecodedData)
 		Receive_Sock.close()
 		return DecodedData
