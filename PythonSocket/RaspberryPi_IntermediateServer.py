@@ -36,7 +36,7 @@ add GetCommandFromMainServer() function to receive the command from the main ser
 """
 import socket, time, select, re
 global VoltageRecord
-
+BatteryTooLowFlag = False
 def GetWeatherDataFromGroundStation():
 	#Get weather data from ESP8266 on the ground station
 	Server_UDP_IP = "192.168.1.102"
