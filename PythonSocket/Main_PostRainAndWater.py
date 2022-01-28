@@ -301,7 +301,7 @@ if __name__ == '__main__':
 			CheckIfInternetIsConnected()
 			if(BatteryStatus == True and CommandESP8266Inchamber("ShowVoltage") == False):
 				CommandESP8266Inchamber("PowerUp")
-				WaterSampling_LastTime = WaterSampling_LastTime + 30
+				WaterSampling_LastTime = WaterSampling_LastTime + 60
 			elif(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
 				print("Waterdata is sampling")
 				i=0
@@ -330,8 +330,6 @@ if __name__ == '__main__':
 		elif(CurrentTime - Sampling_LastTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
-			if(CurrentTime - Uploading_LastTime < WaterSampleInterval):
-				CommandESP8266Inchamber("PowerUp")
 			PostWeatherData()
 			#WaterSamplingThread = threading.Thread(target = PostWaterData())
 			#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
