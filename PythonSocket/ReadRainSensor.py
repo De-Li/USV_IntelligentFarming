@@ -52,7 +52,7 @@ def GetRainData(TryLimit):
 	#print("entering serial")
 	i=0
 	while(1):
-		i = i+1
+		i = i + 1
 		try: 
 			if ser.isOpen():
 				pass
@@ -64,9 +64,8 @@ def GetRainData(TryLimit):
 		if ser.isOpen():	
 			try:
 				ser.flushInput() #flush input buffer
-				ser.flushOutput() #flush output buffer  
-				
-				#listen data per 0.5s
+				ser.flushOutput() #flush output buffer
+				#listen data per 0.1s
 				response = ser.readline()
 				if(response):	
 					print(str(response))
