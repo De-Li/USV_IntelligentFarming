@@ -26,9 +26,9 @@ def DecipherRainData(response):
 	FloatData = re.findall("\d+\.\d+", response)
 	try:
 		if(FloatData[3] is not None):		
-		#arrange rain data into CSV format. 
-		ArrangedResponse = ', ' +' , '.join(str(e) for e in FloatData)+', 0]'
-		return ArrangedResponse
+			#arrange rain data into CSV format.
+			ArrangedResponse = ', ' +' , '.join(str(e) for e in FloatData)+', 0]'
+			return ArrangedResponse
 	except:
 		return "Rain data is not complete!"
 def GetRainData(TryLimit):
