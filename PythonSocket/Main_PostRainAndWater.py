@@ -67,6 +67,7 @@ global RainData
 global FlagOfException
 global StatusOfWaterChamber
 global BatterySwitch
+global BatteryStatus
 
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
@@ -226,12 +227,12 @@ def CommunicationToMainServer(content):
 		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
 			FlagOfException = FlagOfException & 0b1111101
 		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
+			BatteryStatus = False
 			print("The voltage of battery is too low, SHUTDOWN!")
 			if(FlagOfException & 0b0100000 == 0b0100000):
 				pass
 			else:
 				FlagOfException = FlagOfException | 0b0100000
-			StatusOfWaterChamber = "[0.0, 0"
 		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
 			FlagOfException = FlagOfException & 0b1011111
 		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
@@ -269,6 +270,7 @@ if __name__ == '__main__':
 	global WaterData
 	global FlagOfException
 	global BatterySwitch
+	global BatteryStatus
 	BatteryStatus = True
 	BatterySwitch = False
 	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
@@ -303,13 +305,13 @@ if __name__ == '__main__':
 				pass
 			print("Uploading is Done")
 		#Read Water data
-		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
+		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval and BatteryStatus == True):
 			CheckIfInternetIsConnected()
-			if(BatteryStatus == True and BatterySwitch == False):
+			if(BatterySwitch == False):
 				print("PowerUp the sensor!")
 				CommandESP8266Inchamber("PowerUp")
 				WaterSampling_LastTime = WaterSampling_LastTime + WaterWaitingTime
-			elif(BatteryStatus == True and BatterySwitch == True):
+			elif(BatterySwitch == True):
 				#CommandESP8266Inchamber("PowerUp")
 				print("Waterdata is sampling")
 				i=0
@@ -359,6 +361,12 @@ if __name__ == '__main__':
 			print(bin(FlagOfException))
 			print("Upload time in: (Second)")
 			print(Uploading_LastTime + UploadInterval - CurrentTime)
+			print("---------------------------------------")
+			print("BatteryStatus")
+			print(BatteryStatus)
+			print("---------------------------------------")
+			print("BatterySwitch")
+			print(BatterySwitch)
 		else:
 			#print("------------Pass------------")
 			pass
