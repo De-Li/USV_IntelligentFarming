@@ -51,13 +51,14 @@ def GetWeatherDataFromGroundStation():
 		#print(DecodedData)
 		DecodedData = DecodedData.split(", ")
 		print(DecodedData)
-		DecodedData[2] = re.sub("[^\d\.]", '',DecodedData[2])
+		
 		#print(DecodedData)
 		
 	except:
 		print("Lose connection to <weather ESP8266!>")
 		return "Lose connection to <weather ESP8266!>"
 		pass
+	DecodedData[2] = re.sub("[^\d\.]", '',DecodedData[2])
 	if(DecodedData[2] == '    0.'): #4
 		DecodedData[2] = '0'
 	elif(DecodedData[2] == '     0.'):#5
