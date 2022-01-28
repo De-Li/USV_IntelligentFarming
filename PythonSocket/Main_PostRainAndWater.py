@@ -77,10 +77,10 @@ UploadInterval = 600
 WaterSampleInterval = UploadInterval*0.4
 WaterPowercontrolTryingLimit = 10
 WaterWaitingTime = 30
-SampleInterval = UploadInterval/3
+WeatherSampleInterval = UploadInterval/20
 MinTransmitTimeInterval = 5
 SocketTimeOut = 1
-WaitingLimit = 20
+WaitingLimit = 10
 DelayTime = 0.5
 '''
 def ExceptionHandler(Status, Error):
@@ -135,43 +135,45 @@ def PostWaterData():
 			pass
 		FlagOfException = FlagOfException & 0b1110111
 	print(WaterData)
-def PostWeatherData():
+def PostWeatherData(FlagOfSampling):
 	global WeatherData
 	global RainData
 	global FlagOfException
-	try:
-		CurrentRainData = GetRainData(WaitingLimit)
-	except:
-		CurrentRainData = "Communication Error"
-		print("RaindataAquicitionError")
-	if(CurrentRainData == "Communication Error"):
-		if(FlagOfException & 0b0010000 == 0b0010000):
-			pass
+	if(Flag == 'Rain' or Flag == 'All'):
+		try:
+			CurrentRainData = GetRainData(WaitingLimit)
+		except:
+			CurrentRainData = "Communication Error"
+			print("RaindataAquicitionError")
+		if(CurrentRainData == "Communication Error"):
+			if(FlagOfException & 0b0010000 == 0b0010000):
+				pass
+			else:
+				FlagOfException = FlagOfException | 0b0010000
+			CurrentRainData = ", 1, 1, 1, 1, 1]"
 		else:
-			FlagOfException = FlagOfException | 0b0010000
-		CurrentRainData = ", 1, 1, 1, 1, 1]"
-	else:
-		if(CurrentRainData == None):
-			CurrentRainData = RainData
+			if(CurrentRainData == None):
+				CurrentRainData = RainData
+			else:
+				RainData = CurrentRainData
+			FlagOfException = FlagOfException & 0b1101111
+	if(Flag == 'All'):
+		#Get weather data from esp8266 in shutter box
+		try:
+			CurrentWeatherData = GetWeatherDataFromGroundStation()
+		except:
+			CurrentWeatherData = "Lose connection to <weather ESP8266!>"
+		if(CurrentWeatherData == "Lose connection to <weather ESP8266!>"):
+			if(FlagOfException & 0b0000100 == 0b0000100):
+				pass
+			else:
+				FlagOfException = FlagOfException | 0b0000100
+			WeatherData = "[0, 0, 0" + CurrentRainData
 		else:
-			RainData = CurrentRainData
-		FlagOfException = FlagOfException & 0b1101111
-	#Get weather data from esp8266 in shutter box
-	try:
-		CurrentWeatherData = GetWeatherDataFromGroundStation()
-	except:
-		CurrentWeatherData = "Lose connection to <weather ESP8266!>"
-	if(CurrentWeatherData == "Lose connection to <weather ESP8266!>"):
-		if(FlagOfException & 0b0000100 == 0b0000100):
-			pass
-		else:
-			FlagOfException = FlagOfException | 0b0000100
-		WeatherData = "[0, 0, 0" + CurrentRainData
-	else:
-		FlagOfException = FlagOfException & 0b1111011
+			FlagOfException = FlagOfException & 0b1111011
 		#Create a socket, DGRAM means UDP protocal
-		WeatherData = CurrentWeatherData + CurrentRainData
-	print(WeatherData)
+		WeatherData = CurrentWeatherData + RainData
+		print(WeatherData)
 def CheckCPUTemperature():
 	global FlagOfException
 	Cpu = CPUTemperature()
@@ -302,6 +304,8 @@ if __name__ == '__main__':
 				BatteryStatus = True
 				pass
 			print("Uploading is Done")
+			
+			#Reset the basic time
 			Uploading_LastTime = time.time()
 			WaterSampling_LastTime =  time.time()
 			Sampling_LastTime = time.time()
@@ -338,10 +342,13 @@ if __name__ == '__main__':
 				pass
 			else:
 				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
-		elif(CurrentTime - Sampling_LastTime > SampleInterval):
+		elif(CurrentTime - Sampling_LastTime > WeatherSampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
-			PostWeatherData()
+			PostWeatherData('Rain')
+			#Get Weather once before uploading 40 seconds
+			if(Sampling_LastTime - Uploading_LastTime > (UploadInterval-40)):
+				PostWeatherData('All')
 			#WaterSamplingThread = threading.Thread(target = PostWaterData())
 			#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
 			#WeatherSamplingThread.start()
