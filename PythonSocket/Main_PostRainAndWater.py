@@ -302,6 +302,7 @@ if __name__ == '__main__':
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			CheckIfInternetIsConnected()
 			if(BatteryStatus == True and CommandESP8266Inchamber("ShowVoltage") == False):
+				print("PowerUp the sensor!")
 				CommandESP8266Inchamber("PowerUp")
 				WaterSampling_LastTime = WaterSampling_LastTime + 60
 			elif(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
@@ -323,12 +324,12 @@ if __name__ == '__main__':
 					time.sleep(0.1)
 					i = i + 1
 				WaterSampling_LastTime =  time.time()
-			else:
-				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
-			if(BatteryStatus == False):
+			elif(BatteryStatus == False):
 				print("Battery is too low, wait for charge!")
 				WaterSampling_LastTime =  time.time()
 				pass
+			else:
+				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
 		elif(CurrentTime - Sampling_LastTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
