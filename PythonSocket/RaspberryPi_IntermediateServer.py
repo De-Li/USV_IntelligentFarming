@@ -49,8 +49,8 @@ def GetWeatherDataFromGroundStation():
 		data, addr = Receive_Sock.recvfrom(40) # buffer size is 40 bytes
 		DecodedData = data.decode("utf-8")
 		print(DecodedData)
-		DecodedData[2] = re.findall("\d+\.\d+",DecodedData[2])
 		DecodedData = DecodedData.split(", ")
+		DecodedData[2] = re.sub("[^\d\.]", '',DecodedData[2])
 		print(DecodedData)
 		if(DecodedData[2] == '    0.'): #4
 			DecodedData[2] = '0'
