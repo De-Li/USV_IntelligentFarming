@@ -73,9 +73,6 @@ RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 #VoltageLimit = 10.8
 #Time(second)
-#UDP socket to the "Main Server", DGRAM means UDP protocal.
-MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-MainSocket.settimeout(SocketTimeOut)
 UploadInterval = 600
 WaterSampleInterval = UploadInterval*0.4
 WaterPowercontrolTryingLimit = 10
@@ -85,6 +82,10 @@ MinTransmitTimeInterval = 5
 SocketTimeOut = 1
 WaitingLimit = 10
 DelayTime = 0.5
+
+#UDP socket to the "Main Server", DGRAM means UDP protocal.
+MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+MainSocket.settimeout(SocketTimeOut)
 '''
 def ExceptionHandler(Status, Error):
 	global FlagOfException
