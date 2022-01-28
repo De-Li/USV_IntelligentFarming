@@ -340,7 +340,7 @@ if __name__ == '__main__':
 			print("DataSampling")
 			CheckIfInternetIsConnected()
 			#Get Weather once before uploading 40 seconds
-			if(CurrentTime - Uploading_LastTime > UploadInterval/100):
+			if(CurrentTime - Uploading_LastTime > UploadInterval/3):
 				PostWeatherData('All')
 			else:
 				PostWeatherData('Rain')
