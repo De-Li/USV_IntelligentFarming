@@ -117,7 +117,7 @@ def SendingMessageToFloatChamber(command):
 		Send_Sock.close()
 		return ReturnList
 	Reply = Send_Sock.recv(30)
-	print(Reply)
+	#print(Reply)
 	Reply = Reply.decode('utf-8')
 	#Check if the voltage is below the limit, if the voltage is below the limit then shut the float chamber down.
 	VoltageValue = re.findall("\d+\.\d+", Reply)
@@ -152,7 +152,7 @@ def SendingMessageToFloatChamber(command):
 			ReturnList.append(True)
 		elif(status == 0):
 			ReturnList.append(False)
-	print(ReturnList)
+	#print(ReturnList)
 	#close the socket
 	Send_Sock.close()
 	return ReturnList
