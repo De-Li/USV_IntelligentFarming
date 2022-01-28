@@ -54,6 +54,9 @@ def GetWeatherDataFromGroundStation():
 	#print(DecodedData)
 	DecodedData[2] = re.sub("[^\d\.]", '',DecodedData[2])
 	DecodedData[2] = float(DecodedData[2]
+	DecodedData = '['+', '.join(str(e) for e in DecodedData)
+	Receive_Sock.close()
+	return DecodedData
 	'''
 	if(DecodedData[2] == '    0.'): #4
 		DecodedData[2] = '0'
@@ -63,11 +66,7 @@ def GetWeatherDataFromGroundStation():
 		DecodedData[2] = '0'
 	elif((float(DecodedData[2])).is_integer()):
 		DecodedData[2] = str(float(DecodedData[2]) + 0.1)
-	'''
-	DecodedData = '['+', '.join(str(e) for e in DecodedData)
-	Receive_Sock.close()
-	return DecodedData
-	'''
+		
 	except:
 		print("Lose connection to <weather ESP8266!>")
 		return "Lose connection to <weather ESP8266!>"
