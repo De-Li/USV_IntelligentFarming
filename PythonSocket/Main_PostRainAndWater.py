@@ -282,7 +282,7 @@ if __name__ == '__main__':
 	while(True):
 		CurrentTime = time.time()
 		#Check the time interval
-		if(CurrentTime - Uploadintimeg_LastTime > UploadInterval):
+		if(CurrentTime - Uploading_LastTime > UploadInterval):
 			print("Uploading DATA to MainServer")
 			CheckIfInternetIsConnected()
 			CommunicationToMainServer(WaterData)
