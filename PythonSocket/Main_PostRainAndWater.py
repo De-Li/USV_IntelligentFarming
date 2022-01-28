@@ -72,10 +72,10 @@ RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 #VoltageLimit = 10.8
 #Time(second)
-UploadInterval = 600
-WaterSampleInterval = UploadInterval*0.7
+UploadInterval = 300
+WaterSampleInterval = UploadInterval*0.1
 WaterPowercontrolTryingLimit = 10
-SampleInterval = UploadInterval/60
+SampleInterval = UploadInterval/3
 MinTransmitTimeInterval = 5
 SocketTimeOut = 1
 WaitingLimit = 20
@@ -312,6 +312,7 @@ if __name__ == '__main__':
 					PostWaterData()
 					i = i + 1
 				i=0
+				'''
 				while(True):
 					if(i>20):
 						print("Can't shut the power down!!")
@@ -322,6 +323,7 @@ if __name__ == '__main__':
 						print("Can't shut the power down!!")
 					time.sleep(0.1)
 					i = i + 1
+				'''
 			else:
 				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
 			if(BatteryStatus == False):
