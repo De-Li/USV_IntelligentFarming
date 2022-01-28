@@ -246,6 +246,7 @@ def CommunicationToMainServer(content):
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
 	global BatterySwitch
+	global BatteryStatus
 	TryingTime = time.time()
 	while(True):
 		time.sleep(0.2)
