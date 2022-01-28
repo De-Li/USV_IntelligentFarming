@@ -280,12 +280,19 @@ if __name__ == '__main__':
 	while(True):
 		CurrentTime = time.time()
 		#Check the time interval
-		if(CurrentTime - Uploading_LastTime > UploadInterval):
+		if(CurrentTime - Uploading_LastTime > UploadInterval/2):
 			print("Uploading DATA to MainServer")
 			CheckIfInternetIsConnected()
-			CommunicationToMainServer(WaterData)
-			time.sleep(0.1)
-			CommunicationToMainServer(WeatherData)
+			if(CurrentTime - Uploading_LastTime > UploadInterval):
+				CommunicationToMainServer(WaterData)
+				time.sleep(0.1)
+				CommunicationToMainServer(WeatherData)
+				#Reset the basic time
+				Uploading_LastTime = time.time()
+				WaterSampling_LastTime =  time.time()
+				Sampling_LastTime = time.time()
+			else:
+				CommunicationToMainServer(WeatherData)
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			if(CommandESP8266Inchamber('ShowVoltage') == "The voltage of battery is too low, SHUTDOWN!"):
@@ -295,11 +302,6 @@ if __name__ == '__main__':
 				BatteryStatus = True
 				pass
 			print("Uploading is Done")
-			
-			#Reset the basic time
-			Uploading_LastTime = time.time()
-			WaterSampling_LastTime =  time.time()
-			Sampling_LastTime = time.time()
 		#Read Water data
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval):
 			CheckIfInternetIsConnected()
