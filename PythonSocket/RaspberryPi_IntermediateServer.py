@@ -64,10 +64,12 @@ def GetWeatherDataFromGroundStation():
 	DecodedData = '['+', '.join(str(e) for e in DecodedData)
 	Receive_Sock.close()
 	return DecodedData
+	'''
 	except:
 		print("Lose connection to <weather ESP8266!>")
 		return "Lose connection to <weather ESP8266!>"
 		pass
+	'''
 '''
 def GetCommandFromMainServer():
 	#Get command from main server(Website)
