@@ -259,6 +259,7 @@ def CommandESP8266Inchamber(command):
 				print("The power is ShutDown!")
 				BatterySwitch = False
 				BatteryStatus = False
+				return False
 			elif(command == 'PowerUp' and StatusOfWaterChamber[2] == True):
 				BatterySwitch = True
 				return True
