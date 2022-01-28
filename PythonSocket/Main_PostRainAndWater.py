@@ -143,6 +143,7 @@ def PostWeatherData(FlagOfSampling):
 	global WeatherData
 	global RainData
 	global FlagOfException
+	CurrentWeatherData = "[0,0,0"
 	if(FlagOfSampling == 'Rain' or FlagOfSampling == 'All'):
 		try:
 			CurrentRainData = GetRainData(WaitingLimit)
