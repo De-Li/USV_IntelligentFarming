@@ -72,8 +72,8 @@ RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 #VoltageLimit = 10.8
 #Time(second)
-UploadInterval = 300
-WaterSampleInterval = UploadInterval*0.1
+UploadInterval = 600
+WaterSampleInterval = UploadInterval*0.5
 WaterPowercontrolTryingLimit = 10
 SampleInterval = UploadInterval/3
 MinTransmitTimeInterval = 5
@@ -132,8 +132,6 @@ def PostWaterData():
 		elif CurrentWaterData is None:
 			pass
 		FlagOfException = FlagOfException & 0b1110111
-	#encoding the receive data and sending to the server by UDP.
-	#MainSocket.sendto(CurrentWaterData.encode('utf-8'), (HOST, PORT))
 	print(WaterData)
 def PostWeatherData():
 	global WeatherData
@@ -172,8 +170,6 @@ def PostWeatherData():
 		FlagOfException = FlagOfException & 0b1111011
 		#Create a socket, DGRAM means UDP protocal
 		WeatherData = CurrentWeatherData + CurrentRainData
-		#encoding the receive data and sending to the server by UDP.
-		#MainSocket.sendto(MeldedWeatherData.encode('utf-8'), (HOST, PORT)) 
 	print(WeatherData)
 def CheckCPUTemperature():
 	global FlagOfException
@@ -276,6 +272,7 @@ if __name__ == '__main__':
 		CurrentTime = time.time()
 		#Check the time interval
 		if(CurrentTime - Uploading_LastTime > UploadInterval):
+			print("Uploading DATA to MainServer")
 			CheckIfInternetIsConnected()
 			'''
 			CommunicationThread_Water = threading.Thread(target = CommunicationToMainServer(WaterData))
@@ -306,13 +303,8 @@ if __name__ == '__main__':
 			if(BatteryStatus == True and CommandESP8266Inchamber("PowerUp") == True):
 				#time.sleep(10)
 				print("Waterdata saampling")
+				PostWaterData()
 				i=0
-				while(i<3):
-					time.sleep(10)
-					PostWaterData()
-					i = i + 1
-				i=0
-				'''
 				while(True):
 					if(i>20):
 						print("Can't shut the power down!!")
@@ -323,7 +315,6 @@ if __name__ == '__main__':
 						print("Can't shut the power down!!")
 					time.sleep(0.1)
 					i = i + 1
-				'''
 			else:
 				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
 			if(BatteryStatus == False):
@@ -333,13 +324,15 @@ if __name__ == '__main__':
 		elif(CurrentTime - Sampling_LastTime > SampleInterval):
 			print("DataSampling")
 			CheckIfInternetIsConnected()
+			if(CurrentTime - Uploading_LastTime < WaterSampleInterval)
+				CommandESP8266Inchamber("PowerUp")
 			PostWeatherData()
 			#WaterSamplingThread = threading.Thread(target = PostWaterData())
-			WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-			WeatherSamplingThread.start()
+			#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
+			#WeatherSamplingThread.start()
 			#WaterSamplingThread.start()
 			#WaterSamplingThread.join()
-			WeatherSamplingThread.join()
+			#WeatherSamplingThread.join()
 			Sampling_LastTime = time.time()
 			print("Sampling is Done")
 		elif(CurrentTime - Listening_LastTime > MinTransmitTimeInterval):
@@ -352,7 +345,5 @@ if __name__ == '__main__':
 		else:
 			#print("------------Pass------------")
 			pass
-		#elif(FlagOfException is not 0b0000000):
-			#CommunicationThread = threading.Thread(target = CommunicationToMainServer(FlagOfException))
 		time.sleep(DelayTime)
 	MainSocket.close()
