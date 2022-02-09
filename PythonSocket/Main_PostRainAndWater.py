@@ -264,6 +264,9 @@ def CommandESP8266Inchamber(command):
 				BatterySwitch = False
 				BatteryStatus = False
 				return False
+			elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
+				print("Fail to connect ESP8266 in the chamber!")
+				return False
 			elif(command == 'PowerUp'):
 				print("PowerUp the sensor!")
 				BatterySwitch = True
