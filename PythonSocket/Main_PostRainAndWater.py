@@ -249,6 +249,7 @@ def CommandESP8266Inchamber(command):
 	global BatteryStatus
 	TryingTime = time.time()
 	while(True):
+		print("waiting")	
 		time.sleep(0.2)
 		CurrentTime = time.time()
 		if(CurrentTime - TryingTime > WaterPowercontrolTryingLimit):
