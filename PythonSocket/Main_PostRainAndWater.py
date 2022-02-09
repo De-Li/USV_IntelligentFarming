@@ -76,7 +76,7 @@ RainData = ", 0, 0, 0, 0, 0]"
 #Time(second)
 UploadInterval = 600
 WaterSampleInterval = UploadInterval*0.4
-WaterPowercontrolTryingLimit = 10
+WaterPowercontrolTryingLimit = 3
 WaterWaitingTime = 30
 RainSampleInterval = UploadInterval/20
 MinTransmitTimeInterval = 5
@@ -292,8 +292,8 @@ if __name__ == '__main__':
 	Listening_LastTime = time.time()
 	WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
-	CommandESP8266Inchamber('ShowVoltage')
 	print('Start')
+	CommandESP8266Inchamber('ShowVoltage')
 	while(True):
 		CurrentTime = time.time()
 		#Uploading data
