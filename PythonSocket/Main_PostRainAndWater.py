@@ -249,14 +249,12 @@ def CommandESP8266Inchamber(command):
 	global BatteryStatus
 	TryingTime = time.time()
 	while(True):
-		print("waiting")	
 		time.sleep(0.2)
 		CurrentTime = time.time()
 		if(CurrentTime - TryingTime > WaterPowercontrolTryingLimit):
 			print("Esp8266 Waiting TimeOUT!")
 			return False
 		try:
-			print("try")
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 				SendingMessageToFloatChamber('ShutDown')
@@ -298,8 +296,8 @@ if __name__ == '__main__':
 	WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
 	CommandESP8266Inchamber('ShowVoltage')
+	print('Start')
 	while(True):
-		print('Start')
 		CurrentTime = time.time()
 		#Uploading data
 		if(CurrentTime - Uploading_LastTime > UploadInterval):
