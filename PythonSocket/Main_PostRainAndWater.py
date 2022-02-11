@@ -76,7 +76,7 @@ RainData = ", 0, 0, 0, 0, 0]"
 #Time(second)
 UploadInterval = 600
 WaterSampleInterval = UploadInterval*0.4
-WaterPowercontrolTryingLimit = 3
+WaterPowercontrolTryingLimit = 1
 WaterWaitingTime = 30
 RainSampleInterval = UploadInterval/20
 MinTCPConnectingTimeInterval = 5
@@ -261,6 +261,7 @@ def CommandESP8266Inchamber(command):
 				BatterySwitch = False
 				return True
 			elif(command == 'ShowVoltage'):
+				print(StatusOfWaterChamber[0])
 				if(StatusOfWaterChamber[1] == "Normal"):
 					BatteryStatus = True
 					return "Normal"
