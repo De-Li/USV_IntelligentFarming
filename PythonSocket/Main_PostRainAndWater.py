@@ -198,15 +198,15 @@ def CommunicationToMainServer(content):
 		pass
 	'''
 	try:
-		StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
-		print("StatusOfWaterChamber")
-		print(StatusOfWaterChamber)
+		#StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
+		#print("StatusOfWaterChamber")
+		#print(StatusOfWaterChamber)
 		CPUTemperature = str(CheckCPUTemperature())
 		if(StatusOfWaterChamber[1] == "DoNothing"):
 			return True
 		if(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
 			print("Lose connection to the ESP8266 on the Float chamber")
-			StatusOfWaterChamber[0] = "[1.1, 1"
+			#StatusOfWaterChamber[0] = "[1.1, 1"
 			if(FlagOfException & 0b0000010 == 0b0000010):
 				pass
 			else:
