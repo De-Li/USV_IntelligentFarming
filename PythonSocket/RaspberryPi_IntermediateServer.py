@@ -102,7 +102,7 @@ def SendingMessageToFloatChamber(command):
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
-	Send_Sock.settimeout(1)
+	Send_Sock.settimeout(3)
 	try:
 		Send_Sock.connect((Client_TCP_IP, Client_TCP_PORT))
 	except:
