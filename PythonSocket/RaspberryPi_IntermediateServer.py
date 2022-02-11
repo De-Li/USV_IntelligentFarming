@@ -14,6 +14,7 @@ Comment:
 	PORT = "5555"
 	ESP8266-Ground Station
 	IP = "192.168.1.103"
+	--------------------
 	In 5910 Lab
 	RaspberryPi-burned
 	Server IP = "192.168.1.56" 
@@ -26,6 +27,10 @@ Comment:
 	Client PORT = 5555
 	ESP8266-float chamber
 	Client IP = "192.168.1.29"
+	Client PORT = 5555
+	2022/2/11
+	ESP8266,No3
+	Client IP = "192.168.1.38"
 	Client PORT = 5555
 ---------------------------------------------------------------
 Log:
