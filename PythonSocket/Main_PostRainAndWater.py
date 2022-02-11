@@ -79,7 +79,7 @@ WaterSampleInterval = UploadInterval*0.4
 WaterPowercontrolTryingLimit = 3
 WaterWaitingTime = 30
 RainSampleInterval = UploadInterval/20
-MinTransmitTimeInterval = 5
+MinTCPConnectingTimeInterval = 5
 SocketTimeOut = 1
 WaitingLimit = 10
 DelayTime = 0.5
@@ -87,22 +87,7 @@ DelayTime = 0.5
 #UDP socket to the "Main Server", DGRAM means UDP protocal.
 MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 MainSocket.settimeout(SocketTimeOut)
-'''
-def ExceptionHandler(Status, Error):
-	global FlagOfException
-	if(ErrorMessage == "Internet connection or A/P"):
-		if(Status == True):
-			FlagOfException = FlagOfException & 0b1111110
-		else:
-			if(FlagOfException & 0b0000001 == 0b0000001):
-				pass
-			else:
-				FlagOfException = FlagOfException | 0b0000001
-	elif():
-	elif():
-	elif():
-	elif():
-'''
+
 def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
@@ -198,6 +183,7 @@ def CommunicationToMainServer(content):
 	global FlagOfException
 	print('ListeningToMainServer')
 	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
+	'''
 	try:
 		command, addr = MainSocket.recvfrom(20)
 		command = command.decode()
@@ -210,8 +196,9 @@ def CommunicationToMainServer(content):
 	except:
 		print("Lose connection to Main Server!")
 		pass
+	'''
 	try:
-		CommandESP8266Inchamber(command)
+		StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
 		print("StatusOfWaterChamber")
 		print(StatusOfWaterChamber)
 		CPUTemperature = str(CheckCPUTemperature())
@@ -274,9 +261,20 @@ def CommandESP8266Inchamber(command):
 				BatterySwitch = False
 				return True
 			elif(command == 'ShowVoltage'):
-				if(CommandESP8266Inchamber('ShowVoltage') == "Normal"):
+				if(StatusOfWaterChamber[1] == "Normal"):
 					BatteryStatus = True
-				return StatusOfWaterChamber[1]
+					return "Normal"
+				elif(StatusOfWaterChamber[1] == "Donothing"):
+					pass
+				else:
+					BatteryStatus = False
+				return False
+			'''
+			elif(command == 'Sleep'):
+				BatterySwitch = False
+				print("The ESP is sleeping now")
+				return True
+			'''
 		except:
 			print("Fail to connect ESP8266 in the chamber!")
 if __name__ == '__main__':
@@ -293,7 +291,7 @@ if __name__ == '__main__':
 	Uploading_LastTime = time.time()
 	Sampling_LastTime = time.time()
 	Listening_LastTime = time.time()
-	WaterSampling_LastTime = time.time()
+	#WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
 	CommandESP8266Inchamber('ShowVoltage')
 	print('Start')
@@ -309,13 +307,57 @@ if __name__ == '__main__':
 			CommunicationToMainServer(WeatherData)
 			#Reset the basic time
 			Uploading_LastTime = time.time()
-			WaterSampling_LastTime =  time.time()
+			#WaterSampling_LastTime =  time.time()
 			Sampling_LastTime = time.time()
 			WeatherSampling_LastTime = time.time()
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
 			CommandESP8266Inchamber('ShowVoltage')
 			print("Uploading is Done")
+		elif(CurrentTime - WeatherSampling_LastTime > UploadInterval/3):
+			print("DataSampling")
+			CheckIfInternetIsConnected()
+			#Get Weather once before uploading 40 seconds
+			PostWeatherData('All')
+			#WaterSamplingThread = threading.Thread(target = PostWaterData())
+			#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
+			#WeatherSamplingThread.start()
+			#WaterSamplingThread.start()
+			#WaterSamplingThread.join()
+			#WeatherSamplingThread.join()
+			WeatherSampling_LastTime = time.time()
+			print("Sampling is Done")
+		elif(CurrentTime - Sampling_LastTime > RainSampleInterval):
+			CheckIfInternetIsConnected()
+			PostWeatherData('Rain')
+			Sampling_LastTime = time.time()
+		elif(CurrentTime - Listening_LastTime > MinTCPConnectingTimeInterval):
+			CheckIfInternetIsConnected()
+			#municationToMainServer("HeartBeat Message")
+			#If the ESP is on then sampling the waterdata.
+			if(CommandESP8266Inchamber('ShowVoltage') == "Normal"):
+				i=0
+				while(i<3):
+					time.sleep(0.5)
+					PostWaterData()
+					i = i + 1
+			Listening_LastTime = time.time()
+			print(bin(FlagOfException))
+			print("Upload time in: (Second)")
+			print(round(Uploading_LastTime + UploadInterval - CurrentTime, 1))
+			print("---------------------------------------")
+			print("BatteryStatus")
+			print(BatteryStatus)
+			print("---------------------------------------")
+			print("BatterySwitch")
+			print(BatterySwitch)
+		else:
+			#print("------------Pass------------")
+			pass
+		time.sleep(DelayTime)
+	MainSocket.close()
+
+		'''
 		#Read Water data
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval and BatteryStatus == True):
 			CheckIfInternetIsConnected()
@@ -348,38 +390,5 @@ if __name__ == '__main__':
 				pass
 			else:
 				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
-		elif(CurrentTime - WeatherSampling_LastTime > UploadInterval/3):
-			print("DataSampling")
-			CheckIfInternetIsConnected()
-			#Get Weather once before uploading 40 seconds
-			PostWeatherData('All')
-			#WaterSamplingThread = threading.Thread(target = PostWaterData())
-			#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-			#WeatherSamplingThread.start()
-			#WaterSamplingThread.start()
-			#WaterSamplingThread.join()
-			#WeatherSamplingThread.join()
-			WeatherSampling_LastTime = time.time()
-			print("Sampling is Done")
-		elif(CurrentTime - Sampling_LastTime > RainSampleInterval):
-			CheckIfInternetIsConnected()
-			PostWeatherData('Rain')
-			Sampling_LastTime = time.time()
-		elif(CurrentTime - Listening_LastTime > MinTransmitTimeInterval):
-			CheckIfInternetIsConnected()
-			CommunicationToMainServer("HeartBeat Message")
-			Listening_LastTime = time.time()
-			print(bin(FlagOfException))
-			print("Upload time in: (Second)")
-			print(Uploading_LastTime + UploadInterval - CurrentTime)
-			print("---------------------------------------")
-			print("BatteryStatus")
-			print(BatteryStatus)
-			print("---------------------------------------")
-			print("BatterySwitch")
-			print(BatterySwitch)
-		else:
-			#print("------------Pass------------")
-			pass
-		time.sleep(DelayTime)
-	MainSocket.close()
+		'''
+		
