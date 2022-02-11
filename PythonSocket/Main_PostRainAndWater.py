@@ -356,8 +356,7 @@ if __name__ == '__main__':
 			pass
 		time.sleep(DelayTime)
 	MainSocket.close()
-
-		'''
+	'''
 		#Read Water data
 		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval and BatteryStatus == True):
 			CheckIfInternetIsConnected()
@@ -390,5 +389,5 @@ if __name__ == '__main__':
 				pass
 			else:
 				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
-		'''
+	'''
 		
