@@ -346,12 +346,14 @@ if __name__ == '__main__':
 			print(bin(FlagOfException))
 			print("Upload time in: (Second)")
 			print(round(Uploading_LastTime + UploadInterval - CurrentTime, 1))
+			'''
 			print("---------------------------------------")
 			print("BatteryStatus")
 			print(BatteryStatus)
 			print("---------------------------------------")
 			print("BatterySwitch")
 			print(BatterySwitch)
+			'''
 		else:
 			#print("------------Pass------------")
 			pass
