@@ -111,6 +111,8 @@ def SendingMessageToFloatChamber(command):
 		Send_Sock.send('2'.encode('utf-8'))
 	elif command=='ShutDown':
 		Send_Sock.send('3'.encode('utf-8'))
+	elif command=='Sleep':
+		Send_Sock.send('4'.encode('utf-8'))
 	else :
 		ReturnList.append("[None, None")
 		ReturnList.append("Donothing")
@@ -124,14 +126,14 @@ def SendingMessageToFloatChamber(command):
 	VoltageValue = float(VoltageValue[0])
 	status = re.findall("\d+", Reply)
 	status = int(status[2])
-	if(VoltageValue >= 12.2):
+	if(VoltageValue >= 12.0):
 		ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
 		ReturnList.append("Normal")
 		if(status == 1):
 			ReturnList.append(True)
 		elif(status == 0):
 			ReturnList.append(False)
-	elif(VoltageValue < 12.2):
+	elif(VoltageValue < 12.0):
 		'''
 			try:
 				Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
