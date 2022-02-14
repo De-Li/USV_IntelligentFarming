@@ -344,7 +344,7 @@ if __name__ == '__main__':
 			StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
 			print(StatusOfWaterChamber)
 			CPUTemperature = str(CheckCPUTemperature())
-			if(StatusOfWaterChamber[0] is not "[None, None")):
+			if(StatusOfWaterChamber[0] is not "[None, None"):
 				StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
 				CommunicationToMainServer(StatusParameter)
 			if(StatusOfWaterChamber[1] == "Normal"):
