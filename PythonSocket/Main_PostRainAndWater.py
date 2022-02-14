@@ -342,7 +342,7 @@ if __name__ == '__main__':
 			#municationToMainServer("HeartBeat Message")
 			#If the ESP is on then sampling the waterdata.
 			StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
-			print(StatusOfWaterChamber)
+			print(StatusOfWaterChamber[0])
 			CPUTemperature = str(CheckCPUTemperature())
 			if(StatusOfWaterChamber[0] is not "[1, 1"):
 				StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
