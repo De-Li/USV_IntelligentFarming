@@ -102,12 +102,13 @@ def SendingMessageToFloatChamber(command):
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
-	Send_Sock.settimeout(3)
+	Send_Sock.settimeout(1)
 	try:
 		Send_Sock.connect((Client_TCP_IP, Client_TCP_PORT))
 	except:
 		ReturnList.append("[1, 1")
 		ReturnList.append("Lose connection to the ESP8266 on the Float chamber")
+		ReturnList.append(False)
 		return ReturnList
 	
 	#Check the command
