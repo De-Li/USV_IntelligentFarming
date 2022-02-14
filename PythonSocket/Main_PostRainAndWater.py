@@ -289,6 +289,7 @@ if __name__ == '__main__':
 	global BatterySwitch
 	global BatteryStatus
 	global StatusParameter
+	global StatusOfWaterChamber
 	BatteryStatus = True
 	BatterySwitch = False
 	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
@@ -343,6 +344,7 @@ if __name__ == '__main__':
 			StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
 			CPUTemperature = str(CheckCPUTemperature())
 			StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
+			CommunicationToMainServer(StatusParameter)
 			if(StatusOfWaterChamber[1] == "Normal"):
 				i=0
 				while(i<3):
