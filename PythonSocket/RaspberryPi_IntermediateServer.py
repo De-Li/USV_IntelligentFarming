@@ -108,7 +108,7 @@ def SendingMessageToFloatChamber(command):
 	except:
 		ReturnList.append("[1, 1")
 		ReturnList.append("Lose connection to the ESP8266 on the Float chamber")
-		ReturnList.append(False)
+		ReturnList.append("False")
 		return ReturnList
 	
 	#Check the command
