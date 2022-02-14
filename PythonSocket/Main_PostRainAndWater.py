@@ -250,6 +250,12 @@ def CommandESP8266Inchamber(command):
 		try:
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			print(StatusOfWaterChamber[0])
+			if(StatusOfWaterChamber[1] == "Normal"):
+				i=0
+				while(i<3):
+					time.sleep(0.5)
+					PostWaterData()
+					i = i + 1
 			if(StatusOfWaterChamber[0] is not "[1, 1"):
 				CPUTemperature = str(CheckCPUTemperature())
 				StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
@@ -354,12 +360,15 @@ if __name__ == '__main__':
 			#	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
 			#	CommunicationToMainServer(StatusParameter)
 			CommunicationToMainServer(StatusParameter)
+			'''
 			if(StatusOfWaterChamber[0] == "Normal"):
 				i=0
 				while(i<3):
 					time.sleep(0.5)
 					PostWaterData()
 					i = i + 1
+			
+			'''
 			Listening_LastTime = time.time()
 			print(bin(FlagOfException))
 			print("Upload time in: (Second)")
