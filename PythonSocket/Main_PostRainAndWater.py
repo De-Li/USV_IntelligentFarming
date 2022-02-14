@@ -68,6 +68,7 @@ global FlagOfException
 global StatusOfWaterChamber
 global BatterySwitch
 global BatteryStatus
+global StatusParameter
 
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
@@ -287,6 +288,7 @@ if __name__ == '__main__':
 	global FlagOfException
 	global BatterySwitch
 	global BatteryStatus
+	global StatusParameter
 	BatteryStatus = True
 	BatterySwitch = False
 	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
