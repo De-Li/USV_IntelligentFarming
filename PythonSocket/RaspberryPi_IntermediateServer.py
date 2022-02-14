@@ -120,7 +120,7 @@ def SendingMessageToFloatChamber(command):
 	elif command=='Sleep':
 		Send_Sock.send('4'.encode('utf-8'))
 	else :
-		ReturnList.append("[None, None")
+		ReturnList.append("[1, 1")
 		ReturnList.append("Donothing")
 		Send_Sock.close()
 		return ReturnList
