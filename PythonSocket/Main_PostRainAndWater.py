@@ -238,6 +238,7 @@ def CommandESP8266Inchamber(command):
 	global BatterySwitch
 	global BatteryStatus
 	global FlagOfException
+	global StatusParameter
 	
 	TryingTime = time.time()
 	while(True):
