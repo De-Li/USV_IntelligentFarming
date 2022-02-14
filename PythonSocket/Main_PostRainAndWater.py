@@ -359,7 +359,7 @@ if __name__ == '__main__':
 			#if(StatusOfWaterChamber[0] is not "[1, 1"):
 			#	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
 			#	CommunicationToMainServer(StatusParameter)
-			CommunicationToMainServer(StatusParameter)
+			#CommunicationToMainServer(StatusParameter)
 			'''
 			if(StatusOfWaterChamber[0] == "Normal"):
 				i=0
