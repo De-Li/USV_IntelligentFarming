@@ -183,8 +183,8 @@ def CommunicationToMainServer(content):
 	global StatusOfWaterChamber
 	global FlagOfException
 	global StatusParameter
-	print('ListeningToMainServer')
 	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
+	print("In the CommunicationToMainServer")
 	'''
 	try:
 		command, addr = MainSocket.recvfrom(20)
@@ -241,8 +241,9 @@ def CommandESP8266Inchamber(command):
 	global StatusParameter
 	try:
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-		print(StatusOfWaterChamber[0])
+		print(StatusOfWaterChamber)
 		if(StatusOfWaterChamber[1] == "Normal"):
+			print("In the CommandESP8266Inchamber")
 			PostWaterData()
 		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 			SendingMessageToFloatChamber('ShutDown')
@@ -344,22 +345,8 @@ if __name__ == '__main__':
 			CheckIfInternetIsConnected()
 			#municationToMainServer("HeartBeat Message")
 			#If the ESP is on then sampling the waterdata.
-			StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
-			print(StatusOfWaterChamber)
-			#CPUTemperature = str(CheckCPUTemperature())
-			#if(StatusOfWaterChamber[0] is not "[1, 1"):
-			#	StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
-			#	CommunicationToMainServer(StatusParameter)
-			#CommunicationToMainServer(StatusParameter)
-			'''
-			if(StatusOfWaterChamber[0] == "Normal"):
-				i=0
-				while(i<3):
-					time.sleep(0.5)
-					PostWaterData()
-					i = i + 1
-			
-			'''
+			print("In the Main")
+			CommandESP8266Inchamber("ShowVoltage")
 			Listening_LastTime = time.time()
 			print(bin(FlagOfException))
 			print("Upload time in: (Second)")
