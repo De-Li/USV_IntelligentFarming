@@ -244,14 +244,17 @@ def CommandESP8266Inchamber(command):
 	while(True):
 		time.sleep(0.2)
 		CurrentTime = time.time()
+		WaterSampling_LastTime = time.time()
+		SamplingTimeLimit = 1
 		if(CurrentTime - TryingTime > WaterPowercontrolTryingLimit):
 			print("Esp8266 Waiting TimeOUT!")
 			return False
 		try:
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			print(StatusOfWaterChamber[0])
-			if(StatusOfWaterChamber[1] == "Normal"):
-				PostWaterData()	
+			if(StatusOfWaterChamber[1] == "Normal" and CurrentTime - TryingTime > SamplingTimeLimit):
+				PostWaterData()
+				TryingTime = time.time()
 			if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 				SendingMessageToFloatChamber('ShutDown')
 				print("The power is ShutDown! Due to low battery")
