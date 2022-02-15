@@ -51,5 +51,6 @@ def PostRainData():
 	#client.close()
 	
     #Visual studio git test
+	#Visual Studio test from github
 if __name__ == '__main__':
 	PostRainData()
