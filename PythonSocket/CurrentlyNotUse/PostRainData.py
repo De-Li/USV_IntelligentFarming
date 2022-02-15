@@ -50,5 +50,6 @@ def PostRainData():
 	time.sleep(1)
 	#client.close()
 	
+    #Visual studio git test
 if __name__ == '__main__':
 	PostRainData()
