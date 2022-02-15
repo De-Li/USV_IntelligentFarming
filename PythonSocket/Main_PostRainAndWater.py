@@ -251,14 +251,11 @@ def CommandESP8266Inchamber(command):
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			print(StatusOfWaterChamber[0])
 			if(StatusOfWaterChamber[1] == "Normal"):
-				i=0
-				while(i<3):
-					time.sleep(0.5)
-					PostWaterData()
-					i = i + 1
+				PostWaterData()
 			if(StatusOfWaterChamber[0] is not "[1, 1"):
 				CPUTemperature = str(CheckCPUTemperature())
 				StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
+				CommunicationToMainServer(StatusParameter)
 			if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 				SendingMessageToFloatChamber('ShutDown')
 				print("The power is ShutDown! Due to low battery")
