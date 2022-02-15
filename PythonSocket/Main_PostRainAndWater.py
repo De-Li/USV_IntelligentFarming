@@ -183,7 +183,6 @@ def CommunicationToMainServer(content):
 	global FlagOfException
 	global StatusParameter
 	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
-	print("In the CommunicationToMainServer")
 	'''
 	try:
 		command, addr = MainSocket.recvfrom(20)
@@ -242,7 +241,6 @@ def CommandESP8266Inchamber(command):
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print(StatusOfWaterChamber)
 		if(StatusOfWaterChamber[1] == "Normal"):
-			print("In the CommandESP8266Inchamber")
 			PostWaterData()
 		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 			SendingMessageToFloatChamber('ShutDown')
@@ -344,7 +342,6 @@ if __name__ == '__main__':
 			CheckIfInternetIsConnected()
 			#municationToMainServer("HeartBeat Message")
 			#If the ESP is on then sampling the waterdata.
-			print("In the Main")
 			CommandESP8266Inchamber("ShowVoltage")
 			Listening_LastTime = time.time()
 			print(bin(FlagOfException))
