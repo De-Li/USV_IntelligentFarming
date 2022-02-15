@@ -251,12 +251,7 @@ def CommandESP8266Inchamber(command):
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			print(StatusOfWaterChamber[0])
 			if(StatusOfWaterChamber[1] == "Normal"):
-				PostWaterData()
-			if(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
-				CPUTemperature = str(CheckCPUTemperature())
-				StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
-				print(StatusParameter)
-				CommunicationToMainServer(StatusParameter)
+				PostWaterData()	
 			if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 				SendingMessageToFloatChamber('ShutDown')
 				print("The power is ShutDown! Due to low battery")
@@ -266,6 +261,11 @@ def CommandESP8266Inchamber(command):
 			elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
 				print("Fail to connect ESP8266 in the chamber!")
 				return False
+			elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
+				CPUTemperature = str(CheckCPUTemperature())
+				StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
+				print(StatusParameter)
+				CommunicationToMainServer(StatusParameter)
 			elif(command == 'PowerUp'):
 				print("PowerUp the sensor!")
 				BatterySwitch = True
