@@ -239,62 +239,51 @@ def CommandESP8266Inchamber(command):
 	global BatteryStatus
 	global FlagOfException
 	global StatusParameter
-	
-	TryingTime = time.time()
-	while(True):
-		time.sleep(0.2)
-		CurrentTime = time.time()
-		WaterSampling_LastTime = time.time()
-		SamplingTimeLimit = 1
-		if(CurrentTime - TryingTime > WaterPowercontrolTryingLimit):
-			print("Esp8266 Waiting TimeOUT!")
+	try:
+		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+		print(StatusOfWaterChamber[0])
+		if(StatusOfWaterChamber[1] == "Normal"):
+			PostWaterData()
+		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
+			SendingMessageToFloatChamber('ShutDown')
+			print("The power is ShutDown! Due to low battery")
+			BatterySwitch = False
+			BatteryStatus = False
 			return False
-		try:
-			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-			print(StatusOfWaterChamber[0])
-			if(StatusOfWaterChamber[1] == "Normal" and CurrentTime - TryingTime > SamplingTimeLimit):
-				PostWaterData()
-				TryingTime = time.time()
-			if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
-				SendingMessageToFloatChamber('ShutDown')
-				print("The power is ShutDown! Due to low battery")
-				BatterySwitch = False
+		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
+			print("Fail to connect ESP8266 in the chamber!")
+			return False
+		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
+			CPUTemperature = str(CheckCPUTemperature())
+			StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
+			print(StatusParameter)
+			CommunicationToMainServer(StatusParameter)
+			return True
+		elif(command == 'PowerUp'):
+			print("PowerUp the sensor!")
+			BatterySwitch = True
+			return True
+		elif(command == 'ShutDown'):
+			print("The power is ShutDown!")
+			BatterySwitch = False
+			return True
+		elif(command == 'ShowVoltage'):
+			if(StatusOfWaterChamber[1] == "Normal"):
+				BatteryStatus = True
+				return "Normal"
+			elif(StatusOfWaterChamber[1] == "Donothing"):
+				pass
+			else:
 				BatteryStatus = False
-				return False
-			elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
-				print("Fail to connect ESP8266 in the chamber!")
-				return False
-			elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
-				CPUTemperature = str(CheckCPUTemperature())
-				StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
-				print(StatusParameter)
-				CommunicationToMainServer(StatusParameter)
-				return True
-			elif(command == 'PowerUp'):
-				print("PowerUp the sensor!")
-				BatterySwitch = True
-				return True
-			elif(command == 'ShutDown'):
-				print("The power is ShutDown!")
-				BatterySwitch = False
-				return True
-			elif(command == 'ShowVoltage'):
-				if(StatusOfWaterChamber[1] == "Normal"):
-					BatteryStatus = True
-					return "Normal"
-				elif(StatusOfWaterChamber[1] == "Donothing"):
-					pass
-				else:
-					BatteryStatus = False
-				return False
-			'''
+			return False
+		'''
 			elif(command == 'Sleep'):
 				BatterySwitch = False
 				print("The ESP is sleeping now")
 				return True
-			'''
-		except:
-			print("Fail to connect ESP8266 in the chamber!")
+		'''
+	except:
+		print("Fail to connect ESP8266 in the chamber!")
 if __name__ == '__main__':
 	global StartTime
 	global WeatherData
