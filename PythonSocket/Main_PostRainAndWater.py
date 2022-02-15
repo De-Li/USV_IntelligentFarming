@@ -108,7 +108,6 @@ def CheckIfInternetIsConnected():
 def PostWaterData():
 	global WaterData
 	global FlagOfException
-	WaterWaitingCount=0
 	try:
 		CurrentWaterData = GetWaterData()
 		print("CurrentWaterData: ", CurrentWaterData)
@@ -200,7 +199,7 @@ def CommunicationToMainServer(content):
 		pass
 	'''
 	try:
-		StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
+		#StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
 		#print("StatusOfWaterChamber")
 		#print(StatusOfWaterChamber)
 		CPUTemperature = str(CheckCPUTemperature())
