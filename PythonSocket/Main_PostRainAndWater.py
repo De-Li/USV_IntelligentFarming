@@ -266,6 +266,7 @@ def CommandESP8266Inchamber(command):
 				StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
 				print(StatusParameter)
 				CommunicationToMainServer(StatusParameter)
+				return True
 			elif(command == 'PowerUp'):
 				print("PowerUp the sensor!")
 				BatterySwitch = True
