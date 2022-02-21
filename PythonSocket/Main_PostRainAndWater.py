@@ -53,7 +53,8 @@ import urllib.request #URL related liberary
 
 #IP and port of main server
 HOST = '140.116.202.132'
-PORT = 3038
+#PORT = 3038
+PORT = 3031
 
 #IP and port of Raspberry pi
 #LAB5910_IP = '192.168.1.108'
@@ -75,7 +76,7 @@ RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
 #VoltageLimit = 10.8
 #Time(second)
-UploadInterval = 300
+UploadInterval = 30
 WaterSampleInterval = UploadInterval*0.4
 WaterPowercontrolTryingLimit = 1
 WaterWaitingTime = 10
