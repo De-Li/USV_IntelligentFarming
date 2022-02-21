@@ -49,7 +49,7 @@ from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, Send
 from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
 import urllib.request #URL related liberary
-from gpiozero import CPUTemperature
+#from gpiozero import CPUTemperature
 
 #IP and port of main server
 HOST = '140.116.202.132'

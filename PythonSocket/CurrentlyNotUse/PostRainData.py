@@ -40,9 +40,9 @@ def PostRainData():
 	client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)             
         
 	#encoding the receive data and sending to the server by UDP.
-	client.sendto(CurrentRainData.encode('utf-8'), (HOST, PORT)) 
+    client.sendto(CurrentRainData.encode('utf-8'), (HOST, PORT)) 
         
-	#Waiting for the echo message from the server.
+    #Waiting for the echo message from the server.
 	serverMessage = str(client.recv(1024), encoding = 'utf-8')
 	print('Server:', serverMessage)
         
