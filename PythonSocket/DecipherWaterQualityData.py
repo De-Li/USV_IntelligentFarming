@@ -70,6 +70,7 @@ def SplitString(StringArray):
 def DecipherWaterData(RawDataArray):
         #DecipheredData = np.array([['DissolvedOxygenValue'],['Temperature'],['WaterQuality'],['Turbidity'],['AmmoniaNitrogen'],['Conductivity'],['PHValue']])
 	SplitedData = SplitString(RawDataArray)
+	print(SplitedData)
 	for i in range(0,7):
 		if i==0:
 			#Input string arguments
