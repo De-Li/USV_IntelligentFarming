@@ -54,7 +54,7 @@ from gpiozero import CPUTemperature
 #IP and port of main server
 HOST = '140.116.202.132'
 PORT = 3038 #台南魚塭
-PORT = 3031 #高雄魚塭
+#PORT = 3031 #高雄魚塭
 
 #IP and port of Raspberry pi
 #LAB5910_IP = '192.168.1.108'
