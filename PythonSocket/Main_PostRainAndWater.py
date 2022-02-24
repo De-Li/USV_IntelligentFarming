@@ -70,6 +70,7 @@ global StatusOfWaterChamber
 global BatterySwitch
 global BatteryStatus
 global StatusParameter
+global CurrentBatteryVoltage
 
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
@@ -183,6 +184,7 @@ def CommunicationToMainServer(content):
 	global StatusOfWaterChamber
 	global FlagOfException
 	global StatusParameter
+	global CurrentBatteryVoltage
 	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
 	'''
 	try:
@@ -224,7 +226,7 @@ def CommunicationToMainServer(content):
 		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
 			FlagOfException = FlagOfException & 0b1011111
 		#CPUTemperature = str(CheckCPUTemperature())
-		StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
+		StatusParameter = CurrentBatteryVoltage + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
 		print("StatusParameter")
 		print(StatusParameter)
 		MainSocket.sendto(StatusParameter.encode(), addr)
@@ -238,10 +240,12 @@ def CommandESP8266Inchamber(command):
 	global BatteryStatus
 	global FlagOfException
 	global StatusParameter
+	global CurrentBatteryVoltage
 	try:
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		#print(StatusOfWaterChamber)
 		if(StatusOfWaterChamber[1] == "Normal"):
+			CurrentBatteryVoltage = StatusOfWaterChamber[0]
 			PostWaterData()
 		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 			SendingMessageToFloatChamber('ShutDown')
@@ -254,7 +258,7 @@ def CommandESP8266Inchamber(command):
 			return False
 		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
 			CPUTemperature = str(CheckCPUTemperature())
-			StatusParameter = StatusOfWaterChamber[0] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
+			StatusParameter = CurrentBatteryVoltage + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
 			print(StatusParameter)
 			CommunicationToMainServer(StatusParameter)
 			return True
@@ -292,6 +296,8 @@ if __name__ == '__main__':
 	global BatteryStatus
 	global StatusParameter
 	global StatusOfWaterChamber
+	global CurrentBatteryVoltage
+	CurrentBatteryVoltage = "[1.1, 1"
 	BatteryStatus = True
 	BatterySwitch = False
 	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
