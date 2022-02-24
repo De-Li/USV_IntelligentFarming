@@ -91,6 +91,16 @@ DelayTime = 0.5
 MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 MainSocket.settimeout(SocketTimeOut)
 
+#Due to the dirty water, the reading of data is unstable for water quality.
+#So the function filters the extreme value of water quality.
+#Temperary application,it still need to complete.
+'''
+def FilterReadingData(Input):
+	#transferring the data array into string type in order to send data easily.
+	DecipheredData = '['+', '.join(str(e) for e in DecipheredData)+']'
+	return DecipheredData
+'''
+	
 def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
