@@ -92,7 +92,7 @@ def GetWaterData():
 		time.sleep(0.1)
 		#
 		client.sendall(InquiryArray_AmmoniaNitrogen)
-		ServerMessage = client.recv(20)
+		ServerMessage = client.recv(10)
 		ReceiveArray = np.vstack((ReceiveArray,ServerMessage))
 		#print(ReceiveArray)
 	except socket.timeout as e:
