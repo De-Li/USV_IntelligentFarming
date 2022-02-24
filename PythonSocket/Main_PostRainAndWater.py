@@ -240,7 +240,7 @@ def CommandESP8266Inchamber(command):
 	global StatusParameter
 	try:
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-		print(StatusOfWaterChamber)
+		#print(StatusOfWaterChamber)
 		if(StatusOfWaterChamber[1] == "Normal"):
 			PostWaterData()
 		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
