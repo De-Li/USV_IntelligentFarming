@@ -250,7 +250,7 @@ def CommandESP8266Inchamber(command):
 			BatteryStatus = False
 			return False
 		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
-			print("Fail to connect ESP8266 in the chamber!")
+			#print("Fail to connect ESP8266 in the chamber!")
 			return False
 		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
 			CPUTemperature = str(CheckCPUTemperature())
