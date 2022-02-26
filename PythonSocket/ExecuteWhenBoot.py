@@ -4,4 +4,4 @@ while True:
   output = stream.read()
   output
   time.sleep(10)
-  sudo service webcamd restart
+  stream = os.popen('sudo service webcamd restart')
