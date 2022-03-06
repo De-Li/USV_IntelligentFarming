@@ -61,7 +61,7 @@ if __name__ == '__main__':
 		if(i%2==0):
 			command = "11.7,13.7,180,180,120,300,20,600"
 		else:
-			command = "1,1,1,1,1,1,1,1"
+			command = "10.8,13.4,300,300,180,360,30,500"
 		try:
 			SendingMessageToFloatChamber(command)
 		except:
