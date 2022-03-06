@@ -10,30 +10,8 @@ def SendingMessageToFloatChamber(command):
 	#Create TCP socket
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
 	Send_Sock.settimeout(5)
-	try:
-		Send_Sock.connect((Client_TCP_IP, Client_TCP_PORT))
-	except:
-		ReturnList.append("[1, 1")
-		ReturnList.append("Lose connection to the ESP8266 on the Float chamber")
-		ReturnList.append("False")
-		return ReturnList
+	Send_Sock.connect((Client_TCP_IP, Client_TCP_PORT))
 	
-	#Check the command
-	'''
-	if command=='ShowVoltage':
-		Send_Sock.send('1'.encode('utf-8'))
-	elif command=='PowerUp':
-		Send_Sock.send('2'.encode('utf-8'))
-	elif command=='ShutDown':
-		Send_Sock.send('3'.encode('utf-8'))
-	elif command=='Sleep':
-		Send_Sock.send('4'.encode('utf-8'))
-	else :
-		ReturnList.append("[1, 1")
-		ReturnList.append("Donothing")
-		Send_Sock.close()
-		return ReturnList
-	'''
 	#command = "11.7,13.7,180,180,120,300,20,600"
 	Send_Sock.send(command.encode('utf-8'))
 	Reply = Send_Sock.recv(30)
@@ -82,7 +60,7 @@ if __name__ == '__main__':
 		if(i%2==0):
 			command = "11.7,13.7,180,180,120,300,20,600"
 		else:
-			command = "0,0,0,0,0,0,0,0"
+			command = "1,1,1,1,1,1,1,1"
 		try:
 			SendingMessageToFloatChamber(command)
 		except:
