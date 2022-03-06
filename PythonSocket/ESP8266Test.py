@@ -83,4 +83,7 @@ if __name__ == '__main__':
 			command = "11.7,13.7,180,180,120,300,20,600"
 		else:
 			command = "0,0,0,0,0,0,0,0"
-		SendingMessageToFloatChamber(command)
+		try:
+			SendingMessageToFloatChamber(command)
+		except:
+			print("waiting")
