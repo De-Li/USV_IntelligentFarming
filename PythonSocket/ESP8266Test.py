@@ -75,6 +75,10 @@ def SendingMessageToFloatChamber(command):
 	Send_Sock.close()
 	return ReturnList
 if __name__ == '__main__':
-	i=1
+	i=0
 	while(1):
-		SendingMessageToFloatChamber()
+		if(i%2==0):
+			command = "11.7,13.7,180,180,120,300,20,600"
+		else:
+			command = "0,0,0,0,0,0,0,0"
+		SendingMessageToFloatChamber(command)
