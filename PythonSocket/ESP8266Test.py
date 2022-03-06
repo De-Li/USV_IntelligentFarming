@@ -1,3 +1,5 @@
+import socket, time, select, re
+
 def SendingMessageToFloatChamber(command):
 	#Raspberry Pi send message to ESP8266 on the Float chamber
 	#Client_TCP_IP = "192.168.1.104"
