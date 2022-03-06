@@ -10,7 +10,7 @@ def SendingMessageToFloatChamber(command):
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
-	Send_Sock.settimeout(5)
+	Send_Sock.settimeout(1)
 	Send_Sock.connect((Client_TCP_IP, Client_TCP_PORT))
 	
 	#command = "11.7,13.7,180,180,120,300,20,600"
@@ -66,4 +66,5 @@ if __name__ == '__main__':
 			SendingMessageToFloatChamber(command)
 		except:
 			print("waiting")
-		time.sleep(1)
+		time.sleep(0.5)
+		i=i+1
