@@ -66,5 +66,5 @@ if __name__ == '__main__':
 			SendingMessageToFloatChamber(command)
 		except:
 			print("waiting")
-		time.sleep(0.5)
+		time.sleep(1)
 		i=i+1
