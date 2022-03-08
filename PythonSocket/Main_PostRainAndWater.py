@@ -82,7 +82,7 @@ WaterSampleInterval = UploadInterval*0.4
 WaterPowercontrolTryingLimit = 1
 WaterWaitingTime = 10
 RainSampleInterval = UploadInterval/15
-MinTCPConnectingTimeInterval = 5
+MinTCPConnectingTimeInterval = 10
 SocketTimeOut = 1
 WaitingLimit = 10
 DelayTime = 0.5
@@ -357,6 +357,7 @@ if __name__ == '__main__':
 			Sampling_LastTime = time.time()
 		elif(CurrentTime - Listening_LastTime > MinTCPConnectingTimeInterval):
 			CheckIfInternetIsConnected()
+			PostWaterData()
 			#municationToMainServer("HeartBeat Message")
 			#If the ESP is on then sampling the waterdata.
 			CommandESP8266Inchamber("ShowVoltage")
