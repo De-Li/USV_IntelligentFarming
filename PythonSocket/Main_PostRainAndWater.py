@@ -319,8 +319,7 @@ if __name__ == '__main__':
 	#WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
 	CommandESP8266Inchamber('ShowVoltage')
-	lat, lon = GetGPSCoordination()
-	print(type(lat))	
+	lat, lon = GetGPSCoordination()	
 	if(lat == "22.6163"):
 		PORT = 3038 #台南魚塭
 		print("In Tainan FishFarm")
