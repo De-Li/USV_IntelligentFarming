@@ -46,6 +46,7 @@ Split the communication part and data sampling
 #from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
 from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, SendingMessageToFloatChamber
+from ExtraApplication import GetGPSCoordination
 from ReadRainSensor import GetRainData
 import socket, time, threading, serial, time
 import urllib.request #URL related liberary
@@ -318,6 +319,11 @@ if __name__ == '__main__':
 	#WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
 	CommandESP8266Inchamber('ShowVoltage')
+	lat, lon = GetGPSCoordination()
+	if(lat == 22.6163):
+		PORT = 3038 #台南魚塭
+	else:
+		PORT = 3031 #高雄魚塭
 	print('Start')
 	while(True):
 		CurrentTime = time.time()
