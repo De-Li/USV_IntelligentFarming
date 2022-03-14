@@ -1,15 +1,8 @@
 # importing geopy library
 from geopy.geocoders import Nominatim
- 
-# calling the Nominatim tool
-loc = Nominatim(user_agent="GetLoc")
- 
-# entering the location name
-getLoc = loc.geocode("Gosainganj Lucknow")
- 
-# printing address
-print(getLoc.address)
- 
-# printing latitude and longitude
-print("Latitude = ", getLoc.latitude, "\n")
-print("Longitude = ", getLoc.longitude)
+import os 
+
+lat,lon = os.popen('curl ipinfo.io/loc').read().split(',')
+
+print("Latitude = ", lat, "\n")
+print("Longitude = ", lon)
