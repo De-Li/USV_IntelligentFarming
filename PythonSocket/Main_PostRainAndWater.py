@@ -322,8 +322,10 @@ if __name__ == '__main__':
 	lat, lon = GetGPSCoordination()
 	if(lat == 22.6163):
 		PORT = 3038 #台南魚塭
+		print("In Tainan FishFarm")
 	else:
 		PORT = 3031 #高雄魚塭
+		print("In Kaohsiung FishFarm")
 	print('Start')
 	while(True):
 		CurrentTime = time.time()
