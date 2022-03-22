@@ -1,0 +1,34 @@
+****current Raspberry pi use this command
+
+ffmpeg -r 30 -video_size 640x480 -i /dev/video0 -c:v libx264 -preset ultrafast -tune zerolatency -c:a aac -ar 44100 -f flv -r 30 rtmp://140.116.202.132:3033/live/UnderWaterVideoKaohsiung
+
+FFREPORT=file=ffreport.log:level=2 ffmpeg -r 30 -video_size 640x480 -i /dev/video0 -c:v libx264 -preset ultrafast -tune zerolatency -c:a aac -ar 44100 -f flv -r 30 rtmp://140.116.202.132:3033/live/UnderWaterVideoKaohsiung
+
+OctoPrint
+Youtube start streaming
+docker run --device=/dev/vchiq --network="host" --name UCORWCTGP9b3UEwuXhWNEMZw2 -ti octoprint/youtubelive:latest http://192.168.1.129/webcam/?action=stream e22a-wqcy-jgwx-0me9-5xk3 null
+
+ffmpeg without framefilter
+ffmpeg -re -i http://192.168.1.129/webcam/?action=stream -c:v libx264 -preset veryfast -tune zerolatency -c:a aac -ar 44100 -f flv rtmp://140.116.202.132:3033/live/UnderWaterVideoKaohsiung
+
+ffmpeg with frame filter 
+ffmpeg -r 10 -re -i http://192.168.1.129/webcam/?action=stream -c:v libx264 -preset veryfast -tune zerolatency -c:a aac -ar 44100 -f flv -r 10 rtmp://140.116.202.132:3033/live/UnderWaterVideoTainan
+
+ffmpeg -r 10 -re -i http://192.168.1.129/webcam/?action=stream -c:v libx264 -preset veryfast -tune zerolatency -c:a aac -ar 44100 -f flv -r 10 rtmp://140.116.202.132:3033/live/UnderWaterVideoKaohsiung
+
+
+
+The resolution of video must advance to the -i command
+test-----------------------------------
+ffmpeg with frame filter in MP4 format
+ffmpeg -r 10 -re -i http://192.168.1.129/webcam/?action=stream -c:v libx264 -preset veryfast -tune zerolatency -c:a aac -ar 44100 -f mp4 -r 10 rtmp://140.116.202.132:3033/live/UnderWaterVideoKaohsiung
+
+ffmpeg -r 10 -re -i http://192.168.1.129/webcam/?action=stream -c:v libx264 -preset veryfast -tune zerolatency -c:a aac -ar 44100 -f applehttp -r 10 rtmp://140.116.202.132:3033/live/UnderWaterVideoKaohsiung
+
+Video Capturing
+http://140.116.202.132:3034/live/UnderWaterVideoTainan.flv
+http://140.116.202.132:3034/live/UnderWaterVideoKaohsiung.flv
+
+
+-----v4l2 commands-----
+v4l2-ctl --list-devices
