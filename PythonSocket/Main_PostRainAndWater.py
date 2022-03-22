@@ -137,7 +137,7 @@ def PostWaterData():
 		elif CurrentWaterData is None:
 			pass
 		FlagOfException = FlagOfException & 0b1110111
-	print(WaterData)
+	#print(WaterData)
 def PostWeatherData(FlagOfSampling):
 	global WeatherData
 	global RainData
