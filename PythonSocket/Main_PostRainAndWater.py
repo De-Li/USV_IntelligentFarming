@@ -348,7 +348,7 @@ if __name__ == '__main__':
 			WeatherSampling_LastTime = time.time()
 			#Status Check
 			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
-			CommandESP8266Inchamber('ShowVoltage')
+			#CommandESP8266Inchamber('ShowVoltage')
 			print("Uploading is Done")
 		elif(CurrentTime - WeatherSampling_LastTime > UploadInterval/3):
 			print("DataSampling")
@@ -372,7 +372,7 @@ if __name__ == '__main__':
 			PostWaterData()
 			#municationToMainServer("HeartBeat Message")
 			#If the ESP is on then sampling the waterdata.
-			CommandESP8266Inchamber("ShowVoltage")
+			#CommandESP8266Inchamber("ShowVoltage")
 			Listening_LastTime = time.time()
 			print(bin(FlagOfException))
 			print("Upload time in: (Second)")
