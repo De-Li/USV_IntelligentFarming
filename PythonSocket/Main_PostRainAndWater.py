@@ -352,7 +352,7 @@ if __name__ == '__main__':
 			print("Uploading is Done")
 		elif(CurrentTime - WeatherSampling_LastTime > UploadInterval/3):
 			print("DataSampling")
-			CheckIfInternetIsConnected()
+			#CheckIfInternetIsConnected()
 			#Get Weather once before uploading 40 seconds
 			PostWeatherData('All')
 			#WaterSamplingThread = threading.Thread(target = PostWaterData())
@@ -364,11 +364,11 @@ if __name__ == '__main__':
 			WeatherSampling_LastTime = time.time()
 			print("Sampling is Done")
 		elif(CurrentTime - Sampling_LastTime > RainSampleInterval):
-			CheckIfInternetIsConnected()
+			#CheckIfInternetIsConnected()
 			PostWeatherData('Rain')
 			Sampling_LastTime = time.time()
 		elif(CurrentTime - Listening_LastTime > MinTCPConnectingTimeInterval):
-			CheckIfInternetIsConnected()
+			#CheckIfInternetIsConnected()
 			PostWaterData()
 			#municationToMainServer("HeartBeat Message")
 			#If the ESP is on then sampling the waterdata.
