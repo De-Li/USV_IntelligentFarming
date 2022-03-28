@@ -46,9 +46,8 @@ Split the communication part and data sampling
 #from ReadRainSensor import GetRainData
 from ReadUnderWaterSensors import GetWaterData
 from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, SendingMessageToFloatChamber
-from ExtraApplication import GetGPSCoordination
 from ReadRainSensor import GetRainData
-import socket, time, threading, serial, time
+import socket, time, threading, time, logging
 import urllib.request #URL related liberary
 from gpiozero import CPUTemperature
 
@@ -92,6 +91,11 @@ DelayTime = 0.5
 MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 MainSocket.settimeout(SocketTimeOut)
 
+#Declare the logging level.
+FORMAT = '%(asctime)s %(levelname)s: %(message)s'
+logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', format=FORMAT) 
+#filemode=a means append new logging info behind old, filemode = w means erase old message and write new one.
+
 #Due to the dirty water, the reading of data is unstable for water quality.
 #So the function filters the extreme value of water quality.
 #Temperary application,it still need to complete.
@@ -110,6 +114,7 @@ def CheckIfInternetIsConnected():
 			FlagOfException = FlagOfException & 0b1111110
 			return True
 		except urllib.error.URLError as err:
+			logging.warning("Network unreachable", exc_info = True)
 			if(FlagOfException & 0b0000001 == 0b0000001):
 				pass
 			else:
@@ -156,6 +161,7 @@ def PostWeatherData(FlagOfSampling):
 				FlagOfException = FlagOfException | 0b0010000
 			CurrentRainData = ", 1, 1, 1, 1, 1]"
 		else:
+			logging.debug("Raindata is not complete", exc_info = True)
 			if(CurrentRainData == None or CurrentRainData == "Rain data is not complete!"):
 				CurrentRainData = RainData
 			else:
@@ -166,6 +172,7 @@ def PostWeatherData(FlagOfSampling):
 		try:
 			CurrentWeatherData = GetWeatherDataFromGroundStation()
 		except:
+			logging.debug("didn't get weatherdata", exc_info = True)
 			CurrentWeatherData = "Lose connection to <weather ESP8266!>"
 		if(CurrentWeatherData == "Lose connection to <weather ESP8266!>"):
 			if(FlagOfException & 0b0000100 == 0b0000100):
@@ -319,7 +326,6 @@ if __name__ == '__main__':
 	#WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
 	CommandESP8266Inchamber('ShowVoltage')
-	lat, lon = GetGPSCoordination()	
 	'''
 	if(lat == "22.6163"):
 		PORT = 3038 #台南魚塭
@@ -390,38 +396,3 @@ if __name__ == '__main__':
 			pass
 		time.sleep(DelayTime)
 	MainSocket.close()
-	'''
-		#Read Water data
-		elif(CurrentTime - WaterSampling_LastTime > WaterSampleInterval and BatteryStatus == True):
-			CheckIfInternetIsConnected()
-			if(BatterySwitch == False):
-				CommandESP8266Inchamber("PowerUp")
-				WaterSampling_LastTime = WaterSampling_LastTime + WaterWaitingTime
-			elif(BatterySwitch == True):
-				#CommandESP8266Inchamber("PowerUp")
-				print("Waterdata is sampling")
-				i=0
-				while(i<2):
-					time.sleep(1)
-					PostWaterData()
-					i = i + 1
-				i=0
-				while(True):
-					if(i>20):
-						print("Can't shut the power down!!")
-						break
-					if(CommandESP8266Inchamber("ShutDown") == True):
-						break
-					else:
-						print("Can't shut the power down!!")
-					time.sleep(0.1)
-					i = i + 1
-				WaterSampling_LastTime =  time.time()
-			elif(BatteryStatus == False):
-				print("Battery is too low, wait for charge!")
-				WaterSampling_LastTime =  time.time()
-				pass
-			else:
-				print("Can't connect to ESP8266 in 10 seconds, try next time!!")
-	'''
-		
