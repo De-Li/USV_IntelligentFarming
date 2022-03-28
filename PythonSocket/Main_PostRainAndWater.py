@@ -47,7 +47,7 @@ Split the communication part and data sampling
 from ReadUnderWaterSensors import GetWaterData
 from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, SendingMessageToFloatChamber
 from ReadRainSensor import GetRainData
-import socket, time, threading, time, logging
+import socket, time, threading, time, logging, sys
 import urllib.request #URL related liberary
 from gpiozero import CPUTemperature
 
@@ -61,16 +61,14 @@ PORT = 3038 #台南魚塭
 #ListeningPort = 5910
 TPLink_IP = '192.168.1.102'
 ListeningPort = 6060
-global StartTime
-global WaterData
-global WeatherData
+global DataList = ["0","0","0"] #WaterData #WeatherData #RainData
 global RainData
 global FlagOfException
 global StatusOfWaterChamber
-global BatterySwitch
-global BatteryStatus
-global StatusParameter
-global CurrentBatteryVoltage
+global StatusParameterList
+global BatteryStatusList = [False,0,"[1.1, 1","0"""] #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
+global StatusParameterOfSystem
+
 
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
@@ -124,7 +122,7 @@ def CheckIfInternetIsConnected():
 			print('socket timeout')
 
 def PostWaterData():
-	global WaterData
+	global DataList
 	global FlagOfException
 	try:
 		CurrentWaterData = GetWaterData()
@@ -138,13 +136,13 @@ def PostWaterData():
 			FlagOfException = FlagOfException | 0b0001000
 	else:
 		if CurrentWaterData is not None:
-			WaterData = CurrentWaterData
+			DataList[0] = CurrentWaterData
 		elif CurrentWaterData is None:
 			pass
 		FlagOfException = FlagOfException & 0b1110111
-	#print(WaterData)
+	#print(DataList[0])
 def PostWeatherData(FlagOfSampling):
-	global WeatherData
+	global DataList
 	global RainData
 	global FlagOfException
 	CurrentWeatherData = "[0,0,0"
@@ -165,7 +163,7 @@ def PostWeatherData(FlagOfSampling):
 			if(CurrentRainData == None or CurrentRainData == "Rain data is not complete!"):
 				CurrentRainData = RainData
 			else:
-				RainData = CurrentRainData
+				DataList[2] = CurrentRainData
 			FlagOfException = FlagOfException & 0b1101111
 	if(FlagOfSampling == 'All'):
 		#Get weather data from esp8266 in shutter box
@@ -179,11 +177,10 @@ def PostWeatherData(FlagOfSampling):
 				pass
 			else:
 				FlagOfException = FlagOfException | 0b0000100
-			WeatherData = "[0, 0, 0" + CurrentRainData
+			DataList[1] = "[0, 0, 0" + CurrentRainData
 		else:
 			FlagOfException = FlagOfException & 0b1111011
-		#Create a socket, DGRAM means UDP protocal
-		WeatherData = CurrentWeatherData + RainData
+			DataList[1] = CurrentWeatherData + RainData
 		print(WeatherData)
 def CheckCPUTemperature():
 	global FlagOfException
@@ -201,8 +198,7 @@ def CheckCPUTemperature():
 def CommunicationToMainServer(content):
 	global StatusOfWaterChamber
 	global FlagOfException
-	global StatusParameter
-	global CurrentBatteryVoltage
+	global StatusParameterOfSystem
 	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
 	'''
 	try:
@@ -235,7 +231,7 @@ def CommunicationToMainServer(content):
 		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
 			FlagOfException = FlagOfException & 0b1111101
 		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
-			BatteryStatus = False
+			StatusParameterList[1] = False
 			print("The voltage of battery is too low, SHUTDOWN!")
 			if(FlagOfException & 0b0100000 == 0b0100000):
 				pass
@@ -244,88 +240,82 @@ def CommunicationToMainServer(content):
 		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
 			FlagOfException = FlagOfException & 0b1011111
 		#CPUTemperature = str(CheckCPUTemperature())
-		StatusParameter = CurrentBatteryVoltage + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
-		print("StatusParameter")
-		print(StatusParameter)
-		MainSocket.sendto(StatusParameter.encode(), addr)
+		StatusParameterOfSystem = BatteryParameterList[2] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
+		print("StatusParameterOfSystem")
+		print(StatusParameterOfSystem)
+		MainSocket.sendto(StatusParameterOfSystem.encode(), addr)
 		return True
 	except:
 		print("Data formal problem or Lose connection to ESP8266")
 		pass
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
-	global BatterySwitch
-	global BatteryStatus
+	global StatusParameterList
 	global FlagOfException
-	global StatusParameter
-	global CurrentBatteryVoltage
+	global StatusParameterOfSystem
 	try:
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		#print(StatusOfWaterChamber)
 		if(StatusOfWaterChamber[1] == "Normal"):
-			CurrentBatteryVoltage = StatusOfWaterChamber[0]
+			BatteryParameterList[2] = StatusOfWaterChamber[0]
 			PostWaterData()
 		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
 			SendingMessageToFloatChamber('ShutDown')
 			print("The power is ShutDown! Due to low battery")
-			BatterySwitch = False
-			BatteryStatus = False
+			BatteryParameterList[0] = False
+			StatusParameterList[1] = False
 			return False
 		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
 			#print("Fail to connect ESP8266 in the chamber!")
 			return False
 		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
 			CPUTemperature = str(CheckCPUTemperature())
-			StatusParameter = CurrentBatteryVoltage + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
-			print(StatusParameter)
-			CommunicationToMainServer(StatusParameter)
+			StatusParameterOfSystem = BatteryParameterList[2] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
+			print(StatusParameterOfSystem)
+			CommunicationToMainServer(StatusParameterOfSystem)
 			return True
 		elif(command == 'PowerUp'):
 			print("PowerUp the sensor!")
-			BatterySwitch = True
+			BatteryParameterList[0] = True
 			return True
 		elif(command == 'ShutDown'):
 			print("The power is ShutDown!")
-			BatterySwitch = False
+			BatteryParameterList[0] = False
 			return True
 		elif(command == 'ShowVoltage'):
 			if(StatusOfWaterChamber[1] == "Normal"):
-				BatteryStatus = True
+				StatusParameterList[1] = True
 				return "Normal"
 			elif(StatusOfWaterChamber[1] == "Donothing"):
 				pass
 			else:
-				BatteryStatus = False
+				StatusParameterList[1] = False
 			return False
 		'''
 			elif(command == 'Sleep'):
-				BatterySwitch = False
+				BatteryParameterList[0] = False
 				print("The ESP is sleeping now")
 				return True
 		'''
 	except:
 		print("Fail to connect ESP8266 in the chamber!")
 if __name__ == '__main__':
-	global StartTime
-	global WeatherData
-	global WaterData
+	global DataList
 	global FlagOfException
-	global BatterySwitch
-	global BatteryStatus
-	global StatusParameter
+	global StatusParameterList
 	global StatusOfWaterChamber
-	global CurrentBatteryVoltage
-	CurrentBatteryVoltage = "[1.1, 1"
-	BatteryStatus = True
-	BatterySwitch = False
-	WaterData = "[1, 1, 0, 0, 0, 0, 0]"
+	BatteryParameterList[2] = "[1.1, 1"
+	BatteryParameterList[1] = True
+	BatteryParameterList[0] = False
+	#DataList[0] = "[1, 1, 0, 0, 0, 0, 0]"
 	FlagOfException = 0b0000000
+	StartTime = time.time()
 	Uploading_LastTime = time.time()
 	Sampling_LastTime = time.time()
 	Listening_LastTime = time.time()
 	#WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
-	CommandESP8266Inchamber('ShowVoltage')
+	#CommandESP8266Inchamber('ShowVoltage')
 	'''
 	if(lat == "22.6163"):
 		PORT = 3038 #台南魚塭
@@ -343,10 +333,10 @@ if __name__ == '__main__':
 		if(CurrentTime - Uploading_LastTime > UploadInterval):
 			print("Uploading DATA to MainServer")
 			CheckIfInternetIsConnected()
-			if(BatteryStatus == True):
-				CommunicationToMainServer(WaterData)
+			if(StatusParameterList[1] == True):
+				CommunicationToMainServer(DataList[0])
 			time.sleep(0.1)
-			CommunicationToMainServer(WeatherData)
+			CommunicationToMainServer(DataList[1])
 			#Reset the basic time
 			Uploading_LastTime = time.time()
 			#WaterSampling_LastTime =  time.time()
@@ -385,11 +375,11 @@ if __name__ == '__main__':
 			print(round(Uploading_LastTime + UploadInterval - CurrentTime, 1))
 			'''
 			print("---------------------------------------")
-			print("BatteryStatus")
-			print(BatteryStatus)
+			print("StatusParameterList[1]")
+			print(StatusParameterList[1])
 			print("---------------------------------------")
-			print("BatterySwitch")
-			print(BatterySwitch)
+			print("StatusParameterList[0]")
+			print(StatusParameterList[0])
 			'''
 		else:
 			#print("------------Pass------------")
