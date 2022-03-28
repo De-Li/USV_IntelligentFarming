@@ -33,14 +33,6 @@ The Ip and port of 5910 DeLi's computer.
     HOST = '192.168.0.228'
     PORT = 30000
 ---------------------------------------------------------------
-Log:
-2022/1/14
-1.add automatic return voltage function
-2.add Flag of exception
-3.
-2022/1/13
-Split the communication part and data sampling
----------------------------------------------------------------
 """
 
 #from ReadRainSensor import GetRainData
@@ -53,14 +45,9 @@ from gpiozero import CPUTemperature
 
 #IP and port of main server
 HOST = '140.116.202.132'
-PORT = 3038 #台南魚塭
+#PORT = 3038 #台南魚塭
 #PORT = 3031 #高雄魚塭
 
-#IP and port of Raspberry pi
-#LAB5910_IP = '192.168.1.108'
-#ListeningPort = 5910
-TPLink_IP = '192.168.1.102'
-ListeningPort = 6060
 global DataList = ["0","0","0"] #WaterData #WeatherData #RainData
 global RainData
 global FlagOfException
@@ -69,11 +56,8 @@ global StatusParameterList
 global BatteryStatusList = [False,0,"[1.1, 1","0"""] #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
 global StatusParameterOfSystem
 
-
-#WaterData = "[1, 1, 0, 0, 0, 0, 0]"
 RainData = ", 0, 0, 0, 0, 0]"
 #-----Parameter-----
-#VoltageLimit = 10.8
 #Time(second)
 UploadInterval = 1200
 WaterSampleInterval = UploadInterval*0.4
