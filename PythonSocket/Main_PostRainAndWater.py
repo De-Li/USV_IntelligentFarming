@@ -61,13 +61,12 @@ PORT = 3038 #台南魚塭
 #ListeningPort = 5910
 TPLink_IP = '192.168.1.102'
 ListeningPort = 6060
-global DataList = ["0","0","0"] #WaterData #WeatherData #RainData
-global RainData
+global DataList #WaterData #WeatherData #RainData
 global FlagOfException
 global StatusOfWaterChamber
-global StatusParameterList
-global BatteryStatusList = [False,0,"[1.1, 1","0"""] #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
+global BatteryStatusList #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
 global StatusParameterOfSystem
+global ExecutiveSchedule
 
 
 #WaterData = "[1, 1, 0, 0, 0, 0, 0]"
@@ -97,13 +96,29 @@ logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', for
 #Due to the dirty water, the reading of data is unstable for water quality.
 #So the function filters the extreme value of water quality.
 #Temperary application,it still need to complete.
-'''
-def FilterReadingData(Input):
-	#transferring the data array into string type in order to send data easily.
-	DecipheredData = '['+', '.join(str(e) for e in DecipheredData)+']'
-	return DecipheredData
-'''
-	
+
+def GetArgument():
+    global ExecutiveSchedule
+    if(len(sys.argv) == 1):
+		pass
+    if(sys.argv[2] == "-d"):
+        print("default")
+        ExecutiveSchedule = [13.8,12,180, 1200, 60, 240, 120] 
+        '''
+        1.The upper level of battery.
+        2.The lower level of battery.
+        3.ESP32 modest battery level executive time.
+        4.ESP32 modest battery level sleep time.
+        5.The executive time of "water pump".
+        6.Stay time in water tank.
+        7.The executive time of "Water valve".
+	    '''
+    elif(sys.argv[1] == "-p"):
+        ExecutiveSchedule = sys.argv[2]
+    if(sys.argv[1] == "-t"):
+        return "Tainan farm"
+    elif(sys.argv[1] == "-k"):
+        return "Kaohsiung"
 def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
@@ -231,7 +246,7 @@ def CommunicationToMainServer(content):
 		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
 			FlagOfException = FlagOfException & 0b1111101
 		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
-			StatusParameterList[1] = False
+			BatteryStatusList[1] = False
 			print("The voltage of battery is too low, SHUTDOWN!")
 			if(FlagOfException & 0b0100000 == 0b0100000):
 				pass
@@ -250,7 +265,7 @@ def CommunicationToMainServer(content):
 		pass
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
-	global StatusParameterList
+	global BatteryStatusList
 	global FlagOfException
 	global StatusParameterOfSystem
 	try:
@@ -263,7 +278,7 @@ def CommandESP8266Inchamber(command):
 			SendingMessageToFloatChamber('ShutDown')
 			print("The power is ShutDown! Due to low battery")
 			BatteryParameterList[0] = False
-			StatusParameterList[1] = False
+			BatteryStatusList[1] = False
 			return False
 		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
 			#print("Fail to connect ESP8266 in the chamber!")
@@ -284,12 +299,12 @@ def CommandESP8266Inchamber(command):
 			return True
 		elif(command == 'ShowVoltage'):
 			if(StatusOfWaterChamber[1] == "Normal"):
-				StatusParameterList[1] = True
+				BatteryStatusList[1] = True
 				return "Normal"
 			elif(StatusOfWaterChamber[1] == "Donothing"):
 				pass
 			else:
-				StatusParameterList[1] = False
+				BatteryStatusList[1] = False
 			return False
 		'''
 			elif(command == 'Sleep'):
@@ -301,12 +316,13 @@ def CommandESP8266Inchamber(command):
 		print("Fail to connect ESP8266 in the chamber!")
 if __name__ == '__main__':
 	global DataList
-	global FlagOfException
-	global StatusParameterList
+	global BatteryStatusList
 	global StatusOfWaterChamber
-	BatteryParameterList[2] = "[1.1, 1"
-	BatteryParameterList[1] = True
-	BatteryParameterList[0] = False
+    global FlagOfException
+    global ExecutiveSchedule
+    
+    DataList = ["0","0","0"]
+    BatteryStatusList = [False,0,"[1.1, 1","0"]  #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
 	#DataList[0] = "[1, 1, 0, 0, 0, 0, 0]"
 	FlagOfException = 0b0000000
 	StartTime = time.time()
@@ -315,17 +331,14 @@ if __name__ == '__main__':
 	Listening_LastTime = time.time()
 	#WaterSampling_LastTime = time.time()
 	WeatherSampling_LastTime = time.time()
-	#CommandESP8266Inchamber('ShowVoltage')
-	'''
-	if(lat == "22.6163"):
+	CommandESP8266Inchamber(ExecutiveSchedule)
+	Location = GetArgument()
+	if(Location == "Tainan"):
 		PORT = 3038 #台南魚塭
-		print("In Tainan FishFarm")
-	else:
+	    print("In Tainan FishFarm")
+    elif(Location == "Kaohsiung"):
 		PORT = 3031 #高雄魚塭
 		print("In Kaohsiung FishFarm")
-	'''
-	PORT = 3038 #台南魚塭
-	print("In Tainan FishFarm")
 	print('Start')
 	while(True):
 		CurrentTime = time.time()
@@ -333,7 +346,7 @@ if __name__ == '__main__':
 		if(CurrentTime - Uploading_LastTime > UploadInterval):
 			print("Uploading DATA to MainServer")
 			CheckIfInternetIsConnected()
-			if(StatusParameterList[1] == True):
+			if(BatteryStatusList[1] == True):
 				CommunicationToMainServer(DataList[0])
 			time.sleep(0.1)
 			CommunicationToMainServer(DataList[1])
@@ -375,11 +388,11 @@ if __name__ == '__main__':
 			print(round(Uploading_LastTime + UploadInterval - CurrentTime, 1))
 			'''
 			print("---------------------------------------")
-			print("StatusParameterList[1]")
-			print(StatusParameterList[1])
+			print("BatteryStatusList[1]")
+			print(BatteryStatusList[1])
 			print("---------------------------------------")
-			print("StatusParameterList[0]")
-			print(StatusParameterList[0])
+			print("BatteryStatusList[0]")
+			print(BatteryStatusList[0])
 			'''
 		else:
 			#print("------------Pass------------")
