@@ -55,7 +55,7 @@ global RainData
 global FlagOfException
 global StatusOfWaterChamber
 global StatusParameterList
-global BatteryStatusList = [False,0,"[1.1, 1","0"""] #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
+global BatteryStatusList #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
 global StatusParameterOfSystem
 
 #-----Parameter-----
@@ -209,6 +209,7 @@ def CommunicationToMainServer():
 	MainSocket.sendto(DataList[0].encode('utf-8'), (HOST, PORT))
 	time.sleep(0.1)
 	MainSocket.sendto(DataList[1].encode('utf-8'), (HOST, PORT))
+	'''
 	try:
 		#StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
 		#print("StatusOfWaterChamber")
@@ -243,6 +244,7 @@ def CommunicationToMainServer():
 	except:
 		print("Data formal problem or Lose connection to ESP8266")
 		pass
+	'''
 
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
@@ -293,9 +295,9 @@ if __name__ == '__main__':
 	global FlagOfException
 	global StatusParameterList
 	global StatusOfWaterChamber
-	BatteryParameterList[2] = "[1.1, 1"
-	BatteryParameterList[1] = True
-	BatteryParameterList[0] = False
+	global BatteryStatusList
+	BatteryParameterList = [False, True, "[1.1, 1"]
+	BatteryStatusList = [False,0,"[1.1, 1", "0", "0"]
 	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
 	FlagOfException = 0b0000000
 	PORT = 3038 #台南魚塭
