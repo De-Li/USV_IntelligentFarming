@@ -116,6 +116,9 @@ def SetScheduler():
 	schedule.every().hour.at("34:00").do(PostWaterData)
 	schedule.every().hour.at("34:30").do(PostWaterData)
 	
+	schedule.every(5).minutes.do(CheckCPUTemperature)
+	schedule.every(10).minutes.do(ShowPoccessingStatus)
+	
 def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
@@ -195,6 +198,13 @@ def PostWeatherData(FlagOfSampling):
 			FlagOfException = FlagOfException & 0b1111011
 			DataList[1] = CurrentWeatherData + DataList[2]
 		print(WeatherData)
+def ShowPoccessingStatus():
+	global FlagOfException
+	Cpu = CPUTemperature()
+	print("CPU Temperature: ")
+	print(Cpu)
+	print("FlagOfException: ")
+	print(FlagOfException: ")
 
 def CheckCPUTemperature():
 	global FlagOfException
@@ -318,6 +328,5 @@ if __name__ == '__main__':
 	SetScheduler()
 	while(True):
 		schedule.run_pending()
-		print(bin(FlagOfException))
 		time.sleep(DelayTime)
 	MainSocket.close()
