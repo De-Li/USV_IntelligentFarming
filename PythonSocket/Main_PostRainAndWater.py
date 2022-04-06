@@ -39,7 +39,7 @@ The Ip and port of 5910 DeLi's computer.
 from ReadUnderWaterSensors import GetWaterData
 from RaspberryPi_IntermediateServer import GetWeatherDataFromGroundStation, SendingMessageToFloatChamber
 from ReadRainSensor import GetRainData
-import socket, time, threading, time, logging, sys
+import socket, time, threading, time, logging, sys, schedule
 import urllib.request #URL related liberary
 from gpiozero import CPUTemperature
 from datetime import datetime, timezone, timedelta
@@ -100,14 +100,22 @@ def GetArgument():
 		'''
 	#-p meamns parameters
 	elif(sys.argv[1] == "-p"):
-		ExecutiveSchedule = sys.argv[2]
+		ExecutiveSchedule = sys.argv[2].split(',')
 	elif(sys.argv[2] == "-p"):
-		ExecutiveSchedule = sys.argv[3]
+		ExecutiveSchedule = sys.argv[3].split(',')
 	if(sys.argv[1] == "-t" or sys.argv[2] == "-t"):
 		return "Tainan farm"
 	elif(sys.argv[1] == "-k" or sys.argv[2] == "-k"):
 		return "Kaohsiung"
-
+def SetScheduler():
+	schedule.every(30).minutes.do(CommunicationToMainServer)
+	schedule.every(2).minutes.do(PostWeatherData, FlagOfSampling == 'Rain')
+	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling == 'All')
+	schedule.every().hour.at("02:00").do(PostWaterData)
+	schedule.every().hour.at("03:00").do(PostWaterData)
+	schedule.every().hour.at("32:00").do(PostWaterData)
+	schedule.every().hour.at("33:00").do(PostWaterData)
+	
 def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
@@ -144,7 +152,8 @@ def PostWaterData():
 		elif CurrentWaterData is None:
 			pass
 		FlagOfException = FlagOfException & 0b1110111
-	#print(DataList[0])
+	print(DataList[0])
+	
 def PostWeatherData(FlagOfSampling):
 	global DataList
 	global RainData
@@ -199,11 +208,14 @@ def CheckCPUTemperature():
 		FlagOfException = FlagOfException | 0b1000000
 	return Cpu.temperature
 
-def CommunicationToMainServer(content):
+def CommunicationToMainServer():
+	CheckIfInternetIsConnected()
 	global StatusOfWaterChamber
 	global FlagOfException
 	global StatusParameterOfSystem
-	MainSocket.sendto(content.encode('utf-8'), (HOST, PORT))
+	MainSocket.sendto(DataList[0].encode('utf-8'), (HOST, PORT))
+	time.sleep(0.1)
+	MainSocket.sendto(DataList[1].encode('utf-8'), (HOST, PORT))
 	'''
 	try:
 		command, addr = MainSocket.recvfrom(20)
@@ -311,76 +323,15 @@ if __name__ == '__main__':
 	BatteryParameterList[2] = "[1.1, 1"
 	BatteryParameterList[1] = True
 	BatteryParameterList[0] = False
-	#DataList[0] = "[1, 1, 0, 0, 0, 0, 0]"
+	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]"]
 	FlagOfException = 0b0000000
-	StartTime = time.time()
-	Uploading_LastTime = time.time()
-	Sampling_LastTime = time.time()
-	Listening_LastTime = time.time()
-	#WaterSampling_LastTime = time.time()
-	WeatherSampling_LastTime = time.time()
-	#CommandESP8266Inchamber('ShowVoltage')
-	'''
-	if(lat == "22.6163"):
-		PORT = 3038 #台南魚塭
-		print("In Tainan FishFarm")
-	else:
-		PORT = 3031 #高雄魚塭
-		print("In Kaohsiung FishFarm")
-	'''
 	PORT = 3038 #台南魚塭
 	print("In Tainan FishFarm")
 	print('Start')
 	while(True):
-		datetime.now(tz).isoformat()
-		CurrentTime = time.time()
-		#Uploading data
-		if(CurrentTime - Uploading_LastTime > UploadInterval):
-			print("Uploading DATA to MainServer")
-			CheckIfInternetIsConnected()
-			if(StatusParameterList[1] == True):
-				CommunicationToMainServer(DataList[0])
-			time.sleep(0.1)
-			CommunicationToMainServer(DataList[1])
-			#Reset the basic time
-			Uploading_LastTime = time.time()
-			#WaterSampling_LastTime =  time.time()
-			Sampling_LastTime = time.time()
-			WeatherSampling_LastTime = time.time()
-			#Status Check
-			#Check the Voltage of float chamber, if voltage is below 10.8, Pi will shutdown the float chamber
-			#CommandESP8266Inchamber('ShowVoltage')
-			print("Uploading is Done")
-		elif(CurrentTime - WeatherSampling_LastTime > UploadInterval/3):
-			print("DataSampling")
-			#CheckIfInternetIsConnected()
-			PostWeatherData('All')
-			WeatherSampling_LastTime = time.time()
-			print("Sampling is Done")
-		elif(CurrentTime - Sampling_LastTime > RainSampleInterval):
-			#CheckIfInternetIsConnected()
-			PostWeatherData('Rain')
-			Sampling_LastTime = time.time()
-		elif(CurrentTime - Listening_LastTime > MinTCPConnectingTimeInterval):
-			#CheckIfInternetIsConnected()
-			PostWaterData()
-			#municationToMainServer("HeartBeat Message")
-			#If the ESP is on then sampling the waterdata.
-			#CommandESP8266Inchamber("ShowVoltage")
-			Listening_LastTime = time.time()
-			print(bin(FlagOfException))
-			print("Upload time in: (Second)")
-			print(round(Uploading_LastTime + UploadInterval - CurrentTime, 1))
-			'''
-			print("---------------------------------------")
-			print("StatusParameterList[1]")
-			print(StatusParameterList[1])
-			print("---------------------------------------")
-			print("StatusParameterList[0]")
-			print(StatusParameterList[0])
-			'''
-		else:
-			#print("------------Pass------------")
-			pass
+		schedule.run_pending()
+		print(bin(FlagOfException))
+		print("Upload time in: (Second)")
+		print(round(Uploading_LastTime + UploadInterval - CurrentTime, 1))
 		time.sleep(DelayTime)
 	MainSocket.close()
