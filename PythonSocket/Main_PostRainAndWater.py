@@ -89,6 +89,12 @@ def GetArgument():
 			print("Kaohsiung Farm")
 			location = "Kaohsiung Farm"
 	elif(len(sys.argv) == 3):
+		if(sys.argv[1] == "-t"):
+			print("Tainan Farm")
+			location = "Tainan Farm"
+		elif(sys.argv[1] == "-k"):
+			print("Kaohsiung Farm")
+			location = "Kaohsiung Farm"
 		if(sys.argv[2] == "-d"):
 			print("default")
 			ExecutiveSchedule = [13.8,12,180, 1200, 60, 240, 120] 
