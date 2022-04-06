@@ -42,6 +42,7 @@ from ReadRainSensor import GetRainData
 import socket, time, threading, time, logging, sys
 import urllib.request #URL related liberary
 from gpiozero import CPUTemperature
+from datetime import datetime, timezone, timedelta
 
 #IP and port of main server
 HOST = '140.116.202.132'
@@ -78,16 +79,35 @@ FORMAT = '%(asctime)s %(levelname)s: %(message)s'
 logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', format=FORMAT) 
 #filemode=a means append new logging info behind old, filemode = w means erase old message and write new one.
 
-#Due to the dirty water, the reading of data is unstable for water quality.
-#So the function filters the extreme value of water quality.
-#Temperary application,it still need to complete.
-'''
-def FilterReadingData(Input):
-	#transferring the data array into string type in order to send data easily.
-	DecipheredData = '['+', '.join(str(e) for e in DecipheredData)+']'
-	return DecipheredData
-'''
-	
+#The time shift for Taiwan time zone.
+tz = timezone(timedelta(hours=+8))
+
+def GetArgument():
+	global ExecutiveSchedule
+	if(len(sys.argv) == 1):
+		pass
+	if(sys.argv[1] == "-d"):
+		print("default")
+		ExecutiveSchedule = [13.8,12,180, 1200, 60, 240, 120] 
+		'''
+		1.The upper level of battery.
+		2.The lower level of battery.
+		3.ESP32 modest battery level executive time.
+		4.ESP32 modest battery level sleep time.
+		5.The executive time of "water pump".
+		6.Stay time in water tank.
+		7.The executive time of "Water valve".
+		'''
+	#-p meamns parameters
+	elif(sys.argv[1] == "-p"):
+		ExecutiveSchedule = sys.argv[2]
+	elif(sys.argv[2] == "-p"):
+		ExecutiveSchedule = sys.argv[3]
+	if(sys.argv[1] == "-t" or sys.argv[2] == "-t"):
+		return "Tainan farm"
+	elif(sys.argv[1] == "-k" or sys.argv[2] == "-k"):
+		return "Kaohsiung"
+
 def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
@@ -312,6 +332,7 @@ if __name__ == '__main__':
 	print("In Tainan FishFarm")
 	print('Start')
 	while(True):
+		datetime.now(tz).isoformat()
 		CurrentTime = time.time()
 		#Uploading data
 		if(CurrentTime - Uploading_LastTime > UploadInterval):
@@ -333,14 +354,7 @@ if __name__ == '__main__':
 		elif(CurrentTime - WeatherSampling_LastTime > UploadInterval/3):
 			print("DataSampling")
 			#CheckIfInternetIsConnected()
-			#Get Weather once before uploading 40 seconds
 			PostWeatherData('All')
-			#WaterSamplingThread = threading.Thread(target = PostWaterData())
-			#WeatherSamplingThread = threading.Thread(target = PostWeatherData())
-			#WeatherSamplingThread.start()
-			#WaterSamplingThread.start()
-			#WaterSamplingThread.join()
-			#WeatherSamplingThread.join()
 			WeatherSampling_LastTime = time.time()
 			print("Sampling is Done")
 		elif(CurrentTime - Sampling_LastTime > RainSampleInterval):
