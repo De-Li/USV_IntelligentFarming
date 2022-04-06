@@ -56,19 +56,14 @@ global StatusOfWaterChamber
 global StatusParameterList
 global BatteryStatusList = [False,0,"[1.1, 1","0"""] #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
 global StatusParameterOfSystem
-
 RainData = ", 0, 0, 0, 0, 0]"
+
 #-----Parameter-----
 #Time(second)
-UploadInterval = 1200
-WaterSampleInterval = UploadInterval*0.4
-WaterPowercontrolTryingLimit = 1
 WaterWaitingTime = 10
-RainSampleInterval = UploadInterval/15
-MinTCPConnectingTimeInterval = 10
 SocketTimeOut = 1
 WaitingLimit = 10
-DelayTime = 0.5
+DelayTime = 2
 
 #UDP socket to the "Main Server", DGRAM means UDP protocal.
 MainSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -78,9 +73,6 @@ MainSocket.settimeout(SocketTimeOut)
 FORMAT = '%(asctime)s %(levelname)s: %(message)s'
 logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', format=FORMAT) 
 #filemode=a means append new logging info behind old, filemode = w means erase old message and write new one.
-
-#The time shift for Taiwan time zone.
-tz = timezone(timedelta(hours=+8))
 
 def GetArgument():
 	global ExecutiveSchedule
@@ -195,6 +187,7 @@ def PostWeatherData(FlagOfSampling):
 			FlagOfException = FlagOfException & 0b1111011
 			DataList[1] = CurrentWeatherData + RainData
 		print(WeatherData)
+
 def CheckCPUTemperature():
 	global FlagOfException
 	Cpu = CPUTemperature()
@@ -216,20 +209,6 @@ def CommunicationToMainServer():
 	MainSocket.sendto(DataList[0].encode('utf-8'), (HOST, PORT))
 	time.sleep(0.1)
 	MainSocket.sendto(DataList[1].encode('utf-8'), (HOST, PORT))
-	'''
-	try:
-		command, addr = MainSocket.recvfrom(20)
-		command = command.decode()
-		print("command")
-		print(command)
-		if(command == '200'):
-			return True
-		elif(command== '404'):
-			return True
-	except:
-		print("Lose connection to Main Server!")
-		pass
-	'''
 	try:
 		#StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
 		#print("StatusOfWaterChamber")
@@ -264,6 +243,7 @@ def CommunicationToMainServer():
 	except:
 		print("Data formal problem or Lose connection to ESP8266")
 		pass
+
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
 	global StatusParameterList
@@ -271,7 +251,6 @@ def CommandESP8266Inchamber(command):
 	global StatusParameterOfSystem
 	try:
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-		#print(StatusOfWaterChamber)
 		if(StatusOfWaterChamber[1] == "Normal"):
 			BatteryParameterList[2] = StatusOfWaterChamber[0]
 			PostWaterData()
@@ -307,12 +286,6 @@ def CommandESP8266Inchamber(command):
 			else:
 				StatusParameterList[1] = False
 			return False
-		'''
-			elif(command == 'Sleep'):
-				BatteryParameterList[0] = False
-				print("The ESP is sleeping now")
-				return True
-		'''
 	except:
 		print("Fail to connect ESP8266 in the chamber!")
 if __name__ == '__main__':
