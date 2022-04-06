@@ -204,7 +204,7 @@ def ShowPoccessingStatus():
 	print("CPU Temperature: ")
 	print(Cpu)
 	print("FlagOfException: ")
-	print(FlagOfException: )
+	print(FlagOfException)
 
 def CheckCPUTemperature():
 	global FlagOfException
