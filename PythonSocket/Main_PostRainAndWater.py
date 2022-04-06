@@ -57,6 +57,7 @@ global StatusOfWaterChamber
 global StatusParameterList
 global BatteryStatusList #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
 global StatusParameterOfSystem
+global ExecutiveSchedule
 global PORT
 
 #-----Parameter-----
@@ -81,7 +82,14 @@ def GetArgument():
 	if(len(sys.argv) == 1):
 		pass
 	elif(len(sys.argv) == 2):
-		if(sys.argv[1] == "-d"):
+		if(sys.argv[1] == "-t"):
+			print("Tainan Farm")
+			location = "Tainan Farm"
+		elif(sys.argv[1] == "-k"):
+			print("Kaohsiung Farm")
+			location = "Kaohsiung Farm"
+	elif(len(sys.argv) == 3):
+		if(sys.argv[2] == "-d"):
 			print("default")
 			ExecutiveSchedule = [13.8,12,180, 1200, 60, 240, 120] 
 			'''
@@ -93,45 +101,20 @@ def GetArgument():
 			6.Stay time in water tank.
 			7.The executive time of "Water valve".
 			'''
-		elif(sys.argv[1] == "-t"):
-			print("Tainan Farm")
-			location = "Tainan Farm"
-		elif(sys.argv[1] == "-k"):
-			print("Kaohsiung Farm")
-			location = "Kaohsiung Farm"
-	elif(len(sys.argv) == 3):
-		#-p meamns parameters
-		if(sys.argv[1] == "-p"):
-			ExecutiveSchedule = sys.argv[2].split(',')
-			print("Set parameter")
 	elif(len(sys.argv) == 4):
-		if(sys.argv[1] == "-p"):
-			ExecutiveSchedule = sys.argv[2].split(',')
-			print("Set parameter")
-			if(sys.argv[3] == "-t"):
-				print("Tainan Farm")
-				location = "Tainan Farm"
-			elif(sys.argv[3] == "-k"):
-				print("Kaohsiung Farm")
-				location = "Kaohsiung Farm"
-		elif(sys.argv[2] == "-p"):
+		#-p meamns parameters
+		if(sys.argv[2] == "-p"):
 			ExecutiveSchedule = sys.argv[3].split(',')
 			print("Set parameter")
-			if(sys.argv[1] == "-t"):
-				print("Tainan Farm")
-				location = "Tainan Farm"
-			elif(sys.argv[1] == "-k"):
-				print("Kaohsiung Farm")
-				location = "Kaohsiung Farm"
 	return location
 def SetScheduler():
 	schedule.every(30).minutes.do(CommunicationToMainServer)
 	schedule.every(2).minutes.do(PostWeatherData, FlagOfSampling == 'Rain')
 	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling == 'All')
-	schedule.every().hour.at("02:00").do(PostWaterData)
-	schedule.every().hour.at("03:00").do(PostWaterData)
-	schedule.every().hour.at("32:00").do(PostWaterData)
-	schedule.every().hour.at("33:00").do(PostWaterData)
+	schedule.every().hour.at("04:00").do(PostWaterData)
+	schedule.every().hour.at("04:30").do(PostWaterData)
+	schedule.every().hour.at("34:00").do(PostWaterData)
+	schedule.every().hour.at("34:30").do(PostWaterData)
 	
 def CheckIfInternetIsConnected():
 	global FlagOfException
@@ -322,6 +305,7 @@ if __name__ == '__main__':
 	global StatusParameterList
 	global StatusOfWaterChamber
 	global BatteryStatusList
+	global ExecutiveSchedule
 	BatteryParameterList = [False, True, "[1.1, 1"]
 	BatteryStatusList = [False,0,"[1.1, 1", "0", "0"]
 	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
@@ -331,6 +315,7 @@ if __name__ == '__main__':
 		PORT = 3031 #高雄魚塭
 	elif(GetArgument()=="Tainan Farm"):
 		PORT = 3038 #台南魚塭
+	SetScheduler()
 	while(True):
 		schedule.run_pending()
 		print(bin(FlagOfException))
