@@ -6,6 +6,7 @@ related file: Main_RainWater, PostWaterData.py, PostRainData.py
 function:Get data from under water sensors to http server.
 author:De-Li
 version:1.0
+Git branch command: git clone --branch SYSArgument https://github.com/De-Li/USV_UnderWaterSensors_Socket.git
 ---------------------------------------------------------------
 Comment:
 2022/1/14
@@ -49,14 +50,13 @@ HOST = '140.116.202.132'
 #PORT = 3038 #台南魚塭
 #PORT = 3031 #高雄魚塭
 
-global DataList = ["0","0","0"] #WaterData #WeatherData #RainData
+global DataList #WaterData, WeatherData, RainData
 global RainData
 global FlagOfException
 global StatusOfWaterChamber
 global StatusParameterList
 global BatteryStatusList = [False,0,"[1.1, 1","0"""] #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
 global StatusParameterOfSystem
-RainData = ", 0, 0, 0, 0, 0]"
 
 #-----Parameter-----
 #Time(second)
@@ -164,9 +164,9 @@ def PostWeatherData(FlagOfSampling):
 				FlagOfException = FlagOfException | 0b0010000
 			CurrentRainData = ", 1, 1, 1, 1, 1]"
 		else:
-			logging.debug("Raindata is not complete", exc_info = True)
 			if(CurrentRainData == None or CurrentRainData == "Rain data is not complete!"):
-				CurrentRainData = RainData
+				CurrentRainData = DataList[2]
+				logging.debug("Raindata is not complete", exc_info = True)
 			else:
 				DataList[2] = CurrentRainData
 			FlagOfException = FlagOfException & 0b1101111
@@ -185,7 +185,7 @@ def PostWeatherData(FlagOfSampling):
 			DataList[1] = "[0, 0, 0" + CurrentRainData
 		else:
 			FlagOfException = FlagOfException & 0b1111011
-			DataList[1] = CurrentWeatherData + RainData
+			DataList[1] = CurrentWeatherData + DataList[2]
 		print(WeatherData)
 
 def CheckCPUTemperature():
@@ -296,7 +296,7 @@ if __name__ == '__main__':
 	BatteryParameterList[2] = "[1.1, 1"
 	BatteryParameterList[1] = True
 	BatteryParameterList[0] = False
-	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]"]
+	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
 	FlagOfException = 0b0000000
 	PORT = 3038 #台南魚塭
 	print("In Tainan FishFarm")
