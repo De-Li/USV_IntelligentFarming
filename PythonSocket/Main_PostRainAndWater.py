@@ -77,33 +77,47 @@ logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', for
 
 def GetArgument():
 	global ExecutiveSchedule
+	location
 	if(len(sys.argv) == 1):
 		pass
-	if(sys.argv[1] == "-d"):
-		print("default")
-		ExecutiveSchedule = [13.8,12,180, 1200, 60, 240, 120] 
-		'''
-		1.The upper level of battery.
-		2.The lower level of battery.
-		3.ESP32 modest battery level executive time.
-		4.ESP32 modest battery level sleep time.
-		5.The executive time of "water pump".
-		6.Stay time in water tank.
-		7.The executive time of "Water valve".
-		'''
-	#-p meamns parameters
-	elif(sys.argv[1] == "-p"):
-		ExecutiveSchedule = sys.argv[2].split(',')
-		print("Set parameter")
-	elif(sys.argv[2] == "-p"):
-		ExecutiveSchedule = sys.argv[3].split(',')
-		print("Set parameter")
-	if(sys.argv[1] == "-t" or sys.argv[2] == "-t"):
-		print("Tainan Farm")
-		return "Tainan Farm"
-	elif(sys.argv[1] == "-k" or sys.argv[2] == "-k"):
-		print("Kaohsiung Farm")
-		return "Kaohsiung Farm"
+	elif(len(sys.argv) == 2):
+		if(sys.argv[1] == "-d"):
+			print("default")
+			ExecutiveSchedule = [13.8,12,180, 1200, 60, 240, 120] 
+			'''
+			1.The upper level of battery.
+			2.The lower level of battery.
+			3.ESP32 modest battery level executive time.
+			4.ESP32 modest battery level sleep time.
+			5.The executive time of "water pump".
+			6.Stay time in water tank.
+			7.The executive time of "Water valve".
+			'''
+		elif(sys.argv[1] == "-t" or sys.argv[2] == "-t"):
+			print("Tainan Farm")
+			location = "Tainan Farm"
+		elif(sys.argv[1] == "-k" or sys.argv[2] == "-k"):
+			print("Kaohsiung Farm")
+			location = "Kaohsiung Farm"
+	elif(len(sys.argv) == 3):
+		#-p meamns parameters
+		if(sys.argv[1] == "-p"):
+			ExecutiveSchedule = sys.argv[2].split(',')
+			print("Set parameter")
+	elif(len(sys.argv) == 4):
+		if(sys.argv[1] == "-p"):
+			ExecutiveSchedule = sys.argv[2].split(',')
+			print("Set parameter")
+			if(sys.argv[1] == "-t" or sys.argv[2] == "-t"):
+				print("Tainan Farm")
+				location = "Tainan Farm"
+			elif(sys.argv[1] == "-k" or sys.argv[2] == "-k"):
+				print("Kaohsiung Farm")
+				location = "Kaohsiung Farm"
+		elif(sys.argv[2] == "-p"):
+			ExecutiveSchedule = sys.argv[3].split(',')
+			print("Set parameter")
+	return location
 def SetScheduler():
 	schedule.every(30).minutes.do(CommunicationToMainServer)
 	schedule.every(2).minutes.do(PostWeatherData, FlagOfSampling == 'Rain')
