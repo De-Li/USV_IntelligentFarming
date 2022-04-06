@@ -109,8 +109,8 @@ def GetArgument():
 	return location
 def SetScheduler():
 	schedule.every(30).minutes.do(CommunicationToMainServer)
-	schedule.every(2).minutes.do(PostWeatherData, FlagOfSampling == 'Rain')
-	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling == 'All')
+	schedule.every(2).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
+	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling = 'All')
 	schedule.every().hour.at("04:00").do(PostWaterData)
 	schedule.every().hour.at("04:30").do(PostWaterData)
 	schedule.every().hour.at("34:00").do(PostWaterData)
