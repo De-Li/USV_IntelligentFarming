@@ -197,7 +197,7 @@ def PostWeatherData(FlagOfSampling):
 		else:
 			FlagOfException = FlagOfException & 0b1111011
 			DataList[1] = CurrentWeatherData + DataList[2]
-		print(WeatherData)
+		print(DataList[1])
 def ShowPoccessingStatus():
 	global FlagOfException
 	Cpu = CPUTemperature()
