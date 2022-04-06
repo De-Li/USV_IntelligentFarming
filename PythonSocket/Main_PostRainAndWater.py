@@ -77,7 +77,7 @@ logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', for
 
 def GetArgument():
 	global ExecutiveSchedule
-	location
+	location = "Tainan Farm"
 	if(len(sys.argv) == 1):
 		pass
 	elif(len(sys.argv) == 2):
@@ -93,10 +93,10 @@ def GetArgument():
 			6.Stay time in water tank.
 			7.The executive time of "Water valve".
 			'''
-		elif(sys.argv[1] == "-t" or sys.argv[2] == "-t"):
+		elif(sys.argv[1] == "-t"):
 			print("Tainan Farm")
 			location = "Tainan Farm"
-		elif(sys.argv[1] == "-k" or sys.argv[2] == "-k"):
+		elif(sys.argv[1] == "-k"):
 			print("Kaohsiung Farm")
 			location = "Kaohsiung Farm"
 	elif(len(sys.argv) == 3):
@@ -108,15 +108,21 @@ def GetArgument():
 		if(sys.argv[1] == "-p"):
 			ExecutiveSchedule = sys.argv[2].split(',')
 			print("Set parameter")
-			if(sys.argv[1] == "-t" or sys.argv[2] == "-t"):
+			if(sys.argv[3] == "-t"):
 				print("Tainan Farm")
 				location = "Tainan Farm"
-			elif(sys.argv[1] == "-k" or sys.argv[2] == "-k"):
+			elif(sys.argv[3] == "-k"):
 				print("Kaohsiung Farm")
 				location = "Kaohsiung Farm"
 		elif(sys.argv[2] == "-p"):
 			ExecutiveSchedule = sys.argv[3].split(',')
 			print("Set parameter")
+			if(sys.argv[1] == "-t"):
+				print("Tainan Farm")
+				location = "Tainan Farm"
+			elif(sys.argv[1] == "-k"):
+				print("Kaohsiung Farm")
+				location = "Kaohsiung Farm"
 	return location
 def SetScheduler():
 	schedule.every(30).minutes.do(CommunicationToMainServer)
