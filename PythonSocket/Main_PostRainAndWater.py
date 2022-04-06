@@ -57,6 +57,7 @@ global StatusOfWaterChamber
 global StatusParameterList
 global BatteryStatusList #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVoltage, 4.StatusOfWaterChamber.
 global StatusParameterOfSystem
+global PORT
 
 #-----Parameter-----
 #Time(second)
@@ -93,12 +94,16 @@ def GetArgument():
 	#-p meamns parameters
 	elif(sys.argv[1] == "-p"):
 		ExecutiveSchedule = sys.argv[2].split(',')
+		print("Set parameter")
 	elif(sys.argv[2] == "-p"):
 		ExecutiveSchedule = sys.argv[3].split(',')
+		print("Set parameter")
 	if(sys.argv[1] == "-t" or sys.argv[2] == "-t"):
-		return "Tainan farm"
+		print("Tainan Farm")
+		return "Tainan Farm"
 	elif(sys.argv[1] == "-k" or sys.argv[2] == "-k"):
-		return "Kaohsiung"
+		print("Kaohsiung Farm")
+		return "Kaohsiung Farm"
 def SetScheduler():
 	schedule.every(30).minutes.do(CommunicationToMainServer)
 	schedule.every(2).minutes.do(PostWeatherData, FlagOfSampling == 'Rain')
@@ -202,10 +207,11 @@ def CheckCPUTemperature():
 	return Cpu.temperature
 
 def CommunicationToMainServer():
-	CheckIfInternetIsConnected()
+	global PORT
 	global StatusOfWaterChamber
 	global FlagOfException
 	global StatusParameterOfSystem
+	CheckIfInternetIsConnected()
 	MainSocket.sendto(DataList[0].encode('utf-8'), (HOST, PORT))
 	time.sleep(0.1)
 	MainSocket.sendto(DataList[1].encode('utf-8'), (HOST, PORT))
@@ -300,9 +306,11 @@ if __name__ == '__main__':
 	BatteryStatusList = [False,0,"[1.1, 1", "0", "0"]
 	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
 	FlagOfException = 0b0000000
-	PORT = 3038 #台南魚塭
-	print("In Tainan FishFarm")
 	print('Start')
+	if(GetArgument()=="Kaohsiung Farm"):
+		PORT = 3031 #高雄魚塭
+	elif(GetArgument()=="Tainan Farm"):
+		PORT = 3038 #台南魚塭
 	while(True):
 		schedule.run_pending()
 		print(bin(FlagOfException))
