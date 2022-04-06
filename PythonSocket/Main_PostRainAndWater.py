@@ -306,7 +306,5 @@ if __name__ == '__main__':
 	while(True):
 		schedule.run_pending()
 		print(bin(FlagOfException))
-		print("Upload time in: (Second)")
-		print(round(Uploading_LastTime + UploadInterval - CurrentTime, 1))
 		time.sleep(DelayTime)
 	MainSocket.close()
