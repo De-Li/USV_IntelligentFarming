@@ -97,7 +97,7 @@ def GetArgument():
 			location = "Kaohsiung Farm"
 		if(sys.argv[2] == "-d"):
 			print("default")
-			ExecutiveSchedule = [13.8,12,180, 1200, 60, 240, 120] 
+			ExecutiveSchedule = "[13.8, 11.8, 300, 1500, 60, 180, 60]" 
 			'''
 			1.The upper level of battery.
 			2.The lower level of battery.
