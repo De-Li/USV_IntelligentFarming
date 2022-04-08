@@ -246,9 +246,10 @@ def CheckCPUTemperature():
 
 def CommunicationToMainServer():
 	global PORT
-	global StatusOfWaterChamber
-	global FlagOfException
-	global StatusParameterOfSystem
+	global DataList
+	#global StatusOfWaterChamber
+	#global FlagOfException
+	#global StatusParameterOfSystem
 	CheckIfInternetIsConnected()
 	MainSocket.sendto(DataList[0].encode('utf-8'), (HOST, PORT))
 	time.sleep(0.1)
