@@ -131,7 +131,8 @@ def SetScheduler():
 	
 	#Chech status of system
 	schedule.every().hour.at("01:30").do(CommandESP8266Inchamber, command= 'ShowStatus')
-	schedule.every().hour.at("01:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	if(ExecutiveSchedule is not None):
+		schedule.every().hour.at("01:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every(5).minutes.do(CheckCPUTemperature)
 	schedule.every(10).minutes.do(ShowPoccessingStatus)
 	
