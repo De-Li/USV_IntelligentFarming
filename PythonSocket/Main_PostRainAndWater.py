@@ -80,7 +80,7 @@ def GetArgument():
 	global ExecutiveSchedule
 	location = "Tainan Farm"
 	if(len(sys.argv) == 1):
-		pass
+		Print("Wrong Usage! Cancel the task and add the location info to the command line!" )
 	elif(len(sys.argv) == 2):
 		if(sys.argv[1] == "-t"):
 			print("Tainan Farm")
@@ -284,6 +284,10 @@ if __name__ == '__main__':
 		PORT = 3031 #高雄魚塭
 	elif(GetArgument()=="Tainan Farm"):
 		PORT = 3038 #台南魚塭
+	else:
+		while(True):
+			print("The process doesn't execute due to lack info of location!")
+			time.sleep(1)
 	SetScheduler()
 	while(True):
 		schedule.run_pending()
