@@ -77,8 +77,8 @@ logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', for
 #filemode=a means append new logging info behind old, filemode = w means erase old message and write new one.
 
 def GetArgument():
-	print("length of systen argument:")
-	print(len(sys.argv))
+	#print("length of systen argument:")
+	#print(len(sys.argv))
 	global ExecutiveSchedule
 	#location = "Tainan Farm"
 	if(len(sys.argv) == 1):
