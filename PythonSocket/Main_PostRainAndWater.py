@@ -251,9 +251,12 @@ def CommunicationToMainServer():
 	#global FlagOfException
 	#global StatusParameterOfSystem
 	CheckIfInternetIsConnected()
+	print("send data to")
+	print(HOST, PORT)
 	MainSocket.sendto(DataList[0].encode('utf-8'), (HOST, PORT))
 	time.sleep(0.1)
 	MainSocket.sendto(DataList[1].encode('utf-8'), (HOST, PORT))
+	print("The data is uploaded")
 
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
