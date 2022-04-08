@@ -112,6 +112,12 @@ def GetArgument():
 		'''
 	elif(len(sys.argv) == 4):
 		#-p meamns parameters
+		if(sys.argv[1] == "-t"):
+			print("Tainan Farm")
+			location = "Tainan Farm"
+		elif(sys.argv[1] == "-k"):
+			print("Kaohsiung Farm")
+			location = "Kaohsiung Farm"
 		if(sys.argv[2] == "-p"):
 			#ExecutiveSchedule = sys.argv[3].split(',')
 			ExecutiveSchedule = sys.argv[3]
