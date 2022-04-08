@@ -104,73 +104,23 @@ def SendingMessageToFloatChamber(command):
 	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # TCP
 	Send_Sock.settimeout(5)
 	Send_Sock.bind((Server_UDP_IP, Server_UDP_PORT_ForESP8266))
-	data, addr = Send_Sock.recvfrom(40) # buffer size is 40 bytes
+	#data, addr = Send_Sock.recvfrom(40) # buffer size is 40 bytes
 	
-	'''
 	try:
 		Send_Sock.connect((Client_TCP_IP, Client_TCP_PORT))
 	except:
-		ReturnList.append("[1, 1")
-		ReturnList.append("Lose connection to the ESP8266 on the Float chamber")
-		ReturnList.append("False")
+		ReturnList.append("Can't connect to ESP32 in the water chamber!")
 		return ReturnList
 	
 	#Check the command
-	
-	if command=='ShowVoltage':
-		Send_Sock.send('1'.encode('utf-8'))
-	elif command=='PowerUp':
-		Send_Sock.send('2'.encode('utf-8'))
-	elif command=='ShutDown':
-		Send_Sock.send('3'.encode('utf-8'))
-	elif command=='Sleep':
-		Send_Sock.send('4'.encode('utf-8'))
+	if command=='ShowStatus':
+		Send_Sock.send('ShowStatus'.encode('utf-8'))
 	else :
-		ReturnList.append("[1, 1")
-		ReturnList.append("Donothing")
-		Send_Sock.close()
-		return ReturnList
-	Reply = Send_Sock.recv(30)
-	'''
-	#print(Reply)
-	data = data.decode('utf-8')
-	#Check if the voltage is below the limit, if the voltage is below the limit then shut the float chamber down.
-	VoltageValue = re.findall("\d+\.\d+", Reply)
-	VoltageValue = float(VoltageValue[0])
-	status = re.findall("\d+", Reply)
-	status = int(status[2])
-	if(VoltageValue >= 11.70):
-		ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
-		ReturnList.append("Normal")
-		if(status == 1):
-			ReturnList.append(True)
-		elif(status == 0):
-			ReturnList.append(False)
-	elif(VoltageValue < 11.7):
-		'''
-			try:
-				Send_Sock.connect((Client_TCP_IP,Client_TCP_PORT))
-			except:
-				ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
-				ReturnList.append("Lose connection to the ESP8266 on the Float chamber, fail to shut down.(the battery is too low)")
-				Send_Sock.close()
-				return ReturnList
-			#Send_Sock.send('3'.encode('utf-8'))
-			#Reply = Send_Sock.recv(30)
-			#status = re.findall("\d+", Reply.decode('utf-8'))
-			#status = int(status[2])
-		'''
-		ReturnList.append("[" + str(VoltageValue) + ', ' + str(status))
-		ReturnList.append("The voltage of battery is too low, SHUTDOWN!")
-		#print("The voltage of battery is too low, SHUTDOWN!")
-		if(status == 1):
-			ReturnList.append(True)
-		elif(status == 0):
-			ReturnList.append(False)
-	#print(ReturnList)
-	#close the socket
+		Send_Sock.send(command.encode('utf-8'))
+	Reply = Send_Sock.recv(50)
+	print(Reply)
 	Send_Sock.close()
-	return ReturnList
+	return Reply
 	
 if __name__ == '__main__':
 	i=1
