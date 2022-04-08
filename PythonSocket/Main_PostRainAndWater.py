@@ -80,7 +80,7 @@ def GetArgument():
 	global ExecutiveSchedule
 	location = "Tainan Farm"
 	if(len(sys.argv) == 1):
-		Print("Wrong Usage! Cancel the task and add the location info to the command line!" )
+		print("Wrong Usage! Cancel the task and add the location info to the command line!" )
 	elif(len(sys.argv) == 2):
 		if(sys.argv[1] == "-t"):
 			print("Tainan Farm")
@@ -279,7 +279,7 @@ if __name__ == '__main__':
 	BatteryStatusList = [False,0,"[1.1, 1", "0", "0"]
 	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
 	FlagOfException = 0b0000000
-	print('Start')
+	
 	if(GetArgument()=="Kaohsiung Farm"):
 		PORT = 3031 #高雄魚塭
 	elif(GetArgument()=="Tainan Farm"):
@@ -289,6 +289,7 @@ if __name__ == '__main__':
 			print("The process doesn't execute due to lack info of location!")
 			time.sleep(1)
 	SetScheduler()
+	print('Start')
 	while(True):
 		schedule.run_pending()
 		time.sleep(DelayTime)
