@@ -277,6 +277,7 @@ if __name__ == '__main__':
 	global StatusOfWaterChamber
 	global BatteryStatusList
 	global ExecutiveSchedule
+	ExecutiveSchedule = None
 	BatteryParameterList = [False, True, "[1.1, 1"]
 	BatteryStatusList = [False,0,"[1.1, 1", "0", "0"]
 	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
