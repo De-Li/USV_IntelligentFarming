@@ -81,6 +81,7 @@ def GetArgument():
 	location = "Tainan Farm"
 	if(len(sys.argv) == 1):
 		print("Wrong Usage! Cancel the task and add the location info to the command line!" )
+		return "WrongFormat"
 	elif(len(sys.argv) == 2):
 		if(sys.argv[1] == "-t"):
 			print("Tainan Farm")
@@ -129,8 +130,8 @@ def SetScheduler():
 	schedule.every().hour.at("34:30").do(PostWaterData)
 	
 	#Chech status of system
-	schedule.every().hour.at("1:30").do(CommandESP8266Inchamber, command= 'ShowStatus')
-	schedule.every().hour.at("1:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	schedule.every().hour.at("01:30").do(CommandESP8266Inchamber, command= 'ShowStatus')
+	schedule.every().hour.at("01:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every(5).minutes.do(CheckCPUTemperature)
 	schedule.every(10).minutes.do(ShowPoccessingStatus)
 	
@@ -284,7 +285,7 @@ if __name__ == '__main__':
 		PORT = 3031 #高雄魚塭
 	elif(GetArgument()=="Tainan Farm"):
 		PORT = 3038 #台南魚塭
-	else:
+	elif(GetArgument()=="WrongFormat"):
 		while(True):
 			print("The process doesn't execute due to lack info of location!")
 			time.sleep(1)
