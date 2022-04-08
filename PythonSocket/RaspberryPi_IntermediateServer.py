@@ -115,9 +115,11 @@ def SendingMessageToFloatChamber(command):
 	#Check the command
 	if command=='ShowStatus':
 		Send_Sock.send('ShowStatus'.encode('utf-8'))
+		Reply = Send_Sock.recv(50)
 	else :
 		Send_Sock.send(command.encode('utf-8'))
-	Reply = Send_Sock.recv(50)
+		Reply = Send_Sock.recv(60)
+	Reply = Reply.decode('utf-8')
 	print(Reply)
 	Send_Sock.close()
 	return Reply
