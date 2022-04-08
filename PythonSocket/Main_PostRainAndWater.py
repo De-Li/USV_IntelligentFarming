@@ -95,10 +95,11 @@ def GetArgument():
 		elif(sys.argv[1] == "-k"):
 			print("Kaohsiung Farm")
 			location = "Kaohsiung Farm"
+		'''
 		if(sys.argv[2] == "-d"):
 			print("default")
 			ExecutiveSchedule = "[13.8, 11.8, 300, 1500, 60, 180, 60]" 
-			'''
+			
 			1.The upper level of battery.
 			2.The lower level of battery.
 			3.ESP32 modest battery level executive time.
@@ -106,13 +107,16 @@ def GetArgument():
 			5.The executive time of "water pump".
 			6.Stay time in water tank.
 			7.The executive time of "Water valve".
-			'''
+			
+		'''
 	elif(len(sys.argv) == 4):
 		#-p meamns parameters
 		if(sys.argv[2] == "-p"):
 			ExecutiveSchedule = sys.argv[3].split(',')
 			print("Set parameter")
+			print(ExecutiveSchedule)
 	return location
+
 def SetScheduler():
 	schedule.every(30).minutes.do(CommunicationToMainServer)
 	schedule.every(2).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
