@@ -285,6 +285,7 @@ if __name__ == '__main__':
 	global StatusOfWaterChamber
 	global BatteryStatusList
 	global ExecutiveSchedule
+	global PORT
 	ExecutiveSchedule = None
 	BatteryParameterList = [False, True, "[1.1, 1"]
 	BatteryStatusList = [False,0,"[1.1, 1", "0", "0"]
