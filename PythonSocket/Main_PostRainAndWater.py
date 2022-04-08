@@ -112,12 +112,14 @@ def GetArgument():
 	elif(len(sys.argv) == 4):
 		#-p meamns parameters
 		if(sys.argv[2] == "-p"):
-			ExecutiveSchedule = sys.argv[3].split(',')
+			#ExecutiveSchedule = sys.argv[3].split(',')
+			ExecutiveSchedule = sys.argv[3]
 			print("Set parameter")
 			print(ExecutiveSchedule)
 	return location
 
 def SetScheduler():
+	global ExecutiveSchedule
 	schedule.every(30).minutes.do(CommunicationToMainServer)
 	schedule.every(2).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
 	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling = 'All')
@@ -126,6 +128,9 @@ def SetScheduler():
 	schedule.every().hour.at("34:00").do(PostWaterData)
 	schedule.every().hour.at("34:30").do(PostWaterData)
 	
+	#Chech status of system
+	schedule.every().hour.at("1:30").do(CommandESP8266Inchamber, command= 'ShowStatus')
+	schedule.every().hour.at("1:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every(5).minutes.do(CheckCPUTemperature)
 	schedule.every(10).minutes.do(ShowPoccessingStatus)
 	
@@ -238,87 +243,31 @@ def CommunicationToMainServer():
 	MainSocket.sendto(DataList[0].encode('utf-8'), (HOST, PORT))
 	time.sleep(0.1)
 	MainSocket.sendto(DataList[1].encode('utf-8'), (HOST, PORT))
-	'''
-	try:
-		#StatusOfWaterChamber = CommandESP8266Inchamber("ShowVoltage")
-		#print("StatusOfWaterChamber")
-		#print(StatusOfWaterChamber)
-		CPUTemperature = str(CheckCPUTemperature())
-		if(StatusOfWaterChamber[1] == "DoNothing"):
-			pass
-		if(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
-			print("Lose connection to the ESP8266 on the Float chamber")
-			#StatusOfWaterChamber[0] = "[1.1, 1"
-			if(FlagOfException & 0b0000010 == 0b0000010):
-				pass
-			else:
-				FlagOfException = FlagOfException | 0b0000010
-		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
-			FlagOfException = FlagOfException & 0b1111101
-		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
-			StatusParameterList[1] = False
-			print("The voltage of battery is too low, SHUTDOWN!")
-			if(FlagOfException & 0b0100000 == 0b0100000):
-				pass
-			else:
-				FlagOfException = FlagOfException | 0b0100000
-		elif(StatusOfWaterChamber[1] is not "The voltage of battery is too low, SHUTDOWN!"):
-			FlagOfException = FlagOfException & 0b1011111
-		#CPUTemperature = str(CheckCPUTemperature())
-		StatusParameterOfSystem = BatteryParameterList[2] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']'
-		print("StatusParameterOfSystem")
-		print(StatusParameterOfSystem)
-		MainSocket.sendto(StatusParameterOfSystem.encode(), addr)
-		return True
-	except:
-		print("Data formal problem or Lose connection to ESP8266")
-		pass
-	'''
 
 def CommandESP8266Inchamber(command):
 	global StatusOfWaterChamber
 	global StatusParameterList
 	global FlagOfException
 	global StatusParameterOfSystem
+	global ExecutiveSchedule
+	if(command == 'ShowStatus'):
+		pass
+	else:
+		temp = ExecutiveSchedule.split(',')
+		if(len(temp) is not 7):
+			return false
 	try:
+		while(command is not 'ShowStatus'):
+			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
+			print(StatusOfWaterChamber)
+			StatusOfWaterChamber = StatusOfWaterChamber.split(',')
+			if(StatusOfWaterChamber[2] is True):
+				return schedule.CancelJob
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-		if(StatusOfWaterChamber[1] == "Normal"):
-			BatteryParameterList[2] = StatusOfWaterChamber[0]
-			PostWaterData()
-		if(StatusOfWaterChamber[1] == "The voltage of battery is too low, SHUTDOWN!"):
-			SendingMessageToFloatChamber('ShutDown')
-			print("The power is ShutDown! Due to low battery")
-			BatteryParameterList[0] = False
-			StatusParameterList[1] = False
-			return False
-		elif(StatusOfWaterChamber[1] == "Lose connection to the ESP8266 on the Float chamber"):
-			#print("Fail to connect ESP8266 in the chamber!")
-			return False
-		elif(StatusOfWaterChamber[1] is not "Lose connection to the ESP8266 on the Float chamber"):
-			CPUTemperature = str(CheckCPUTemperature())
-			StatusParameterOfSystem = BatteryParameterList[2] + ', ' + CPUTemperature + ', ' + str(FlagOfException) + ']' 
-			print(StatusParameterOfSystem)
-			CommunicationToMainServer(StatusParameterOfSystem)
-			return True
-		elif(command == 'PowerUp'):
-			print("PowerUp the sensor!")
-			BatteryParameterList[0] = True
-			return True
-		elif(command == 'ShutDown'):
-			print("The power is ShutDown!")
-			BatteryParameterList[0] = False
-			return True
-		elif(command == 'ShowVoltage'):
-			if(StatusOfWaterChamber[1] == "Normal"):
-				StatusParameterList[1] = True
-				return "Normal"
-			elif(StatusOfWaterChamber[1] == "Donothing"):
-				pass
-			else:
-				StatusParameterList[1] = False
-			return False
+		print(StatusOfWaterChamber)		
 	except:
 		print("Fail to connect ESP8266 in the chamber!")
+
 if __name__ == '__main__':
 	global DataList
 	global FlagOfException
