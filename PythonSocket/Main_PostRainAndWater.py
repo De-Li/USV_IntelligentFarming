@@ -84,15 +84,15 @@ def GetArgument():
 	global ExecutiveSchedule
 	global WaterMotorExecutiveTime
 	
-	ExecutiveSchedule = input("Please enter the schedule for esp32, if you want to use default setting type 'd'!")
+	ExecutiveSchedule = input("Please enter the schedule for esp32, default setting type 'd'!")
 	if(ExecutiveSchedule is 'd'):
 		ExecutiveSchedule = None
 	
-	WaterMotorExecutiveTime = input("Please enter the Executive time for motor, if you want to use default setting type 'd'(60sec)!")
-	location = input("Please enter the location, -t or -k!")
-	if(location is '-t'):
+	WaterMotorExecutiveTime = input("Enter the Executive time for motor, default setting type 'd'(60sec)!")
+	location = input("Please enter the location, 't' or 'k'!")
+	if(location is 't'):
 		location = "Tainan Farm"
-	elif(location is '-k'):
+	elif(location is 'k'):
 		location ="Kaohsiung Farm"
 	else:
 		print("wrong location format!")
@@ -251,6 +251,7 @@ def CommandESP8266Inchamber(command):
 	if(command == 'ShowStatus'):
 		pass
 	else:
+		if(ExecutiveSchedule is not None):
 		temp = ExecutiveSchedule.split(',')
 		if(len(temp) is not 5):
 			print("ExecutiveSchedule format is invalid")
