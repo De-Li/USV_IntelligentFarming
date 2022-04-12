@@ -43,12 +43,14 @@ from ReadRainSensor import GetRainData
 import socket, time, threading, time, logging, sys, schedule
 import urllib.request #URL related liberary
 from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
 from datetime import datetime, timezone, timedelta
 
 #IP and port of main server
 HOST = '140.116.202.132'
 #PORT = 3038 #台南魚塭
 #PORT = 3031 #高雄魚塭
+PinWaterMotorControl = 21 #Control the AC relay by Raspberry pi pin 21.
 
 global DataList #WaterData, WeatherData, RainData
 global RainData
@@ -59,6 +61,8 @@ global BatteryStatusList #1.BatterySwitch, 2.BatteryStatus, 3.CurrentBatteryVolt
 global StatusParameterOfSystem
 global ExecutiveSchedule
 global PORT
+global VoltageLevelOfBattery
+global WaterMotorExecutiveTime
 
 #-----Parameter-----
 #Time(second)
@@ -75,72 +79,51 @@ MainSocket.settimeout(SocketTimeOut)
 FORMAT = '%(asctime)s %(levelname)s: %(message)s'
 logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', format=FORMAT) 
 #filemode=a means append new logging info behind old, filemode = w means erase old message and write new one.
-
+	
 def GetArgument():
-	#print("length of systen argument:")
-	#print(len(sys.argv))
 	global ExecutiveSchedule
-	#location = "Tainan Farm"
-	if(len(sys.argv) == 1):
-		print("Wrong Usage! Cancel the task and add the location info to the command line!" )
-		return "WrongFormat"
-	elif(len(sys.argv) == 2):
-		if(sys.argv[1] == "-t"):
-			print("Tainan Farm")
-			location = "Tainan Farm"
-		elif(sys.argv[1] == "-k"):
-			print("Kaohsiung Farm")
-			location = "Kaohsiung Farm"
-	elif(len(sys.argv) == 3):
-		if(sys.argv[1] == "-t"):
-			print("Tainan Farm")
-			location = "Tainan Farm"
-		elif(sys.argv[1] == "-k"):
-			print("Kaohsiung Farm")
-			location = "Kaohsiung Farm"
-		'''
-		if(sys.argv[2] == "-d"):
-			print("default")
-			ExecutiveSchedule = "[13.8, 11.8, 300, 1500, 60, 180, 60]" 
-			
-			1.The upper level of battery.
-			2.The lower level of battery.
-			3.ESP32 modest battery level executive time.
-			4.ESP32 modest battery level sleep time.
-			5.The executive time of "water pump".
-			6.Stay time in water tank.
-			7.The executive time of "Water valve".
-			
-		'''
-	elif(len(sys.argv) == 4):
-		#-p meamns parameters
-		if(sys.argv[1] == "-t"):
-			print("Tainan Farm")
-			location = "Tainan Farm"
-		elif(sys.argv[1] == "-k"):
-			print("Kaohsiung Farm")
-			location = "Kaohsiung Farm"
-		if(sys.argv[2] == "-p"):
-			#ExecutiveSchedule = sys.argv[3].split(',')
-			ExecutiveSchedule = sys.argv[3]
-			print("Set parameter")
-			print(ExecutiveSchedule)
+	global WaterMotorExecutiveTime
+	
+	ExecutiveSchedule = input("Please enter the schedule for esp32, if you want to use default setting type 'd'!")
+	if(ExecutiveSchedule is 'd'):
+		ExecutiveSchedule = None
+	
+	WaterMotorExecutiveTime = input("Please enter the Executive time for motor, if you want to use default setting type 'd'(60sec)!")
+	location = input("Please enter the location, -t or -k!")
+	if(location is '-t'):
+		location = "Tainan Farm"
+	elif(location is '-k'):
+		location ="Kaohsiung Farm"
+	else:
+		print("wrong location format!")
 	return location
 
+def GPIOEngage():
+	global WaterMotorExecutiveTime
+	if(WaterMotorExecutiveTime is None):
+		WaterMotorExecutiveTime = 60
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setup(PinWaterMotorControl, GPIO.OUT)
+	GPIO.output(port_or_pin, 1)# set port/pin value to 1/GPIO.HIGH/True
+	time.sleep(WaterMotorExecutiveTime)
+	GPIO.cleanup()
+	
 def SetScheduler():
 	global ExecutiveSchedule
 	schedule.every(2).minutes.do(CommunicationToMainServer)
 	schedule.every(0.5).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
 	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'All')
+	schedule.every().hour.at("00:05").do(GPIOEngage)
+	schedule.every().hour.at("30:05").do(GPIOEngage)
 	schedule.every().hour.at("04:00").do(PostWaterData)
 	schedule.every().hour.at("04:30").do(PostWaterData)
 	schedule.every().hour.at("34:00").do(PostWaterData)
 	schedule.every().hour.at("34:30").do(PostWaterData)
 	
 	#Chech status of system
-	schedule.every().hour.at("01:30").do(CommandESP8266Inchamber, command= 'ShowStatus')
-	if(ExecutiveSchedule is not None):
-		schedule.every().hour.at("01:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	schedule.every().hour.at("04:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
+	schedule.every().hour.at("34:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
+	schedule.every().minutes.at("01:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every(5).minutes.do(CheckCPUTemperature)
 	schedule.every(10).minutes.do(ShowPoccessingStatus)
 	
@@ -264,21 +247,26 @@ def CommandESP8266Inchamber(command):
 	global FlagOfException
 	global StatusParameterOfSystem
 	global ExecutiveSchedule
+	global VoltageLevelOfBattery
 	if(command == 'ShowStatus'):
 		pass
 	else:
 		temp = ExecutiveSchedule.split(',')
-		if(len(temp) is not 7):
+		if(len(temp) is not 5):
+			print("ExecutiveSchedule format is invalid")
 			return false
 	try:
 		while(command is not 'ShowStatus'):
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			print(StatusOfWaterChamber)
 			StatusOfWaterChamber = StatusOfWaterChamber.split(',')
+			VoltageLevelOfBattery = StatusOfWaterChamber[0]
 			if(StatusOfWaterChamber[2] is True):
+				print("Change schedule successfully!")
 				return schedule.CancelJob
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
-		print(StatusOfWaterChamber)		
+		print(StatusOfWaterChamber)
+		VoltageLevelOfBattery = StatusOfWaterChamber[0]
 	except:
 		print("Fail to connect ESP8266 in the chamber!")
 
@@ -295,15 +283,11 @@ if __name__ == '__main__':
 	BatteryStatusList = [False,0,"[1.1, 1", "0", "0"]
 	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
 	FlagOfException = 0b0000000
-	
-	if(GetArgument()=="Kaohsiung Farm"):
+	location = GetArgument()
+	if(location = "Kaohsiung Farm"):
 		PORT = 3031 #高雄魚塭
-	elif(GetArgument()=="Tainan Farm"):
+	elif(location=="Tainan Farm"):
 		PORT = 3038 #台南魚塭
-	elif(GetArgument()=="WrongFormat"):
-		while(True):
-			print("The process doesn't execute due to lack info of location!")
-			time.sleep(1)
 	SetScheduler()
 	print('Start')
 	while(True):
