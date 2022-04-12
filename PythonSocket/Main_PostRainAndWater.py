@@ -112,7 +112,7 @@ def SetScheduler():
 	global ExecutiveSchedule
 	schedule.every(2).minutes.do(CommunicationToMainServer)
 	schedule.every(0.5).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
-	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'All')
+	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling = 'All')
 	schedule.every().hour.at("00:05").do(GPIOEngage)
 	schedule.every().hour.at("30:05").do(GPIOEngage)
 	schedule.every().hour.at("04:00").do(PostWaterData)
@@ -123,7 +123,7 @@ def SetScheduler():
 	#Chech status of system
 	schedule.every().hour.at("04:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
 	schedule.every().hour.at("34:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
-	schedule.every().minutes.at("01:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	schedule.every(5).seconds.at().do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every(5).minutes.do(CheckCPUTemperature)
 	schedule.every(10).minutes.do(ShowPoccessingStatus)
 	
