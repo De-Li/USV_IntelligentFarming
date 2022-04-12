@@ -257,6 +257,8 @@ def CommandESP8266Inchamber(command):
 			if(len(temp) is not 5):
 				print("ExecutiveSchedule format is invalid")
 				return false
+		else:
+			return schedule.CancelJob
 	try:
 		while(command is not 'ShowStatus'):
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
