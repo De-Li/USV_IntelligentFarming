@@ -104,7 +104,7 @@ def GPIOEngage():
 		WaterMotorExecutiveTime = 60
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(PinWaterMotorControl, GPIO.OUT)
-	GPIO.output(port_or_pin, 1)# set port/pin value to 1/GPIO.HIGH/True
+	GPIO.output(PinWaterMotorControl, 1)# set port/pin value to 1/GPIO.HIGH/True
 	time.sleep(WaterMotorExecutiveTime)
 	GPIO.cleanup()
 	
@@ -123,7 +123,8 @@ def SetScheduler():
 	#Chech status of system
 	schedule.every().hour.at("04:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
 	schedule.every().hour.at("34:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
-	schedule.every(5).seconds.do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	schedule.every().hour.at("1:00")do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	schedule.every().hour.at("31:00")do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every(5).minutes.do(CheckCPUTemperature)
 	schedule.every(10).minutes.do(ShowPoccessingStatus)
 	
