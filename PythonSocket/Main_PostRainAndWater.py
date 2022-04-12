@@ -284,7 +284,7 @@ if __name__ == '__main__':
 	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
 	FlagOfException = 0b0000000
 	location = GetArgument()
-	if(location = "Kaohsiung Farm"):
+	if(location == "Kaohsiung Farm"):
 		PORT = 3031 #高雄魚塭
 	elif(location=="Tainan Farm"):
 		PORT = 3038 #台南魚塭
