@@ -252,10 +252,10 @@ def CommandESP8266Inchamber(command):
 		pass
 	else:
 		if(ExecutiveSchedule is not None):
-		temp = ExecutiveSchedule.split(',')
-		if(len(temp) is not 5):
-			print("ExecutiveSchedule format is invalid")
-			return false
+			temp = ExecutiveSchedule.split(',')
+			if(len(temp) is not 5):
+				print("ExecutiveSchedule format is invalid")
+				return false
 	try:
 		while(command is not 'ShowStatus'):
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
