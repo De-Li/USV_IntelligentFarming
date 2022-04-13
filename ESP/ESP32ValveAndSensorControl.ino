@@ -1,9 +1,9 @@
-//#include <WiFi.h>
-//#include <esp_sleep.h>
+#include <WiFi.h>
+#include <esp_sleep.h>
 
-#include <ESP8266WiFi.h>
+//#include <ESP8266WiFi.h>
 #include<NTPClient.h>
-#include<WiFiUdp.h>
+//#include<WiFiUdp.h>
 
 const char *ssid = "5910";
 const char *password = "0933664603";
@@ -28,8 +28,8 @@ String seconds;
 String times;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
-unsigned long StartTime;
-unsigned long CurrentTime;
+unsigned long ValveStartTime;
+unsigned long ValveCurrentTime;
 unsigned long ESPStartTime;
 unsigned long ESPCurrentTime;
 
@@ -48,6 +48,7 @@ String  Schedule_message;
 int myString_length;
 float High_Voltage, Low_Voltage;
 float ExecutiveSchedule[5] = {12, 300, 1500, 180, 60};
+bool FlagOfValve = false;
 //ExecutiveSchedule[0]低電壓
 //ExecutiveSchedule[1]執行時間
 //ExecutiveSchedule[2]睡眠時間
@@ -75,47 +76,33 @@ int CheckBatteryStatus()
 {
   if (GetVoltage() > 12)//中電量
   {
-    timeClient.update();
-    hours = String(timeClient.getHours() + GMT);
-    minutes = String(timeClient.getMinutes());
-    seconds = String(timeClient.getSeconds());
-    MidTime = hours + ":" + minutes + ":" + seconds;
     //esp_sleep_enable_timer_wakeup(ExecutiveSchedule[2]*1000000);
     digitalWrite(relay_Sensor, HIGH);
     Serial.print("目前電壓:"); Serial.println(Vin);
-    Serial.println(MidTime);
     //delay(ExecutiveSchedule[1] * 1000);
     Serial.println("Battery is Mid!");
     //esp_deep_sleep_start();
-    return 2;
+    return 1;
   }
   else if (GetVoltage() < 12)//低電量
   {
-    timeClient.update();
-    hours = String(timeClient.getHours() + GMT);
-    minutes = String(timeClient.getMinutes());
-    seconds = String(timeClient.getSeconds());
-    LowTime = hours + ":" + minutes + ":" + seconds;
     //esp_sleep_enable_timer_wakeup(1740*1000000);
     digitalWrite(relay_Sensor, HIGH);
     Serial.print("目前電壓:"); Serial.println(Vin);
-    Serial.println(LowTime);
-    //delay(60 * 1000);
     Serial.println("Battery is LOW!");
-    //esp_deep_sleep_start();
-    return 1;
+    return 0;
   }
 }
 
 //分析由樹莓派傳來的字串內容
 void SetSchedule(String myString)
 {
-   String comma = ",";
-   Volt2 = String(GetVoltage());
+  String comma = ",";
+  Volt2 = String(GetVoltage());
   if (myString == "ShowStatus")
   {
     Serial.print("ShowStatus!");
-    
+
     //String Schedule_Size = Schedule[0]+Schedule[1]+Schedule[2]+Schedule[3]+Schedule[4]+comma+comma+comma+comma;
     Schedule_Return = Volt2 + comma + String(ExecutiveSchedule[0]) + comma + String(ExecutiveSchedule[1]) + comma + String(ExecutiveSchedule[2]) + comma + String(ExecutiveSchedule[3]) + comma + String(ExecutiveSchedule[4]);
     Serial.print(Schedule_Return);
@@ -164,27 +151,31 @@ void SetSchedule(String myString)
 //水閥在指定的時間打開
 void valve()
 {
-  CurrentTime = millis();
+  ValveCurrentTime = millis();
   timeClient.update();
-  //hours = String(timeClient.getHours() + GMT);
+  hours = String(timeClient.getHours() + GMT);
   minutes = String(timeClient.getMinutes());
-  //seconds = String(timeClient.getSeconds());
-  pump_out_time = hours + ":" + minutes + ":" + seconds;
-  if (minutes == "4" || minutes == "34")
-  //if (seconds == "4" || seconds == "34")
+  seconds = String(timeClient.getSeconds());
+  if (FlagOfValve == false)
   {
-    StartTime = millis();
-    digitalWrite(relay_valve, LOW); //設常開，LOW時水閥放水
-    Serial.print("閥門開啟時TIME:"); Serial.println(pump_out_time);
-    //delay(ExecutiveSchedule[4]);//水閥開啟的時間
+    if (minutes == "4" || minutes == "39")
+    {
+      pump_out_time = hours + ":" + minutes + ":" + seconds;
+      ValveStartTime = millis();
+      digitalWrite(relay_valve, LOW); //設常開，LOW時水閥放水
+      Serial.print("閥門開啟時TIME:"); Serial.println(pump_out_time);
+      //delay(ExecutiveSchedule[4]);//水閥開啟的時間
+      FlagOfValve = true;
+    }
   }
-  if(CurrentTime - StartTime > ExecutiveSchedule[4]*1000)
+  else if (ValveCurrentTime - ValveStartTime > ExecutiveSchedule[4] * 1000 && FlagOfValve == true)
   {
     Serial.println("Valve is close!");
     digitalWrite(relay_valve, HIGH);
+    FlagOfValve = false;
   }
-   Serial.println("Valve Time");
-   Serial.println(CurrentTime - StartTime);
+  Serial.println("Valve Time");
+  Serial.println(ValveCurrentTime - ValveStartTime);
   //delay(ExecutiveSchedule[3]); //水放置水桶內時間
 }
 
@@ -206,7 +197,7 @@ void setup() {
     Serial.println("Server started");
     //判斷WIFI未連接時，則跳出檢查
     if (n > 20)
-    break;
+      break;
   }
   timeClient.update();
   hours = String(timeClient.getHours() + GMT);
@@ -220,10 +211,11 @@ void setup() {
 void loop() {
   ESPCurrentTime = millis();
   unsigned long ListeningStartTime = millis();
+  valve();
   Serial.println("loop!!");
   WiFiClient client = server.available();
   if (client) {  //if get new client
-    while(client.connected())
+    while (client.connected())
     {
       unsigned long ListeningCurrentTime = millis();
       Serial.print("Connected!");
@@ -238,26 +230,32 @@ void loop() {
         client.print(Schedule_Return);
         break;
       }
-      if(ListeningCurrentTime - ListeningStartTime > 5000)
+      if (ListeningCurrentTime - ListeningStartTime > 5000)
       {
         break;
       }
       delay(500);
     }
   }
-  
   Serial.println(ExecutiveSchedule[0]);
   Serial.println(ExecutiveSchedule[1]);
   Serial.println(ExecutiveSchedule[2]);
   Serial.println(ExecutiveSchedule[3]);
   Serial.println(ExecutiveSchedule[4]);
-  valve();
-  CheckBatteryStatus();
-  if(ESPCurrentTime - ESPStartTime > ExecutiveSchedule[1]*1000)
+  bool BatteryStatus = CheckBatteryStatus();
+  if (BatteryStatus == 0 && ESPCurrentTime - ESPStartTime > ExecutiveSchedule[1] * 1000)
+  {
+    digitalWrite(relay_Sensor, HIGH);//繼電器常開
+    digitalWrite(relay_valve, HIGH);//繼電器長開
+    Serial.println("Sleep");
+    esp_sleep_enable_timer_wakeup(ExecutiveSchedule[2] * 1000000);
+  }
+  else if (ESPCurrentTime - ESPStartTime > ExecutiveSchedule[1] * 1000)
   {
     digitalWrite(relay_Sensor, HIGH);
+    digitalWrite(relay_valve, HIGH);
     Serial.println("Sleep");
-    //esp_sleep_enable_timer_wakeup(ExecutiveSchedule[2]*1000000);
+    esp_sleep_enable_timer_wakeup(ExecutiveSchedule[2] * 1000000);
   }
   Serial.println("ESPCurrentTime - ESPStartTime");
   Serial.println(ESPCurrentTime - ESPStartTime);
