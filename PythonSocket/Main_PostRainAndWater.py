@@ -259,6 +259,7 @@ def CommandESP8266Inchamber(command):
 	global ExecutiveSchedule
 	global VoltageLevelOfBattery
 	if(command == 'ShowStatus'):
+		print("Show the status of ESP32!")	
 		pass
 	else:
 		if(ExecutiveSchedule is not None):
@@ -270,6 +271,7 @@ def CommandESP8266Inchamber(command):
 			return schedule.CancelJob
 	try:
 		while(command is not 'ShowStatus'):
+			print("Send the Schedule to ESP32!")
 			StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 			print(StatusOfWaterChamber)
 			StatusOfWaterChamber = StatusOfWaterChamber.split(',')
