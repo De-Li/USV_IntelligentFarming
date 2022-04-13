@@ -101,7 +101,7 @@ def SendingMessageToFloatChamber(command):
 	ReturnList = []
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
-	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Internet, # TCP
+	Send_Sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Internet, # TCP
 	Send_Sock.settimeout(5)
 	Send_Sock.bind((Server_UDP_IP, Server_UDP_PORT_ForESP8266))
 	#data, addr = Send_Sock.recvfrom(40) # buffer size is 40 bytes
