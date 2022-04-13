@@ -265,7 +265,7 @@ def CommandESP8266Inchamber(command):
 			temp = ExecutiveSchedule.split(',')
 			if(len(temp) is not 5):
 				print("ExecutiveSchedule format is invalid")
-				return false
+				return False
 		else:
 			return schedule.CancelJob
 	try:
