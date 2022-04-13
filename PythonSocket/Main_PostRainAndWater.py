@@ -125,13 +125,18 @@ def SetScheduler():
 	schedule.every().hour.at("34:30").do(PostWaterData)
 	
 	#Chech status of system
+	schedule.every(0.5).minutes.do(CommandESP8266Inchamber, command= 'ShowStatus')
+	schedule.every().hour.at("34:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
+	schedule.every(0.3).minutes.do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	schedule.every().hour.at("31:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	'''
 	schedule.every().hour.at("04:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
 	schedule.every().hour.at("34:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
 	schedule.every().hour.at("01:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every().hour.at("31:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every(5).minutes.do(CheckCPUTemperature)
 	schedule.every(10).minutes.do(ShowPoccessingStatus)
-	
+	'''
 def CheckIfInternetIsConnected():
 	global FlagOfException
 	while(1):
