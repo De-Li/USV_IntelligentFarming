@@ -95,9 +95,9 @@ def GetCommandFromMainServer():
 '''
 def SendingMessageToFloatChamber(command):
 	#Raspberry Pi send message to ESP8266 on the Float chamber
-	#Client_TCP_IP = "192.168.1.104"
-	Client_TCP_IP = "192.168.1.102 "#raspberry pi Tainan
-	Client_TCP_PORT = 6666
+	#Client_TCP_IP = "192.168.1.38"
+	Client_TCP_IP = "192.168.1.38
+	Client_TCP_PORT = 100
 	ReturnList = []
 	#MESSAGE = "Hello this is raspberry pi!"
 	#Create TCP socket
