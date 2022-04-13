@@ -49,7 +49,7 @@ from datetime import datetime, timezone, timedelta
 #IP and port of main server
 HOST = '140.116.202.132'
 #PORT = 3038 #台南魚塭
-#PORT = 3031 #高雄魚塭
+#PORT = 3030 #高雄魚塭
 PinWaterMotorControl = 21 #Control the AC relay by Raspberry pi pin 21.
 
 global DataList #WaterData, WeatherData, RainData
@@ -289,7 +289,7 @@ if __name__ == '__main__':
 	FlagOfException = 0b0000000
 	location = GetArgument()
 	if(location == "Kaohsiung Farm"):
-		PORT = 3031 #高雄魚塭
+		PORT = 3030 #高雄魚塭
 	elif(location=="Tainan Farm"):
 		PORT = 3038 #台南魚塭
 	SetScheduler()
