@@ -110,8 +110,8 @@ def GPIOEngage():
 	
 def SetScheduler():
 	global ExecutiveSchedule
-	schedule.every(2).minutes.do(CommunicationToMainServer)
-	schedule.every(0.5).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
+	schedule.every(0.3).minutes.do(CommunicationToMainServer)
+	schedule.every(0.2).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
 	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling = 'All')
 	schedule.every().hour.at("00:05").do(GPIOEngage)
 	schedule.every().hour.at("30:05").do(GPIOEngage)
