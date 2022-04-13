@@ -289,7 +289,7 @@ if __name__ == '__main__':
 	FlagOfException = 0b0000000
 	location = GetArgument()
 	if(location == "Kaohsiung Farm"):
-		PORT = 3030 #高雄魚塭
+		PORT = 6969 #高雄魚塭
 	elif(location=="Tainan Farm"):
 		PORT = 3038 #台南魚塭
 	SetScheduler()
