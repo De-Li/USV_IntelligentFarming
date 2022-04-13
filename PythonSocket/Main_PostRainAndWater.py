@@ -126,7 +126,7 @@ def SetScheduler():
 	#Chech status of system
 	schedule.every(0.5).minutes.do(CommandESP8266Inchamber, command= 'ShowStatus')
 	schedule.every().hour.at("34:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
-	schedule.every(0.3).minutes.do(CommandESP8266Inchamber, command= ExecutiveSchedule)
+	schedule.every(0.1).minutes.do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	schedule.every().hour.at("31:00").do(CommandESP8266Inchamber, command= ExecutiveSchedule)
 	'''
 	schedule.every().hour.at("04:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
