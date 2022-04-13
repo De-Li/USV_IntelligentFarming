@@ -109,9 +109,8 @@ def GPIOEngage():
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(PinWaterMotorControl, GPIO.OUT)
 	GPIO.output(PinWaterMotorControl, 1)# set port/pin value to 1/GPIO.HIGH/True
-	time.sleep(WaterMotorExecutiveTime)
+	time.sleep(WaterMotorExecutiveTime)	
 	GPIO.cleanup()
-	
 def SetScheduler():
 	global ExecutiveSchedule
 	schedule.every(30).minutes.do(CommunicationToMainServer)
@@ -276,9 +275,8 @@ def CommandESP8266Inchamber(command):
 			print(StatusOfWaterChamber)
 			StatusOfWaterChamber = StatusOfWaterChamber.split(',')
 			VoltageLevelOfBattery = StatusOfWaterChamber[0]
-			if(StatusOfWaterChamber[2] is True):
-				print("Change schedule successfully!")
-				return schedule.CancelJob
+			print("Change schedule successfully!")
+			return schedule.CancelJob
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
 		print(StatusOfWaterChamber)
 		VoltageLevelOfBattery = StatusOfWaterChamber[0]
