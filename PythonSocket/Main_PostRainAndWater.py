@@ -89,6 +89,10 @@ def GetArgument():
 		ExecutiveSchedule = None
 	
 	WaterMotorExecutiveTime = input("Enter the Executive time for motor, default setting type 'd'(60sec)!")
+	if(WaterMotorExecutiveTime is 'd'):
+		WaterMotorExecutiveTime = 60
+	else:
+		WaterMotorExecutiveTime = int(WaterMotorExecutiveTime)
 	location = input("Please enter the location, 't' or 'k'!")
 	if(location is 't'):
 		location = "Tainan Farm"
@@ -110,8 +114,8 @@ def GPIOEngage():
 	
 def SetScheduler():
 	global ExecutiveSchedule
-	schedule.every(0.3).minutes.do(CommunicationToMainServer)
-	schedule.every(0.2).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
+	schedule.every(30).minutes.do(CommunicationToMainServer)
+	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
 	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling = 'All')
 	schedule.every().hour.at("00:05").do(GPIOEngage)
 	schedule.every().hour.at("30:05").do(GPIOEngage)
