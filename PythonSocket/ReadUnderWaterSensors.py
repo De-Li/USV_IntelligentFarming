@@ -46,7 +46,7 @@ import numpy as np
 from DecipherWaterQualityData import DecipherWaterData
 
 def GetWaterData():
-	HOST = '192.168.1.6969'
+	HOST = '192.168.1.20'
 	PORT = 6900
 	InquiryArray_DissolvedOxygenValue = bytes([0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05])
 	InquiryArray_Temperature = bytes([0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02])
