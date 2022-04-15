@@ -46,8 +46,8 @@ import numpy as np
 from DecipherWaterQualityData import DecipherWaterData
 
 def GetWaterData():
-	HOST = '192.168.1.169'
-	PORT = 6969
+	HOST = '192.168.1.6969'
+	PORT = 6900
 	InquiryArray_DissolvedOxygenValue = bytes([0x01, 0x03, 0x00, 0x30, 0x00, 0x01, 0x84, 0x05])
 	InquiryArray_Temperature = bytes([0x01, 0x03, 0x00, 0x2b, 0x00, 0x01, 0xf4, 0x02])
 	InquiryArray_WaterQuality = bytes([0x01, 0x03, 0x00, 0x31, 0x00, 0x01, 0xd5, 0xc5])
@@ -57,7 +57,7 @@ def GetWaterData():
 	InquiryArray_AmmoniaNitrogen = bytes([0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb])
 	
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	client.settimeout(3)
+	#client.settimeout(3)
 	try:
 		client.connect((HOST, PORT))
 		client.settimeout(1)
