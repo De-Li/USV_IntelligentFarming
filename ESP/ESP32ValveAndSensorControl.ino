@@ -12,7 +12,7 @@ int n = 0;
 
 
 //Voltage measurement parameters
-int ANALOG_IN_PIN = A0;
+int ANALOG_IN_PIN = 36;
 float Vout = 0.0;
 float Vin = 0.0;
 float R1 = 30000.0;
@@ -37,9 +37,9 @@ unsigned long ESPCurrentTime;
 String relayLOW_time, relayHIGH_time, pump_in_time, pump_out_time, Schedule_Return;
 String Schedule[5];
 String  LowTime, MidTime;
-int relay_valve = 0;
+int relay_valve = 17;
 //int relay_pump_in  ;
-int relay_Sensor ;
+int relay_Sensor=16;
 
 // Schedule
 int Position[8];
