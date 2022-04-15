@@ -113,9 +113,10 @@ def GPIOEngage():
 	GPIO.cleanup()
 def SetScheduler():
 	global ExecutiveSchedule
-	schedule.every(30).minutes.do(CommunicationToMainServer)
-	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
-	schedule.every(10).minutes.do(PostWeatherData, FlagOfSampling = 'All')
+	schedule.every(3).minutes.do(CommunicationToMainServer)
+	schedule.every(0.7).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
+	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'All')
+	schedule.every(0.5).minutes.do(PostWaterData)
 	schedule.every().hour.at("00:05").do(GPIOEngage)
 	schedule.every().hour.at("30:05").do(GPIOEngage)
 	schedule.every().hour.at("04:00").do(PostWaterData)
