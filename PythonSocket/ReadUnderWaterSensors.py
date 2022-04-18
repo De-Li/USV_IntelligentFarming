@@ -60,7 +60,7 @@ def GetWaterData():
 	#client.settimeout(3)
 	try:
 		client.connect((HOST, PORT))
-		client.settimeout(1)
+		#client.settimeout(1)
 		client.sendall(InquiryArray_DissolvedOxygenValue)
 		ServerMessage = client.recv(10)
 		ReceiveArray = np.array(ServerMessage)
