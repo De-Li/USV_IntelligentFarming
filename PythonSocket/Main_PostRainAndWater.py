@@ -118,7 +118,7 @@ def SetScheduler():
 	schedule.every(0.7).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
 	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'All')
 	schedule.every(0.5).minutes.do(PostWaterData)
-	schedule.every(2).minutes.do(GPIOEngage)
+	#schedule.every(2).minutes.do(GPIOEngage)
 	#schedule.every().hour.at("00:05").do(GPIOEngage)
 	#schedule.every().hour.at("30:05").do(GPIOEngage)
 	schedule.every().hour.at("04:00").do(PostWaterData)
