@@ -57,10 +57,10 @@ def GetWaterData():
 	InquiryArray_AmmoniaNitrogen = bytes([0x01, 0x03, 0x00, 0x01, 0x00, 0x02, 0x95, 0xcb])
 	
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	#client.settimeout(3)
+	client.settimeout(3)
 	try:
 		client.connect((HOST, PORT))
-		#client.settimeout(1)
+		client.settimeout(1)
 		client.sendall(InquiryArray_DissolvedOxygenValue)
 		ServerMessage = client.recv(10)
 		ReceiveArray = np.array(ServerMessage)
