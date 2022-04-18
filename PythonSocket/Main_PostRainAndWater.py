@@ -88,9 +88,9 @@ def GetArgument():
 	if(ExecutiveSchedule is 'd'):
 		ExecutiveSchedule = None
 	
-	WaterMotorExecutiveTime = input("Enter the Executive time for motor, default setting type 'd'(60sec)!")
+	WaterMotorExecutiveTime = input("Enter the Executive time for motor, default setting type 'd'(20sec)!")
 	if(WaterMotorExecutiveTime is 'd'):
-		WaterMotorExecutiveTime = 60
+		WaterMotorExecutiveTime = 20
 	else:
 		WaterMotorExecutiveTime = int(WaterMotorExecutiveTime)
 	location = input("Please enter the location, 't' or 'k'!")
@@ -104,6 +104,7 @@ def GetArgument():
 
 def GPIOEngage():
 	global WaterMotorExecutiveTime
+	print("pumping the water")
 	if(WaterMotorExecutiveTime is None):
 		WaterMotorExecutiveTime = 20
 	GPIO.setmode(GPIO.BCM)
