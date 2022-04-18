@@ -105,7 +105,7 @@ def GetArgument():
 def GPIOEngage():
 	global WaterMotorExecutiveTime
 	if(WaterMotorExecutiveTime is None):
-		WaterMotorExecutiveTime = 60
+		WaterMotorExecutiveTime = 20
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(PinWaterMotorControl, GPIO.OUT)
 	GPIO.output(PinWaterMotorControl, 1)# set port/pin value to 1/GPIO.HIGH/True
@@ -117,8 +117,9 @@ def SetScheduler():
 	schedule.every(0.7).minutes.do(PostWeatherData, FlagOfSampling = 'Rain')
 	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'All')
 	schedule.every(0.5).minutes.do(PostWaterData)
-	schedule.every().hour.at("00:05").do(GPIOEngage)
-	schedule.every().hour.at("30:05").do(GPIOEngage)
+	schedule.every(5).minutes.do(GPIOEngage)
+	#schedule.every().hour.at("00:05").do(GPIOEngage)
+	#schedule.every().hour.at("30:05").do(GPIOEngage)
 	schedule.every().hour.at("04:00").do(PostWaterData)
 	schedule.every().hour.at("04:30").do(PostWaterData)
 	schedule.every().hour.at("34:00").do(PostWaterData)
