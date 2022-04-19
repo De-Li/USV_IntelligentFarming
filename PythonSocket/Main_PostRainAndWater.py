@@ -90,7 +90,7 @@ def GetArgument():
 	
 	WaterMotorExecutiveTime = input("Enter the Executive time for motor, default setting type 'd'(20sec)!")
 	if(WaterMotorExecutiveTime is 'd'):
-		WaterMotorExecutiveTime = 20
+		WaterMotorExecutiveTime = 15
 	else:
 		WaterMotorExecutiveTime = int(WaterMotorExecutiveTime)
 	location = input("Please enter the location, 't' or 'k'!")
@@ -106,7 +106,7 @@ def GPIOEngage():
 	global WaterMotorExecutiveTime
 	print("pumping the water")
 	if(WaterMotorExecutiveTime is None):
-		WaterMotorExecutiveTime = 20
+		WaterMotorExecutiveTime = 15
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(PinWaterMotorControl, GPIO.OUT)
 	GPIO.output(PinWaterMotorControl, 1)# set port/pin value to 1/GPIO.HIGH/True
@@ -119,9 +119,8 @@ def SetScheduler():
 	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'All')
 	schedule.every(0.5).minutes.do(PostWaterData)
 	#schedule.every(2).minutes.do(GPIOEngage)
-	schedule.every().hour.at("53:05").do(GPIOEngage)
-	schedule.every().hour.at("02:00").do(GPIOEngage)
-	#schedule.every().hour.at("30:05").do(GPIOEngage)
+	schedule.every().hour.at("00:05").do(GPIOEngage)
+	schedule.every().hour.at("30:05").do(GPIOEngage)
 	schedule.every().hour.at("04:00").do(PostWaterData)
 	schedule.every().hour.at("04:30").do(PostWaterData)
 	schedule.every().hour.at("34:00").do(PostWaterData)
@@ -298,7 +297,7 @@ if __name__ == '__main__':
 	ExecutiveSchedule = None
 	BatteryParameterList = [False, True, "[1.1, 1"]
 	BatteryStatusList = [False,0,"[1.1, 1", "0", "0"]
-	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 2, 2, 2, 2, 2]"]
+	DataList = ["[1, 1, 0, 0, 0, 0, 0]", "[1, 1, 0, 0, 0, 0, 0, 1]", ", 0, 0, 0, 0, 0]"]
 	FlagOfException = 0b0000000
 	location = GetArgument()
 	if(location == "Kaohsiung Farm"):
