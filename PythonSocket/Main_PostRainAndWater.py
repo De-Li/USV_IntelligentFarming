@@ -93,6 +93,7 @@ def GetArgument():
 		WaterMotorExecutiveTime = 15
 	else:
 		WaterMotorExecutiveTime = int(WaterMotorExecutiveTime)
+	'''
 	location = input("Please enter the location, 't' or 'k'!")
 	if(location is 't'):
 		location = "Tainan Farm"
@@ -101,6 +102,8 @@ def GetArgument():
 	else:
 		print("wrong location format!")
 	return location
+	'''
+	return "Kaohsiung Farm"
 
 def GPIOEngage():
 	global WaterMotorExecutiveTime
