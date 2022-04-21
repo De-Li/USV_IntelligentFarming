@@ -132,7 +132,7 @@ def SetScheduler():
 	for i in range(0,6):
 		TenMinsTestSchedule = str(10*i)
 		TenMinsTestSchedule = TenMinsTestSchedule + ":00"
-		schedule.every().hour.at(TenMinsTestSchedule).do(GPIOEngage)
+		#schedule.every().hour.at(TenMinsTestSchedule).do(GPIOEngage)
 		print("Pump engaging time")
 		print(TenMinsTestSchedule)
 	#Chech status of system
