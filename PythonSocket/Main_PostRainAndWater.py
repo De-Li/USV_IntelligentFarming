@@ -88,7 +88,7 @@ def GetArgument():
 	if(ExecutiveSchedule is 'd'):
 		ExecutiveSchedule = None
 	
-	WaterMotorExecutiveTime = input("Enter the Executive time for motor, default setting type 'd'(20sec)!")
+	WaterMotorExecutiveTime = input("Enter the Executive time for motor, default setting type 'd'(15sec)!")
 	if(WaterMotorExecutiveTime is 'd'):
 		WaterMotorExecutiveTime = 15
 	else:
@@ -122,13 +122,19 @@ def SetScheduler():
 	schedule.every(1).minutes.do(PostWeatherData, FlagOfSampling = 'All')
 	schedule.every(0.5).minutes.do(PostWaterData)
 	#schedule.every(2).minutes.do(GPIOEngage)
-	schedule.every().hour.at("00:05").do(GPIOEngage)
-	schedule.every().hour.at("30:05").do(GPIOEngage)
+	#schedule.every().hour.at("00:05").do(GPIOEngage)
+	#schedule.every().hour.at("30:05").do(GPIOEngage)
 	schedule.every().hour.at("04:00").do(PostWaterData)
 	schedule.every().hour.at("04:30").do(PostWaterData)
 	schedule.every().hour.at("34:00").do(PostWaterData)
 	schedule.every().hour.at("34:30").do(PostWaterData)
-	
+	TenMinsTestSchedule = ""
+	for i in range(0,6):
+		TenMinsTestSchedule = str(10*i)
+		TenMinsTestSchedule = TenMinsTestSchedule + ":00"
+		schedule.every().hour.at(TenMinsTestSchedule).do(GPIOEngage)
+		print("Pump engaging time")
+		print(TenMinsTestSchedule)
 	#Chech status of system
 	schedule.every(0.5).minutes.do(CommandESP8266Inchamber, command= 'ShowStatus')
 	schedule.every().hour.at("34:15").do(CommandESP8266Inchamber, command= 'ShowStatus')
