@@ -269,7 +269,7 @@ def CommandESP8266Inchamber(command):
 	else:
 		if(ExecutiveSchedule is not None):
 			temp = ExecutiveSchedule.split(',')
-			if(len(temp) is not 5):
+			if(len(temp) is not 6):
 				print("ExecutiveSchedule format is invalid")
 				return False
 		else:
