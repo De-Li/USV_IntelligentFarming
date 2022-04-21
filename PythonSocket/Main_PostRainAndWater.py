@@ -62,7 +62,8 @@ global StatusParameterOfSystem
 global ExecutiveSchedule
 global PORT
 global VoltageLevelOfBattery
-global WaterMotorExecutiveTime
+global WaterMotorExecution 
+#1.The execution time of pump 2.The validity to engage pump, for example, if the battery is lean then is invalid to enage pump.
 
 #-----Parameter-----
 #Time(second)
@@ -82,17 +83,17 @@ logging.basicConfig(level=logging.DEBUG, filename='myLog.log', filemode='a', for
 	
 def GetArgument():
 	global ExecutiveSchedule
-	global WaterMotorExecutiveTime
+	global WaterMotorExecution
 	
 	ExecutiveSchedule = input("Please enter the schedule for esp32, default setting type 'd'!")
 	if(ExecutiveSchedule is 'd'):
 		ExecutiveSchedule = None
 	
-	WaterMotorExecutiveTime = input("Enter the Executive time for motor, default setting type 'd'(15sec)!")
-	if(WaterMotorExecutiveTime is 'd'):
-		WaterMotorExecutiveTime = 15
+	WaterMotorExecution = input("Enter the Executive time for motor, default setting type 'd'(15sec)!")
+	if(WaterMotorExecution is 'd'):
+		WaterMotorExecution = [15, 1]
 	else:
-		WaterMotorExecutiveTime = int(WaterMotorExecutiveTime)
+		WaterMotorExecution = [int(WaterMotorExecution[0]), 1]
 	'''
 	location = input("Please enter the location, 't' or 'k'!")
 	if(location is 't'):
@@ -106,14 +107,17 @@ def GetArgument():
 	return "Kaohsiung Farm"
 
 def GPIOEngage():
-	global WaterMotorExecutiveTime
-	print("pumping the water")
-	if(WaterMotorExecutiveTime is None):
-		WaterMotorExecutiveTime = 15
+	global WaterMotorExecution
+	if(WaterMotorExecution is None):
+		WaterMotorExecution = [15, 1]
+	if(WaterMotorExecution[1] == 0):
+		print("-----------The Pump doesn't engage due to low battery level----------")
+		return
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(PinWaterMotorControl, GPIO.OUT)
-	GPIO.output(PinWaterMotorControl, 1)# set port/pin value to 1/GPIO.HIGH/True
-	time.sleep(WaterMotorExecutiveTime)	
+	print("---------The pump is now working do not suspend the program!---------")
+	GPIO.output(PinWaterMotorControl, WaterMotorExecution[1])# set port/pin value to 1/GPIO.HIGH/True
+	time.sleep(WaterMotorExecution[0])	
 	GPIO.cleanup()
 def SetScheduler():
 	global ExecutiveSchedule
@@ -273,6 +277,7 @@ def CommandESP8266Inchamber(command):
 	global StatusParameterOfSystem
 	global ExecutiveSchedule
 	global VoltageLevelOfBattery
+	global WaterMotorExecution
 	if(command == 'ShowStatus'):
 		print("Show the status of ESP32!")	
 		pass
@@ -291,6 +296,11 @@ def CommandESP8266Inchamber(command):
 			print(StatusOfWaterChamber)
 			StatusOfWaterChamber = StatusOfWaterChamber.split(',')
 			VoltageLevelOfBattery = StatusOfWaterChamber[0]
+			if(VoltageLevelOfBatter < 11.8):
+				WaterMotorExecution[1] = 0
+				print("-----------The Battery voltage is too low--------")
+			elif(VoltageLevelOfBatter >= 11.8):
+				WaterMotorExecution[1] = 1
 			print("Change schedule successfully!")
 			return schedule.CancelJob
 		StatusOfWaterChamber = SendingMessageToFloatChamber(command)
