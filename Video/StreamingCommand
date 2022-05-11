@@ -4,6 +4,9 @@ ffmpeg -r 30 -video_size 640x480 -i /dev/video0 -c:v libx264 -preset ultrafast -
 
 FFREPORT=file=ffreport.log:level=2 ffmpeg -r 30 -video_size 640x480 -i /dev/video0 -c:v libx264 -preset ultrafast -tune zerolatency -c:a aac -ar 44100 -f flv -r 30 rtmp://140.116.202.132:3033/live/UnderWaterVideoKaohsiung
 
+****Streaming video capture http
+http://140.116.202.132:3034/live/UnderWaterVideoKaohsiung.flv
+
 OctoPrint
 Youtube start streaming
 docker run --device=/dev/vchiq --network="host" --name UCORWCTGP9b3UEwuXhWNEMZw2 -ti octoprint/youtubelive:latest http://192.168.1.129/webcam/?action=stream e22a-wqcy-jgwx-0me9-5xk3 null
