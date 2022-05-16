@@ -1,0 +1,17 @@
+第六行 _ffmpeg = child_process_1.spawn('ffmpeg', ['-re', '-i', "串流網址", '-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'zerolatency', '-c:a', 'aac', '-ar', '44100', '-f', 'flv', 'rtmp://server-url' + "mykey"]);
+將串流網址、Server-URL、mykey 自行修改，FFMPEG參數亦可自行修改。
+
+sudo mkdir mydir
+sudo chmod 777 -R mydir //資料夾權限
+cd mydir //以下操作皆在創建的資料夾下操作
+sudo wget https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-armv7l.tar.xz //安裝nodejs
+sudo xz -d node-v12.16.1-linux-armv7l.tar.xz //解壓縮nodejs
+sudo tar -xavf node-v12.16.1-linux-armv7l.tar //解壓縮nodejs
+sudo mv ./node-v12.16.1-linux-armv7l /usr/local/node //安裝nodejs
+sudo ln -s /usr/local/node/bin/node /usr/bin/node  //新增環境變數
+sudo ln -s /usr/local/node/bin/npm /usr/bin/npm  //新增環境變數
+sudo npm install pm2 -g  //安裝開機自啟套件
+sudo ln -s /usr/local/node/bin/pm2 /usr/bin/pm2 //新增環境變數
+sudo pm2 start ffmpeg.js //啟動ffmpeg自動重啟
+sudo pm2 startup //開機自動重啟設定
+sudo pm2 save  //儲存設定
