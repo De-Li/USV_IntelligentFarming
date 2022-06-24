@@ -1,7 +1,7 @@
 ****current Raspberry pi use this command
 Upper-water video
 
-ffmpeg -r 30 -b 600k -video_size 640x480 -i /dev/video0 -c:v libx264 -preset fast -tune zerolatency -c:a aac -ar 44100 -f flv -r 30 -b 600k rtmp://140.116.202.132:3033/live/USV_UpperVideo
+ffmpeg -r 30 -video_size 640x480 -i /dev/video0 -c:v libx264 -preset fast -tune zerolatency -c:a aac -ar 44100 -f flv -r 30 -b 600k rtmp://140.116.202.132:3033/live/USV_UpperVideo
 
 ffmpeg -r 30 -video_size 640x480 -i /dev/video0 -c:v libx264 -preset fast -tune zerolatency -c:a aac -ar 44100 -f flv -r 30 rtmp://140.116.202.132:3033/live/UnderWaterVideoTainan
 
